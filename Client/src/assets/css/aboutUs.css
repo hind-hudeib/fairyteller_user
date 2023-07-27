@@ -1,0 +1,19 @@
+.aboutSection {
+  color: #ffffff;
+  background-image: url("../images/bgBooks.png");
+}
+
+.aboutSection .container-fluid {
+  background-color: #3c3c3cc8;
+}
+.aboutSection h1 {
+  font-size: 4rem;
+}
+.features {
+  color: rgb(34, 32, 32);
+}
+.purple-line {
+  height: 1rem;
+  border: none;
+  background-color: #201e52;
+}

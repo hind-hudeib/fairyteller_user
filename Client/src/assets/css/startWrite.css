@@ -1,0 +1,18 @@
+.writeBox {
+  background-color: #e8e8e8;
+}
+
+.titleInput {
+  background-color: transparent;
+}
+
+.writeBtn {
+  background-color: #283244;
+  color: #e8e8e8;
+}
+
+.writeBtn:hover {
+  background-color: #e8e8e8;
+  color: #283244;
+  border: 1px solid #283244;
+}

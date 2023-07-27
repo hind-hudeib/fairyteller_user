@@ -1,0 +1,39 @@
+.footer {
+  background-color: #283244;
+}
+.btn_get_two {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background: #ffffff;
+  border-color: #283244;
+  color: #1f0b3c;
+}
+.footer hr {
+  color: #ffffff;
+}
+.btn_get_two:hover {
+  background: #ffffff;
+  color: #1f0b3c;
+}
+
+.footerLink {
+  color: #e1e1e1;
+  font-size: 20px;
+}
+.footerLink:hover {
+  color: #aeaeae;
+}
+.footer-links {
+  color: rgb(255, 255, 255);
+}
+
+.footer-links:hover {
+  color: #aeaeae;
+}
+.links {
+  text-decoration: none;
+}
+
+.copyright {
+  color: #e1e1e1;
+}

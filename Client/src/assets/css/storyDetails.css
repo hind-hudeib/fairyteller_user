@@ -1,0 +1,120 @@
+.storyDetailsImg {
+  width: 20rem;
+  height: 22rem;
+  opacity: 0.9;
+}
+
+.storyDiv {
+  background: rgb(255, 255, 255);
+}
+.storyTitle {
+  font-size: 5rem;
+  color: #3e3e3e;
+}
+.authorName {
+  font-size: xx-large;
+  color: #323232;
+}
+
+.category {
+  color: #1d2533;
+}
+
+.author-StoryDetails {
+  font-size: 25px;
+}
+
+.story-Details-Container {
+  background-color: #e3e3e3;
+}
+
+/* *************** */
+.description-container {
+  margin-top: 5rem;
+}
+
+.blockDescription {
+  font-size: 1.1em;
+  line-height: 1.6em;
+  padding: 20px 20px 20px 40px;
+  border-left: none;
+  position: relative;
+  text-indent: -19px;
+}
+
+section#block_content {
+  min-height: 400px;
+  padding-top: 40px;
+  text-align: left;
+}
+
+.blockDescription p {
+  font-size: 1em;
+}
+
+.blockDescription:before,
+.blockDescription:after {
+  font-family: Arial, serif;
+  font-size: 2.5em;
+  vertical-align: middle;
+  line-height: 0;
+}
+
+.blockDescription:before {
+  content: open-quote;
+  margin-right: 4px;
+}
+
+.blockDescription:after {
+  content: close-quote;
+  margin-left: 3px;
+}
+
+.blockDescription.blockstyle,
+.blockDescription.style2 {
+  background: #fff;
+  font-style: italic;
+}
+
+.blockDescription.blockstyle p,
+.blockDescription.style2 p {
+  display: inline;
+}
+
+.blockDescription.blockstyle {
+  border-left: 3px solid #231748;
+  position: relative;
+}
+
+.blockDescription.blockstyle > span.triangle:before {
+  text-indent: 0;
+  content: "\f0da";
+  font-family: FontAwesome;
+  color: #231748;
+  position: absolute;
+  left: -1px;
+  top: 50%;
+  margin-top: -11px;
+  font-style: normal;
+}
+
+.blockDescription.blockstyle:before,
+.blockDescription.blockstyle:after {
+  color: #231748;
+}
+
+.blockDescription.blockstyle.border-color-blue {
+  border-color: #01b7f2;
+}
+
+.blockDescription.blockstyle.border-color-blue > span.triangle:before {
+  color: #01b7f2;
+}
+
+.blockDescription.blockstyle.border-color-yellow {
+  border-color: #fdb714;
+}
+
+.blockDescription.blockstyle.border-color-yellow > span.triangle:before {
+  color: #fdb714;
+}

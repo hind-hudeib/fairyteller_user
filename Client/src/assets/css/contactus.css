@@ -1,0 +1,22 @@
+.contactTitle {
+  font-size: 5rem;
+  color: white;
+}
+.contactSection {
+  background-image: url("../images/bgBooks.png");
+}
+
+.contact-header {
+  background-color: #3c3c3cc8;
+}
+.contactFormContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.contactUsForm {
+  border: 2px solid #2832449a;
+}
+.contact-section {
+  background-color: #edeceb9f;
+}

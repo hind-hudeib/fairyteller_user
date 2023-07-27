@@ -1,0 +1,40 @@
+.slider-container {
+  position: relative;
+}
+
+.slideContainer {
+  background-color: #e8e8e8;
+  border: 10px solid #dfdcdc;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  position: absolute;
+  top: 40%; /* Adjust the top position as needed */
+  transform: translateY(-50%);
+  z-index: 1; /* Ensure the arrows appear above the slider */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  color: #fff;
+  border-radius: 100%;
+}
+
+.carousel-control-prev-icon:before,
+.carousel-control-next-icon:before {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  content: "";
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.carousel-control-prev {
+  left: 1rem; /* Adjust the left position for the previous arrow */
+}
+
+.carousel-control-next {
+  right: 1rem; /* Adjust the right position for the next arrow */
+}

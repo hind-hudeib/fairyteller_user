@@ -1,0 +1,329 @@
+.frame {
+  border-radius: 2px;
+  box-shadow: 4px 8px 16px 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background: linear-gradient(
+    to top right,
+    rgb(135, 133, 123) 0%,
+    rgba(148, 140, 133, 0.87) 100%
+  );
+  color: #333;
+  font-family: "Open Sans", Helvetica, sans-serif;
+}
+
+.formTitle {
+  text-decoration: underline #766646;
+  text-underline-offset: 1rem;
+}
+
+#hidden-section {
+  /* display: none; */
+  /* visibility: hidden; */
+  background-image: url("../images/BG-books-.png");
+}
+.writeSection {
+  background-color: #765c81c3;
+}
+.uploudImgDiv {
+  background-color: rgb(233, 233, 233);
+}
+
+.file-upload {
+  background-color: #ffffff;
+  width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.file-upload-btn {
+  color: #fff;
+  background-color: rgb(108, 99, 84);
+  border: none;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.file-upload-btn:hover {
+  background: rgb(140, 135, 128);
+  color: #ffffff;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.file-upload-btn:active {
+  border: 0;
+  transition: all 0.2s ease;
+}
+
+.file-upload-content {
+  display: none;
+  text-align: center;
+}
+
+.file-upload-input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.image-upload-wrap {
+  margin-top: 20px;
+  border: 4px dashed rgb(65, 61, 50);
+  position: relative;
+  transition: 0.3s;
+}
+
+.image-dropping,
+.image-upload-wrap:hover {
+  background-color: rgba(152, 150, 143, 0.19);
+  border: 4px dashed rgba(178, 178, 179, 0.677);
+}
+
+.image-title-wrap {
+  padding: 0 15px 15px 15px;
+  color: #222;
+}
+
+.drag-text {
+  text-align: center;
+}
+
+.drag-text p {
+  color: #170f04;
+  padding: 60px 0;
+}
+
+.file-upload-image {
+  max-height: 200px;
+  max-width: 200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.remove-image {
+  width: 200px;
+  margin: 0;
+  color: #282727;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border: 2px solid #b02818;
+  transition: all 0.2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
+.remove-image:hover {
+  border: 3px solid rgb(194, 54, 54);
+
+  color: #282727;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.remove-image:active {
+  border: 0;
+  transition: all 0.2s ease;
+}
+
+.col-form-label {
+  margin-top: 1rem;
+}
+
+.custom-shape-divider-top-1682683435 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.custom-shape-divider-top-1682683435 svg {
+  position: relative;
+  display: block;
+  width: calc(119% + 1.3px);
+  height: 118px;
+}
+
+.custom-shape-divider-top-1682683435 .shape-fill {
+  fill: #ffffff;
+}
+
+/* .writeAreaBtn{
+    color: #ffff;
+  } */
+.writeAreaBtn {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  color: white;
+  font-size: 18px;
+  background-color: #ebebeb50;
+  padding: 0.4em 1.2em;
+  border-style: dashed;
+  border-radius: 0.25em;
+  border-width: 2px;
+  border-color: #eaeaea;
+  transition: 0.2s ease;
+}
+
+.writeAreaBtn:hover {
+  background-color: #9e927aa9;
+  color: #ffffff;
+  border-color: #646464;
+}
+
+#myTextarea {
+  -webkit-transition: height 0.2s;
+  -moz-transition: height 0.2s;
+  transition: height 0.2s;
+  border-radius: 10px;
+  border: 4px solid rgb(218, 149, 246);
+}
+
+#paper {
+  color: #fff;
+  font-size: 20px;
+}
+#margin {
+  margin-left: 12px;
+  margin-bottom: 20px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+#textarea {
+  width: 50%;
+  overflow: hidden;
+  background-color: #fff;
+  color: #222;
+  font-family: Courier, monospace;
+  font-weight: normal;
+  font-size: 24px;
+  resize: none;
+  line-height: 40px;
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-top: 45px;
+  padding-bottom: 34px;
+  background-image: url(https://static.tumblr.com/maopbtg/E9Bmgtoht/lines.png),
+    url(https://static.tumblr.com/maopbtg/nBUmgtogx/paper.png);
+  background-repeat: repeat-y, repeat;
+  -webkit-border-radius: 12px;
+  border-radius: 12px;
+  -webkit-box-shadow: 0px 2px 14px #000;
+  box-shadow: 0px 2px 14px #000;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+}
+
+#wrapper {
+  width: 100%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 24px;
+  margin-bottom: 100px;
+}
+#descriptionTextarea {
+  overflow: hidden;
+  word-wrap: break-word;
+  resize: none;
+  height: 160px;
+}
+.input-container {
+  position: relative;
+  margin: 50px auto;
+  width: 200px;
+}
+
+.input-container input[type="text"] {
+  font-size: 20px;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  padding: 5px 0;
+  background-color: transparent;
+  outline: none;
+}
+
+.input-container .label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #ccc;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.input-container input[type="text"]:focus ~ .label,
+.input-container input[type="text"]:valid ~ .label {
+  top: -20px;
+  font-size: 16px;
+  color: #060606;
+}
+
+.input-container .underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background-color: #000000;
+  transform: scaleX(0);
+  transition: all 0.3s ease;
+}
+
+.input-container input[type="text"]:focus ~ .underline,
+.input-container input[type="text"]:valid ~ .underline {
+  transform: scaleX(1);
+}
+
+.nextBtn {
+  background-color: #283244;
+  color: #e8e8e8;
+}
+
+.nextBtn:hover {
+  background-color: #e8e8e8;
+  color: #283244;
+  border: 1px solid #283244;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+}
+
+.popup-content {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 20px;
+  text-align: center;
+}
+
+.popup-content p {
+  margin-bottom: 10px;
+}
+
+.popup-content button {
+  margin-right: 10px;
+}
