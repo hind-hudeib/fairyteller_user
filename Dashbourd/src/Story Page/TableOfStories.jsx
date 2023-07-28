@@ -3,6 +3,8 @@ import Swal from "sweetalert2";
 import { useEffect, useState, useReducer } from "react";
 import axios from "axios";
 import StoryModal from "./StoryModal";
+import "../css/pagination.css";
+
 const TableOfStories = () => {
   const [stories, setStories] = useState([]);
   const [reducer, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -113,8 +115,8 @@ const TableOfStories = () => {
 
   return (
     <>
-      <div className="container-fluid border p-3 mt-5">
-        <h5>Stories</h5>
+      <div className="container-fluid border p-3 mt-5 shadow-lg rounded">
+        <h5 className="text-uppercase">Stories</h5>
         <div className="table-responsive">
           <table className="table">
             <thead className="gray-header">
@@ -155,7 +157,7 @@ const TableOfStories = () => {
       </div>
 
       {/* Pagination for Active Stories */}
-      <ul className="pagination justify-content-center my-3">
+      <ul className="pagination justify-content-center my-3 ">
         {Array.from({ length: activeTotalPages }, (_, index) => (
           <li
             key={index}
@@ -175,8 +177,8 @@ const TableOfStories = () => {
 
       {/* **** deleted stories **** */}
 
-      <div className="container-fluid border p-3 mt-5">
-        <h5>Deleted Stories</h5>
+      <div className="container-fluid border p-3 mt-5 shadow-lg rounded">
+        <h5 className="text-uppercase">Deleted Stories</h5>
         <div className="table-responsive">
           <table className="table">
             <thead className="gray-header">

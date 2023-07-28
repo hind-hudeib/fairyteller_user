@@ -59,17 +59,17 @@ const Aside = (props) => {
         <li className="nav-item">
           <Link className="nav-link" to="/writers">
             <i className="fas fa-fw fa-pencil-alt"></i>
-            <span>Writers</span>
+            <span>Users</span>
           </Link>
         </li>
 
         {/*  <!-- Nav Item - Tables --> */}
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <Link className="nav-link" to="/readers">
             <i className="fas fa-fw fa-book-open"></i>
             <span>Readers</span>
           </Link>
-        </li>
+        </li> */}
 
         <li className="nav-item">
           <Link className="nav-link" to="/stories">
@@ -79,10 +79,10 @@ const Aside = (props) => {
         </li>
 
         <li className="nav-item">
-          <a className="nav-link" href="tables.html">
+          <Link className="nav-link" to="/subUsers">
             <i className="fas fa-fw fa-newspaper"></i>
-            <span>Subscription</span>
-          </a>
+            <span>subscribers</span>
+          </Link>
         </li>
 
         <li className="nav-item">

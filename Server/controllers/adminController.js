@@ -3,12 +3,13 @@ const bcrypt = require("bcrypt");
 const errorHandler = require("../middleware/500");
 const Writer = require("../models/writerModel");
 const Reader = require("../models/readerModel");
+const User = require("../models/userModel");
 const Story = require("../models/storyModel");
 const Message = require("../models/messageModel");
 
 // get all Users from db
-const allWriters = (req, res) => {
-  Writer.find({ is_delete: false })
+const allUsers = (req, res) => {
+  User.find({ is_delete: false })
     .then((data) => {
       res.json(data);
     })
@@ -16,8 +17,8 @@ const allWriters = (req, res) => {
       errorHandler(error, req, res);
     });
 };
-const subWriters = (req, res) => {
-  Writer.find({ subscriber: true })
+const subUsers = (req, res) => {
+  User.find({ subscriber: true })
     .then((data) => {
       res.json(data);
     })
@@ -36,11 +37,11 @@ const allReaders = (req, res) => {
     });
 };
 
-const deleteWriter = async (req, res) => {
+const deleteUser = async (req, res) => {
   try {
     const userId = req.params.id;
 
-    const user = await Writer.findById(userId);
+    const user = await User.findById(userId);
     console.log(user);
     user.is_delete = true;
 
@@ -84,8 +85,8 @@ const deleteStory = async (req, res) => {
 };
 
 // get all chairties not active
-const allWritersNotActive = (req, res) => {
-  Writer.find({ is_delete: true, active: false })
+const allUsersNotActive = (req, res) => {
+  User.find({ is_delete: true, active: false })
     .then((data) => {
       console.log(data);
       res.json(data);
@@ -116,11 +117,11 @@ const allNotActiveStories = (req, res) => {
     });
 };
 
-const RestoreWriter = async (req, res) => {
+const RestoreUser = async (req, res) => {
   try {
     const userId = req.params.id;
 
-    const user = await Writer.findById(userId);
+    const user = await User.findById(userId);
     console.log(user);
     user.is_delete = false;
 
@@ -268,17 +269,17 @@ const deleteMessage = async (req, res) => {
 };
 
 module.exports = {
-  allWriters,
-  subWriters,
+  allUsers,
+  subUsers,
   allReaders,
-  deleteWriter,
+  deleteUser,
   deleteReader,
   deleteStory,
-  allWritersNotActive,
+  allUsersNotActive,
   allReadersNotActive,
   allNotActiveStories,
   RestoreReader,
-  RestoreWriter,
+  RestoreUser,
   RestoreStory,
   acceptOrg,
   declineOrg,

@@ -5,27 +5,27 @@ const authController = require("../controllers/authController");
 const verifyJWT = require("../middleware/verifyJWT");
 
 // all donors
-router.get("/dashboard/writers", adminController.allWriters);
+router.get("/dashboard/users", adminController.allUsers);
 
-router.get("/dashboard/subwriters", adminController.subWriters);
+router.get("/dashboard/subusers", adminController.subUsers);
 
 router.get("/dashboard/readers", adminController.allReaders);
 
 // delete donor
-router.put("/dashboard/upWriter/:id", adminController.deleteWriter);
+router.put("/dashboard/deleteuser/:id", adminController.deleteUser);
 
 router.put("/dashboard/upReader/:id", adminController.deleteReader);
 
 router.put("/dashboard/upStory/:id", adminController.deleteStory);
 
 // get all charities not active & not deleted
-router.get("/dashboard/writersNotActive", adminController.allWritersNotActive);
+router.get("/dashboard/usersNotActive", adminController.allUsersNotActive);
 
 router.get("/dashboard/readersNotActive", adminController.allReadersNotActive);
 
 router.get("/dashboard/notActiveStories", adminController.allNotActiveStories);
 
-router.put("/dashboard/restoreWriter/:id", adminController.RestoreWriter);
+router.put("/dashboard/restoreUser/:id", adminController.RestoreUser);
 
 router.put("/dashboard/restoreReader/:id", adminController.RestoreReader);
 

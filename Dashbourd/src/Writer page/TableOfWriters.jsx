@@ -2,7 +2,7 @@ import React from "react";
 import Swal from "sweetalert2";
 import { useEffect, useState, useReducer } from "react";
 import axios from "axios";
-
+import "../css/pagination.css";
 const TableOfWriters = () => {
   const [writers, setWriters] = useState([]);
   const [reducer, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -13,7 +13,7 @@ const TableOfWriters = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/dashboard/writersNotActive")
+      .get("http://localhost:8000/dashboard/usersNotActive")
       .then((response) => {
         setDeletedWriter(response.data);
       })
@@ -24,7 +24,7 @@ const TableOfWriters = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/dashboard/writers")
+      .get("http://localhost:8000/dashboard/users")
       .then((response) => {
         setWriters(response.data);
       })
@@ -46,7 +46,7 @@ const TableOfWriters = () => {
         Swal.fire(` ${name} has been removed `, "", "success");
 
         axios
-          .put("http://localhost:8000/dashboard/upWriter/" + id)
+          .put("http://localhost:8000/dashboard/deleteuser/" + id)
           .then((response) => {
             console.log(response.data);
           })
@@ -71,7 +71,7 @@ const TableOfWriters = () => {
         Swal.fire(`${name} has been restored.`, "", "success");
 
         axios
-          .put("http://localhost:8000/dashboard/restoreWriter/" + id)
+          .put("http://localhost:8000/dashboard/restoreUser/" + id)
           .then((response) => {
             console.log(response.data);
           })
@@ -113,8 +113,8 @@ const TableOfWriters = () => {
 
   return (
     <>
-      <div className="container-fluid border p-3 mt-5">
-        <h5>Writers</h5>
+      <div className="container-fluid border p-3 mt-5 shadow-lg rounded">
+        <h5>USERS</h5>
         <div className="table-responsive">
           <table className="table">
             <thead className="gray-header">
@@ -181,8 +181,8 @@ const TableOfWriters = () => {
 
       {/* **** deleted Writers **** */}
 
-      <div className="container-fluid border p-3 mt-5">
-        <h5>Deleted Writers</h5>
+      <div className="container-fluid border p-3 mt-5 shadow-lg rounded">
+        <h5>DELETED USERS</h5>
         <div className="table-responsive">
           <table className="table">
             <thead className="gray-header">
@@ -190,6 +190,7 @@ const TableOfWriters = () => {
                 <th>#</th>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Subscriber</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -200,6 +201,13 @@ const TableOfWriters = () => {
                     <td>1</td>
                     <td>{writers.username}</td>
                     <td>{writers.email}</td>
+                    <td>
+                      {writers && writers.subscriber ? (
+                        <i className="fas fa-check  text-success"></i>
+                      ) : (
+                        <i className="fa fa-times  text-danger"></i>
+                      )}
+                    </td>
                     <td>
                       <a
                         href="#"

@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import { useEffect, useState, useReducer } from "react";
 import axios from "axios";
 import StoryModal from "./StoryModal";
+import "../css/pagination.css";
 
 const StoriesrequestsTable = () => {
   const [stories, setStories] = useState([]);
@@ -64,7 +65,7 @@ const StoriesrequestsTable = () => {
     });
   };
   return (
-    <div className="container-fluid border p-3 mt-5">
+    <div className="container-fluid border p-3 mt-5 shadow-lg rounded ">
       <h5>Stories Requests</h5>
       <div className="table-responsive">
         <table className="table">

@@ -9,6 +9,7 @@ import TableOfStories from "./Story Page/TableOfStories";
 import Aside from "../src/Aside";
 import StoriesrequestsTable from "./Story Page/StoriesrequestsTable";
 import MessagesTable from "./Messages Page/MessagesTable";
+import TableOfSubscription from "./Subscription Page/TableOfSubscription";
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
                   <Route path="/readers" element={<TableOfReaders />} />
                   <Route path="/stories" element={<TableOfStories />} />
                   <Route path="/messages" element={<MessagesTable />} />
-
+                  <Route path="/subUsers" element={<TableOfSubscription />} />
                   <Route
                     path="/storiesrequests"
                     element={<StoriesrequestsTable />}

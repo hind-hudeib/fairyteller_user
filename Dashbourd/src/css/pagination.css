@@ -1,0 +1,43 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.pagination .page-item {
+  margin: 0 5px;
+}
+
+.pagination .page-link {
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 8px 12px;
+  transition: background-color 0.2s;
+}
+
+.pagination .page-link:hover {
+  background-color: #f0f0f0;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #bebbb6;
+  border-color: #bebbb6;
+  color: #fff;
+}
+
+.gray-header th {
+  background-color: #eeeeeec1; /* Set the background color */
+  color: #333; /* Set the font color */
+  font-weight: bold; /* Add font weight for emphasis */
+  padding: 8px; /* Add padding to the table header cells */
+}
+
+/* Optional: Add additional styles for the table header, e.g., borders */
+.gray-header th:first-child {
+  border-top-left-radius: 5px; /* Add rounded corners to the first table header cell */
+}
+
+.gray-header th:last-child {
+  border-top-right-radius: 5px; /* Add rounded corners to the last table header cell */
+}

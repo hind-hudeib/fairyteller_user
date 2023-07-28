@@ -3,6 +3,7 @@ import Stats from "./Stats";
 import TableOfReaders from "../Reader Page/TableOfReaders";
 import TableOfWriters from "../Writer page/TableOfWriters";
 import TableOfStories from "../Story Page/TableOfStories";
+import TableOfSubscription from "../Subscription Page/TableOfSubscription";
 const Main = () => {
   return (
     <div className="container-fluid mb-5">
@@ -13,12 +14,12 @@ const Main = () => {
       </div>
       <div className="row mt-5">
         <div className="col-12">
-          <TableOfReaders />
+          <TableOfWriters />
         </div>
       </div>
       <div className="row mt-5">
         <div className="col-12">
-          <TableOfWriters />
+          <TableOfSubscription />
         </div>
       </div>
       <div className="row mt-5">

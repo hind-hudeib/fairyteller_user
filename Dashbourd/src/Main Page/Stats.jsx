@@ -12,7 +12,7 @@ const Stats = () => {
   // get total of donors
   useEffect(() => {
     axios
-      .get("http://localhost:8000/dashboard/subwriters")
+      .get("http://localhost:8000/dashboard/subusers")
       .then((response) => {
         setWriters(response.data);
         //  const bb = forceUpdate()
