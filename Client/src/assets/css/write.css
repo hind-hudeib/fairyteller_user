@@ -327,3 +327,14 @@
 .popup-content button {
   margin-right: 10px;
 }
+
+.white-text {
+  color: white;
+  font-size: 4rem;
+  font-weight: 100;
+}
+
+.addStoryHeader {
+  background-color: #000000a4;
+  height: 75vh;
+}

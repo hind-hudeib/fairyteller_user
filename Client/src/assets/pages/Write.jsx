@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import autosize from "autosize";
 import "../css/write.css";
 import axios from "axios";
-import avatar from "../images/book1.jpg";
+import bg from "../images/writebg.jpg";
 const Write = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const formRef = useRef(null);
@@ -40,6 +40,7 @@ const Write = () => {
       Language: event.target.elements.language.value,
       cover: base64Data,
       category: event.target.elements.category.value,
+      acceptPolicy: event.target.elements.acceptPolicy.checked,
     };
     const formErrors = validateForm(formData);
     if (Object.keys(formErrors).length > 0) {
@@ -67,8 +68,9 @@ const Write = () => {
     }
 
     if (formData.author.trim() === "") {
-      errors.category = "Author is required.";
+      errors.author = "Author is required.";
     }
+
     if (formData.Description.trim().length < 100) {
       errors.Description = "Description should be at least 100 characters.";
     }
@@ -79,6 +81,11 @@ const Write = () => {
 
     if (formData.category.trim() === "") {
       errors.category = "Category is required.";
+    }
+
+    if (!formData.acceptPolicy) {
+      errors.acceptPolicy =
+        "You must accept the policy before starting to write.";
     }
 
     return errors;
@@ -114,17 +121,88 @@ const Write = () => {
     setImage({ myFile: base64 }); // Corrected state update
   };
 
+  const containerStyle = {
+    backgroundImage: `url(${bg})`,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center center",
+    width: "100vw",
+    height: "75vh",
+    opacity: "0.8",
+    backgroundAttachment: "fixed",
+  };
+  const imageStyle = {
+    display: "none", // Hide the original image
+  };
+  const handleStartButtonClick = () => {
+    // Find the nextSection element by its id
+    const nextSection = document.getElementById("storyDetailesSection");
+    if (nextSection) {
+      // Scroll to the nextSection element smoothly
+      nextSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div>
-      <div class="container-fluid formContainer p-5">
-        <div class="p-5">
-          <div class="container-fluid border border-3 rounded shadow w-75 w-md-75 w-lg-50">
-            <div class="row m-2">
-              <div class="col-12 mb-3">
-                <h5 class="formTitle ">Story Details</h5>
+      <div className="container-fluid addStoryHeader" style={containerStyle}>
+        <img
+          src={bg}
+          alt=""
+          style={imageStyle}
+          className="w-100 m-5 rounded"
+          data-aos="fade-up-right"
+        />
+        <div className="row pt-5 addStoryHeader">
+          <div className="col-12 col-md-6 d-flex justify-content-center align-items-center text-md-left p-md-0 p-sm-0 p-lg-5">
+            <h1 className="mt-5 mx-5 mx-md-0 white-text">
+              Share Your Tale's Spellbinding Details!
+            </h1>
+          </div>
+          <div className="col-12 col-md-6 d-flex justify-content-start justify-content-md-start py-3 mx-3 px-5">
+            <button className="viewAll" onClick={handleStartButtonClick}>
+              <span className="hover-underline-animation">
+                <a
+                  style={{
+                    textDecoration: "none",
+                    color: "white",
+                    fontSize: "25px",
+                  }}
+                >
+                  Start
+                </a>
+              </span>
+              <svg
+                viewBox="0 0 46 16"
+                height="10"
+                width="30"
+                xmlns="http://www.w3.org/2000/svg"
+                id="arrow-horizontal"
+              >
+                <path
+                  transform="translate(30)"
+                  d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+                  data-name="Path 10"
+                  id="Path_10"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="container-fluid formContainer p-5"
+        id="storyDetailesSection"
+      >
+        <div className="p-5">
+          <div className="container-fluid border border-3 rounded shadow w-75 w-md-75 w-lg-50">
+            <div className="row m-2">
+              <div className="col-12 mb-3">
+                <h5 className="formTitle ">Story Details</h5>
               </div>
 
-              <div class="col-12">
+              <div className="col-12">
                 <form action="#" ref={formRef} onSubmit={handleSubmit}>
                   <div>
                     <label htmlFor="upload-input">
@@ -179,40 +257,40 @@ const Write = () => {
                       </div>
                     </label>
                   </div>
-                  <label htmlFor="title" class="col-form-label">
+                  <label htmlFor="title" className="col-form-label">
                     Title *
                   </label>
                   <input
                     type="text"
                     name="title"
                     category="text"
-                    class="form-control"
+                    className="form-control"
                     id="story_title"
                     placeholder="Untitled Story"
                   />
                   {errors.title && (
                     <p className="error text-danger">{errors.title}</p>
                   )}
-                  <label htmlFor="title" class="col-form-label">
+                  <label htmlFor="title" className="col-form-label">
                     Author Name *
                   </label>
                   <input
                     type="text"
                     name="author"
                     category="text"
-                    class="form-control"
+                    className="form-control"
                     id="story_title"
                     placeholder="Untitled Story"
                   />
                   {errors.title && (
                     <p className="error text-danger">{errors.author}</p>
                   )}
-                  <label htmlFor="description" class="col-form-label">
+                  <label htmlFor="description" className="col-form-label">
                     Description *
                   </label>
                   <textarea
                     name="description"
-                    class="form-control"
+                    className="form-control"
                     id="story_description"
                     placeholder="write a description"
                     rows="4"
@@ -221,12 +299,12 @@ const Write = () => {
                     <p className="error text-danger">{errors.Description}</p>
                   )}{" "}
                   {/* Add this line */}
-                  <label htmlFor="category" class="col-form-label">
+                  <label htmlFor="category" className="col-form-label">
                     Category *
                   </label>
                   <select
                     name="category" // Add the name attribute
-                    class="form-select"
+                    className="form-select"
                     id="story_category"
                     labelId="category"
                     label="category"
@@ -245,12 +323,12 @@ const Write = () => {
                     <p className="error text-danger">{errors.category}</p>
                   )}{" "}
                   {/* Add this line */}
-                  <label htmlFor="language" class="col-form-label">
+                  <label htmlFor="language" className="col-form-label">
                     Language *
                   </label>
                   <select
                     name="language" // Add the name attribute
-                    class="form-select"
+                    className="form-select"
                     id="story_language"
                     labelId="language"
                     label="language"
@@ -263,6 +341,25 @@ const Write = () => {
                   {errors.Language && (
                     <p className="error text-danger">{errors.Language}</p>
                   )}
+                  {/* New checkbox for policy acceptance */}
+                  <div className="form-check mb-1 mt-5">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      name="acceptPolicy"
+                      id="acceptPolicyCheckbox"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="acceptPolicyCheckbox"
+                    >
+                      I accept the <Link to={"/privacyandpolicy"}>policy</Link>{" "}
+                      and terms before starting to write.
+                    </label>
+                    {errors.acceptPolicy && (
+                      <p className="error text-danger">{errors.acceptPolicy}</p>
+                    )}
+                  </div>
                   <button className="btn nextBtn mt-5 w-25" type="submit">
                     Next
                   </button>

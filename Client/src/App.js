@@ -21,6 +21,7 @@ import Subscription from "./assets/pages/Subscription";
 import PaymentForm from "./assets/pages/PaymentForm";
 import ProfilePage from "./assets/pages/UserProfile";
 import UserProfilePage from "./assets/pages/user/UserProfilePage";
+import PrivacyPolicy from "./assets/pages/PrivacyPolicy";
 
 function App() {
   const [isLog, setIsLog] = useState(
@@ -55,6 +56,7 @@ function App() {
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/payment" element={<PaymentForm />} />
           <Route path="/userpage" element={<UserProfilePage />} />
+          <Route path="/privacyandpolicy" element={<PrivacyPolicy />} />
         </Routes>
         <BackToTopButton />
         <Footer />

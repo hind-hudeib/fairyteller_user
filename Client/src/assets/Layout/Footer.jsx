@@ -42,7 +42,7 @@ const Footer = () => {
                   <span>|</span>
 
                   <div class="">
-                    <Link className="links">
+                    <Link className="links" to={"/privacyandpolicy"}>
                       {" "}
                       <h6 class="footer-links p-2"> Privacy Policy</h6>
                     </Link>
