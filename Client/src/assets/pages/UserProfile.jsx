@@ -4,6 +4,8 @@ import { FiEdit, FiEye } from "react-icons/fi";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 import defaultImage from "../images/woman1.png";
+import { useAuth } from "../contexts/AuthContext";
+
 import "../css/userProfile.css";
 import {
   MDBCol,
@@ -19,6 +21,7 @@ import EditModal from "./EditModal";
 import StoryViewModal from "./StoryViewModal";
 
 export default function ProfilePage() {
+  const { userData } = useAuth();
   const [user, setUser] = useState({});
   const [massage, setMassage] = useState();
   const [userStories, setUserStories] = useState();
@@ -28,35 +31,18 @@ export default function ProfilePage() {
   const [currentPage, setCurrentPage] = useState(1);
   const storiesPerPage = 3;
 
-  const location = useLocation();
   const base64Data = profileImage.myFile;
-
-  async function verifyToken() {
-    const token = localStorage.getItem("token") || false;
-    if (token) {
-      try {
-        const res = await axios.get(`http://localhost:8000/Verify_token`, {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        });
-        return res;
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }
 
   async function getUser(id) {
     try {
       const res = await axios.get(`http://localhost:8000/user/${id}`);
       setUser(res.data);
-      console.log(res.data);
       return res.data;
     } catch (error) {
       console.log(error);
     }
   }
+
   async function getUserStories(email) {
     try {
       const res = await axios.get(
@@ -80,30 +66,34 @@ export default function ProfilePage() {
   }
 
   const startGetUserData = async () => {
-    const userVerifyToken = await verifyToken();
-    const user = await getUser(userVerifyToken.data.userId);
-    const userStories = await getUserStories(userVerifyToken.data.email);
-    const userLikedStories = await getUserLikedStories(
-      userVerifyToken.data.userId,
-      userVerifyToken.data.email
-    );
+    // Check if userData exists and contains necessary information
+    if (userData?.userId && userData?.email) {
+      const user = await getUser(userData.userId);
+      const userStories = await getUserStories(userData.email);
+      const userLikedStories = await getUserLikedStories(
+        userData.userId,
+        userData.email
+      );
 
-    setUser(user);
-    setUserStories(userStories);
-    setUserLikedStories(userLikedStories);
+      setUser(user);
+      setUserStories(userStories);
+      setUserLikedStories(userLikedStories);
+    }
   };
 
   useEffect(() => {
     startGetUserData();
-  }, []);
+  }, [userData]);
+
+  //
   const handleUpdate = async (data) => {
     const { username, password } = data;
 
-    console.log({
-      ...user[0],
-      username: username,
-      password: password,
-    });
+    // console.log({
+    //   ...user[0],
+    //   username: username,
+    //   password: password,
+    // });
 
     try {
       const res = await axios.put(`http://localhost:8000/user/${user[0]._id}`, {
@@ -112,7 +102,6 @@ export default function ProfilePage() {
         password: password,
       });
       setUser(res.data);
-      console.log(res.data);
       startGetUserData();
     } catch (error) {
       console.log(error);
