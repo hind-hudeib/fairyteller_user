@@ -38,6 +38,12 @@ const storySchema = new mongoose.Schema({
       ref: "Like",
     },
   ],
+  comments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+  ],
   category: {
     type: String,
     required: true,

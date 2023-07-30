@@ -6,6 +6,7 @@ const Reader = require("../models/readerModel");
 const User = require("../models/userModel");
 const Story = require("../models/storyModel");
 const Message = require("../models/messageModel");
+const Comment = require("../models/commentsModel");
 
 // get all Users from db
 const allUsers = (req, res) => {
@@ -268,6 +269,58 @@ const deleteMessage = async (req, res) => {
   }
 };
 
+// Get all comments
+const getAllComments = async (req, res) => {
+  try {
+    const comments = await Comment.find();
+    res.status(200).json(comments);
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    res
+      .status(500)
+      .json({ message: "Something went wrong while fetching comments." });
+  }
+};
+
+// Controller to get reported comments
+const getReportedComments = async (req, res) => {
+  try {
+    const reportedComments = await Comment.find({ reported: true });
+    res.status(200).json(reportedComments);
+  } catch (error) {
+    console.error("Error fetching reported comments:", error);
+    res.status(500).json({
+      message: "Something went wrong while fetching reported comments.",
+    });
+  }
+};
+
+async function deleteComment(req, res) {
+  const { commentId } = req.params.id;
+  const { isAdmin } = req.user;
+
+  try {
+    if (!isAdmin) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to perform this action" });
+    }
+
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+
+    await comment.remove();
+
+    res.json({ message: "Comment deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
 module.exports = {
   allUsers,
   subUsers,
@@ -289,4 +342,7 @@ module.exports = {
   allMessages,
   addMessageReply,
   deleteMessage,
+  getAllComments,
+  getReportedComments,
+  deleteComment,
 };

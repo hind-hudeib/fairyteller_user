@@ -55,4 +55,12 @@ router.put("/dashboard/messagesReplay/:id", adminController.addMessageReply);
 // delete messages
 router.delete("/dashboard/deleteMessages/:id", adminController.deleteMessage);
 
+// get all Comments
+router.get("/dashboard/comments", adminController.getAllComments);
+
+// get all Comments
+router.get("/dashboard/reportedcomments", adminController.getReportedComments);
+
+// delete Comment
+router.delete("/dashboard/deleteComment/:id", adminController.deleteComment);
 module.exports = router;

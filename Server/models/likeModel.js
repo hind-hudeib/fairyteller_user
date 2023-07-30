@@ -4,16 +4,14 @@ const { Schema } = mongoose;
 const likeSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: "Reader",
+    ref: "Users",
     required: true,
   },
   story: {
     type: Schema.Types.ObjectId,
-    ref: "Story",
+    ref: "Stories",
     required: true,
   },
-  // Additional fields for timestamp, etc.
-  // ...
 });
 
 const Like = mongoose.model("Like", likeSchema);

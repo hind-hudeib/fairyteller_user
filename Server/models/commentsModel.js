@@ -4,12 +4,12 @@ const { Schema } = mongoose;
 const commentSchema = new mongoose.Schema({
   storyId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Story",
+    ref: "Stories",
     required: true,
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Reader",
+    ref: "Users",
     required: true,
   },
   text: {
@@ -20,6 +20,7 @@ const commentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  reported: { type: Boolean, default: false },
 });
 
 const Comment = mongoose.model("Comment", commentSchema);

@@ -23,8 +23,16 @@ const allStorysNotActive = (req, res) => {
 
 const oneStoryById = async (req, res) => {
   const id = req.params.id;
-  const story = await Story.find({ _id: id, is_delete: false, active: true });
-  res.json(story);
+  try {
+    const story = await Story.findById(id).populate("likes");
+    if (!story || story.is_delete || !story.active) {
+      return res.status(404).json({ error: "Story not found" });
+    }
+    res.json(story);
+  } catch (error) {
+    console.error("Error fetching story:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 const AllStoryByEmail = async (req, res) => {

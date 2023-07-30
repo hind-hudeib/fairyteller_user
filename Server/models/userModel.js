@@ -29,6 +29,6 @@ const usersSchema = new mongoose.Schema({
   },
 });
 
-const Charity = mongoose.model("Users", usersSchema);
+const Users = mongoose.model("Users", usersSchema);
 
-module.exports = Charity;
+module.exports = Users;

@@ -1,7 +1,8 @@
 import { useEffect, useState, useReducer } from "react";
 import "./Dashboard.css";
 import { Link, useNavigate } from "react-router-dom";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
 const Aside = (props) => {
   const [reducer, forceUpdate] = useReducer((x) => x + 1, 0);
   const [style, setStyle] = useState(
@@ -92,6 +93,12 @@ const Aside = (props) => {
           </Link>
         </li>
 
+        <li className="nav-item">
+          <Link className="nav-link" to="/comments">
+            <FontAwesomeIcon icon={faCommentDots} className="mr-1 opacity-25" />
+            <span>Comments</span>
+          </Link>
+        </li>
         {/* <!-- Divider --> */}
         <hr className="sidebar-divider d-none d-md-block" />
         <li className="nav-item">

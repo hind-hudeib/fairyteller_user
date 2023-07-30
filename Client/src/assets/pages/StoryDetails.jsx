@@ -6,6 +6,10 @@ import storyCover from "../images/book8.gif";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faComment } from "@fortawesome/free-solid-svg-icons";
+import { faFlag } from "@fortawesome/free-solid-svg-icons";
+
 import Swal from "sweetalert2";
 
 const StoryDetails = () => {
@@ -16,6 +20,7 @@ const StoryDetails = () => {
   const [userId, setUserId] = useState("");
   const [userName, setUserName] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Track user login status
+  const [likes, setLikes] = useState(0);
 
   useEffect(() => {
     async function fetchStory() {
@@ -38,48 +43,79 @@ const StoryDetails = () => {
         const response = await axios.get(
           `http://localhost:8000/getCommentsByStory/${id}`
         );
-        setComments(response.data);
+        const commentsWithUser = response.data.map(async (comment) => {
+          const userResponse = await axios.get(
+            `http://localhost:8000/user/${comment.userId}`
+          );
+          const [user] = userResponse.data; // Destructure the first element from the user array
+          return { ...comment, user };
+        });
+        const resolvedComments = await Promise.all(commentsWithUser);
+        setComments(resolvedComments);
       } catch (error) {
         console.error("Error fetching comments:", error);
       }
     };
 
     fetchComments();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
-    async function verifyUser() {
-      const token = localStorage.getItem("token") || false;
-      if (token) {
-        try {
-          const res = await axios.get(`http://localhost:8000/Verify_token`, {
-            headers: {
-              authorization: `Bearer ${token}`,
-            },
-          });
-          setUserId(res.data.userId);
-          setIsLoggedIn(true); // User is logged in
-        } catch (error) {
-          console.log(error);
-        }
+    const fetchLikes = async (storyId) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/likesCount/${storyId}`
+        );
+        setLikes(response.data.likesCount);
+        console.log(response.data);
+        console.log(likes);
+      } catch (error) {
+        console.error("Error fetching Likes:", error);
+      }
+    };
+
+    fetchLikes(id); // Use the id parameter in the fetchLikes function
+  }, [id]);
+
+  const verifyUser = async () => {
+    const token = localStorage.getItem("token") || false;
+    if (token) {
+      try {
+        const res = await axios.get(`http://localhost:8000/Verify_token`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+        setUserId(res.data.userId);
+        setIsLoggedIn(true); // User is logged in
+
+        // Once the user is verified, call fetchLikes with the user's ID
+      } catch (error) {
+        console.log(error);
       }
     }
+  };
 
-    verifyUser();
-  }, []);
+  verifyUser();
 
   const handleAddComment = async (e) => {
     e.preventDefault();
     try {
+      // Add the new comment to the server
       await axios.post("http://localhost:8000/addcomment", {
         storyId: id,
         text: commentText,
         userId: userId,
       });
+
+      // Fetch the updated comments along with the user information
       const response = await axios.get(
         `http://localhost:8000/getCommentsByStory/${id}`
       );
+
+      // Update the comments state with the new comments (including user information)
       setComments(response.data);
+
       setCommentText(""); // Clear the comment text after submission
     } catch (error) {
       console.error("Error adding comment:", error);
@@ -129,8 +165,39 @@ const StoryDetails = () => {
     return <div>Loading...</div>; // Display loading state while fetching the story
   }
 
-  const Story = story.find((item) => item._id === id);
-
+  const handleReportComment = (commentId) => {
+    Swal.fire({
+      title: "Report Comment",
+      text: "Are you sure you want to report this comment?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, report it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Make the API request to report the comment
+        axios
+          .post(`http://localhost:8000/report/${commentId}`)
+          .then((response) => {
+            Swal.fire({
+              icon: "success",
+              title: "Comment Reported",
+              text: "The comment has been reported successfully.",
+              timer: 3000, // Auto close after 3 seconds
+              timerProgressBar: true,
+            });
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Something went wrong while reporting the comment. Please try again later.",
+            });
+          });
+      }
+    });
+  };
   return (
     <>
       <section>
@@ -146,17 +213,36 @@ const StoryDetails = () => {
           <div className="row storyHeader pt-5">
             <div className="col-lg-6 col-md-6 col-sm-12 p-5 d-flex align-items-center justify-content-center">
               <img
-                src={Story.cover}
+                src={story.cover}
                 alt="story cover"
                 className="storyDetailsImg rounded-circle"
               />
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 d-flex flex-column align-items-start justify-content-center p-2 text-center">
-              <h2 className="storyTitle display-4 ">{Story.title}</h2>
+              <h2 className="storyTitle display-4 ">{story.title}</h2>
               <span className=" px-1 py-2  author-StoryDetails">
-                By : {Story.author}
+                By : {story.author}
               </span>
+              <div className="mt-3">
+                {/* Likes */}
+                <span style={{ display: "inline-block", marginRight: "10px" }}>
+                  <span className="p-2">{story.likes?.length}</span>
+                  <FontAwesomeIcon
+                    icon={faHeart}
+                    style={{ color: "#E9518A" }}
+                  />
+                </span>
+
+                {/* Comments */}
+                <span style={{ display: "inline-block" }}>
+                  <span className="p-2">{story.comments?.length}</span>
+                  <FontAwesomeIcon
+                    icon={faComment}
+                    style={{ color: "#A1AFFC" }}
+                  />
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -165,7 +251,7 @@ const StoryDetails = () => {
           <section id="block_content">
             <div className="col-md-6 container description-container">
               <blockquote className="blockstyle blockDescription">
-                {Story.Description}
+                {story.Description}
               </blockquote>
             </div>
             <div class="col-md-6 container description-container mb-5">
@@ -175,7 +261,7 @@ const StoryDetails = () => {
             <div className="container mx-auto storyContainer mb-5 mt-4">
               <div className="row d-flext justify-content-center">
                 <div className="col-8">
-                  <p>{Story.content}</p>
+                  <p>{story.content}</p>
                 </div>
               </div>
             </div>
@@ -203,7 +289,11 @@ const StoryDetails = () => {
                         value={commentText}
                         onChange={(event) => setCommentText(event.target.value)}
                       />
-                      <button type="submit" className="btn btn-primary mt-2">
+                      <button
+                        type="submit"
+                        className="btn addCommentBtn mt-2"
+                        style={{ backgroundColor: "#303761", color: "white" }}
+                      >
                         Add Comment
                       </button>
                     </div>
@@ -224,7 +314,6 @@ const StoryDetails = () => {
                           />
                         </div>
                         <div className="d-flex flex-row align-items-center">
-                          <p className="small mb-0 ms-2">{userName}</p>
                           <i
                             className="far fa-thumbs-up mx-2 fa-xs text-black"
                             style={{ marginTop: "-0.16rem" }}
@@ -239,7 +328,16 @@ const StoryDetails = () => {
                               </button>
                             )}
                           </p>
+                          <button
+                            onClick={() => handleReportComment(comment._id)}
+                            className="btn btn-unstyled text-danger"
+                          >
+                            <FontAwesomeIcon icon={faFlag} />
+                          </button>
                         </div>
+                      </div>
+                      <div className="comment-user ">
+                        {comment.user && <h6>{comment.user.username}</h6>}
                       </div>
                       <p>{comment.text}</p>
                     </div>

@@ -68,7 +68,10 @@ const StoriesSlider = () => {
               >
                 <div className="image-block image-block">
                   <div className="image-hover-overlay">
-                    <Link to={`/story/${story._id}`}>
+                    <Link
+                      to={`/story/${story._id}`}
+                      className="text-decoration-none"
+                    >
                       <h4
                         className="book-title"
                         style={{ textDecoration: "none" }}
@@ -112,7 +115,10 @@ const StoriesSlider = () => {
               >
                 <div className="image-block image-block">
                   <div className="image-hover-overlay">
-                    <Link to={`/story/${story._id}`}>
+                    <Link
+                      to={`/story/${story._id}`}
+                      className="text-decoration-none"
+                    >
                       <h4 className="book-title">{story.title}</h4>
                     </Link>{" "}
                   </div>
