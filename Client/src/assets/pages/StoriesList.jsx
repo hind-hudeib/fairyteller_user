@@ -193,7 +193,7 @@ const StoriesList = () => {
         {/* Filter */}
         <section className="py-2">
           <div className="container mx-auto p-4">
-            <div className="row w-full p-3 filterSection rounded">
+            <div className="row w-full p-5 mt-3 filterSection shadow rounded">
               <div className="col-lg-2">
                 <div className="d-flex items-center gap-3 mb-3 flex-wrap justify-content-start flex-sm-row">
                   <select

@@ -16,7 +16,6 @@ const QuotesSection = () => {
       .get("http://localhost:8000/dashboard/messages")
       .then((response) => {
         setQuotes(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -29,13 +28,13 @@ const QuotesSection = () => {
         <Carousel interval={1000} className="m-5 my-carousel">
           {quotes.map((quote) => {
             return (
-              <Carousel.Item className="CarouselItem ">
+              <Carousel.Item className="CarouselItem " key={quote._id}>
                 <Container className="p-5 slideContainer">
                   <Row className="m-5">
                     <Col md={4} className="">
                       <img
-                        className="d-block w-50"
-                        src={writer1}
+                        className="d-block w-50 img-fluid rounded-circle"
+                        src="https://www.bsn.eu/wp-content/uploads/2016/12/user-icon-image-placeholder-300x300.jpg"
                         alt="Slider Image 1"
                       />
                     </Col>

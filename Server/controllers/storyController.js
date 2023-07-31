@@ -126,7 +126,8 @@ const likeStory = async (req, res) => {
 const getTopPicks = async (req, res) => {
   try {
     const topPicks = await Story.find()
-      .sort({ likes: -1 }) // Sort by likes in descending order
+      .populate("likes") // Populate the 'likes' field to get the related Like documents
+      .sort({ "likes.length": -1 }) // Sort by the number of likes in descending order
       .limit(4); // Limit the result to the top 4 stories
 
     res.json(topPicks);
