@@ -295,32 +295,46 @@ const getReportedComments = async (req, res) => {
   }
 };
 
-async function deleteComment(req, res) {
-  const { commentId } = req.params.id;
-  const { isAdmin } = req.user;
+// accept comment
+async function acceptComment(req, res) {
+  const { commentId } = req.params;
 
   try {
-    if (!isAdmin) {
-      return res
-        .status(403)
-        .json({ message: "You are not authorized to perform this action" });
-    }
-
     const comment = await Comment.findById(commentId);
 
     if (!comment) {
       return res.status(404).json({ message: "Comment not found" });
     }
 
-    await comment.remove();
+    if (!comment.reported) {
+      return res.status(400).json({ message: "Comment is not reported" });
+    }
 
-    res.json({ message: "Comment deleted successfully" });
+    comment.reported = false; // Mark the comment as not reported (accepted)
+    await comment.save();
+
+    res.json({ message: "Comment accepted and removed from reported list" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 }
 
+// delete comment
+async function deleteComment(req, res) {
+  const { commentId } = req.params; // Use req.params.commentId instead of req.params.id
+
+  try {
+    const comment = await Comment.findByIdAndDelete(commentId);
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+    res.json({ message: "Comment deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+}
 module.exports = {
   allUsers,
   subUsers,
@@ -344,5 +358,6 @@ module.exports = {
   deleteMessage,
   getAllComments,
   getReportedComments,
+  acceptComment,
   deleteComment,
 };

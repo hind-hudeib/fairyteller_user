@@ -6,6 +6,7 @@ const CommentsTable = () => {
   const [reportedComments, setReportedComments] = useState([]);
   const [activeCurrentPage, setActiveCurrentPage] = useState(1);
   const [activeCurrentPageReported, setActiveCurrentPageReported] = useState(1);
+  const [message, setMessage] = useState("");
 
   const rowsPerPage = 3;
 
@@ -31,10 +32,44 @@ const CommentsTable = () => {
       });
   }, []);
 
+  // Accept comment
+  const handleAccepted = async (id) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:8000/dashboard/acceptComment/${id}`
+      );
+      setMessage(response.data.message);
+
+      // Update the reportedComments state by removing the accepted comment
+      setReportedComments((prevComments) =>
+        prevComments.filter((comment) => comment._id !== id)
+      );
+
+      // Show SweetAlert success message
+      Swal.fire({
+        icon: "success",
+        title: "Comment Accepted!",
+        text: response.data.message,
+        confirmButtonText: "OK",
+      });
+    } catch (error) {
+      setMessage("Error accepting the comment.");
+
+      // Show SweetAlert error message
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Error accepting the comment.",
+        confirmButtonText: "OK",
+      });
+    }
+  };
+
   //   delete a comment
-  const handleDelete = (id, name) => {
+  const handleDeleteReported = async (id, name) => {
+    console.log(id);
     Swal.fire({
-      title: ` do you want to remove ${name}?  `,
+      title: `Do you want to remove ${name}?`,
       showConfirmButton: true,
       showCancelButton: true,
       confirmButtonText: "OK",
@@ -42,18 +77,46 @@ const CommentsTable = () => {
       icon: "warning",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(` ${name} has been removed `, "", "success");
-
+        Swal.fire("This comment has been removed", "", "success");
         axios
-          .put("http://localhost:8000/dashboard/deleteComment/" + id)
-          .then((response) => {
-            console.log(response.data);
-          })
+          .delete(`http://localhost:8000/dashboard/deleteComment/${id}`)
           .then(() => {
-            forceUpdate();
+            setReportedComments((prevComments) =>
+              prevComments.filter((comment) => comment._id !== id)
+            );
           })
           .catch((error) => console.log(error.message));
-      } else Swal.fire(" Cancelled", "", "error");
+      } else {
+        Swal.fire("Cancelled", "", "error");
+      }
+    });
+  };
+
+  //   delete a comment
+  const handleDelete = async (id, name) => {
+    console.log(id);
+    Swal.fire({
+      title: `Do you want to remove ${name}?`,
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: "OK",
+      cancelButtonText: "Cancel",
+      icon: "warning",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("This comment has been removed", "", "success");
+        axios
+          .delete(`http://localhost:8000/dashboard/deleteComment/${id}`)
+          .then(() => {
+            // Update the comments state by removing the deleted comment
+            setComments((prevComments) =>
+              prevComments.filter((comment) => comment._id !== id)
+            );
+          })
+          .catch((error) => console.log(error.message));
+      } else {
+        Swal.fire("Cancelled", "", "error");
+      }
     });
   };
 
@@ -98,6 +161,7 @@ const CommentsTable = () => {
                 <th>Author</th>
                 <th>content</th>
                 <th>createdAt</th>
+                <th>Story</th>
                 <th>Actoin</th>
               </tr>
             </thead>
@@ -106,9 +170,10 @@ const CommentsTable = () => {
                 return (
                   <tr key={comment._id}>
                     <td>{index + 1}</td>
-                    <td>{comment.userId.username}</td>
+                    <td>{comment.userId}</td>
                     <td>{comment.text}</td>
                     <td>{comment.timestamp}</td>
+                    <td>{comment.storyId}</td>
 
                     <td>
                       <a
@@ -157,6 +222,8 @@ const CommentsTable = () => {
                 <th>Author</th>
                 <th>content</th>
                 <th>createdAt</th>
+                <th>Story</th>
+
                 <th>Actoin</th>
               </tr>
             </thead>
@@ -165,24 +232,33 @@ const CommentsTable = () => {
                 return (
                   <tr key={comment._id}>
                     <td>{index + 1}</td>
-                    <td>{comment.userId.username}</td>
+                    <td>{comment.userId}</td>
                     <td>{comment.text}</td>
                     <td>{comment.timestamp}</td>
+                    <td>{comment.storyId}</td>
 
                     <td>
-                      <a
-                        href="#"
-                        className="text-danger m-2"
-                        onClick={() => handleDelete(comment._id, comment.text)}
+                      <button
+                        onClick={() => handleAccepted(comment._id)}
+                        className="btn btn-unstyled text-success"
+                      >
+                        <i className="fas fa-check"></i>
+                      </button>
+                      <button
+                        className="btn btn-unstyled text-danger m-1"
+                        onClick={() =>
+                          handleDeleteReported(comment._id, comment.text)
+                        }
                       >
                         <i className="fas fa-trash-alt"></i>
-                      </a>
+                      </button>
                     </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
+          <p>{message}</p>
         </div>
       </div>
 

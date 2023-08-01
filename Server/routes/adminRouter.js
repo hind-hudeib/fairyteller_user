@@ -61,6 +61,16 @@ router.get("/dashboard/comments", adminController.getAllComments);
 // get all Comments
 router.get("/dashboard/reportedcomments", adminController.getReportedComments);
 
+// accept comment
+router.put(
+  "/dashboard/acceptComment/:commentId",
+  adminController.acceptComment
+);
+
 // delete Comment
-router.delete("/dashboard/deleteComment/:id", adminController.deleteComment);
+router.delete(
+  "/dashboard/deleteComment/:commentId",
+  adminController.deleteComment
+);
+
 module.exports = router;
