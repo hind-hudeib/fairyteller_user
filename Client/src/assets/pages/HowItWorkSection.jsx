@@ -14,22 +14,22 @@ import {
 
 const HowItWorkSection = () => {
   return (
-    <section id="howItWork">
-      <div class="container p-5">
-        <div class="row text-center">
-          <div class="col-12 mb-5">
-            <h3 class="darkBgTitel">How fairytellers Works</h3>
+    <section id="howItWork" className="">
+      <div className="container p-5">
+        <div className="row text-center">
+          <div className="col-12 mb-5">
+            <h3 className="darkBgTitel">How fairytellers Works</h3>
           </div>
         </div>
-        <div class="row justify-items-center">
-          <div class="col-lg-4 col-sm-6 col-12">
-            <div class="card " data-aos="fade-up-right">
-              <div class="card-content">
-                <div class="card-body" data-aos="fade-up-right">
-                  <div class="media d-flex">
-                    <div class="align-self-center"></div>
-                    <div class="media-body" data-aos="fade-up-right">
-                      <h3 className="d-inline-block m-2 ">Create</h3>
+        <div className="row justify-items-center">
+          <div className="col-lg-4 col-sm-12 col-12 mt-3">
+            <div className="card">
+              <div className="card-content">
+                <div className="card-body">
+                  <div className="media d-flex">
+                    <div className="align-self-center"></div>
+                    <div className="media-body">
+                      <h3 className="d-inline-block m-2">Create</h3>
                       <FontAwesomeIcon
                         icon={faPen}
                         size="2x"
@@ -44,15 +44,15 @@ const HowItWorkSection = () => {
               </div>
             </div>
           </div>
-          <div class="col-lg-4 col-sm-6 col-12">
-            <div class="card " data-aos="zoom-out-up">
-              <div class="card-content">
-                <div class="card-body" data-aos="zoom-out-up">
-                  <div class="media d-flex">
-                    <div class="align-self-center">
-                      <i class="icon-speech warning font-large-2 float-left"></i>
+          <div className="col-lg-4 col-sm-12 col-12 mt-3">
+            <div className="card">
+              <div className="card-content">
+                <div className="card-body">
+                  <div className="media d-flex">
+                    <div className="align-self-center">
+                      <i className="icon-speech warning font-large-2 float-left"></i>
                     </div>
-                    <div class="media-body text-right " data-aos="zoom-out-up">
+                    <div className="media-body text-right">
                       <h3 className="d-inline-block m-2">Build</h3>
                       <FontAwesomeIcon
                         icon={faBookOpenReader}
@@ -69,24 +69,22 @@ const HowItWorkSection = () => {
               </div>
             </div>
           </div>
-          <div class="col-lg-4 col-sm-6 col-12">
-            <div class="card " data-aos="fade-up-left">
-              <div class="card-content">
-                <div class="card-body" data-aos="fade-up-left">
-                  <div class="media d-flex">
-                    <div class="align-self-center">
-                      <div
-                        class="media-body text-right"
-                        data-aos="fade-up-left"
-                      >
-                        <h3 className="d-inline-block m-2">compete</h3>
+          <div className="col-lg-4 col-sm-12 col-12 mt-3">
+            <div className="card">
+              <div className="card-content">
+                <div className="card-body">
+                  <div className="media d-flex">
+                    <div className="align-self-center">
+                      <div className="media-body text-right">
+                        <h3 className="d-inline-block m-2">Compete</h3>
                         <FontAwesomeIcon
                           icon={faTrophy}
                           size="2x"
                           style={{ color: "#283244" }}
                         />
                         <p>
-                          Share your work in with others and win competitions
+                          Establish a global fan base as your story gains
+                          readership
                         </p>
                       </div>
                     </div>

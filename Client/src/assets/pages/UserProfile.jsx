@@ -1,10 +1,10 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FiEdit, FiEye } from "react-icons/fi";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 import defaultImage from "../images/woman1.png";
-import { useAuth } from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 import "../css/userProfile.css";
 import {
@@ -21,7 +21,8 @@ import EditModal from "./EditModal";
 import StoryViewModal from "./StoryViewModal";
 
 export default function ProfilePage() {
-  const { userData } = useAuth();
+  const { userData } = useContext(AuthContext);
+  console.log(userData);
   const [user, setUser] = useState({});
   const [massage, setMassage] = useState();
   const [userStories, setUserStories] = useState();
@@ -65,8 +66,11 @@ export default function ProfilePage() {
     }
   }
 
+  useEffect(() => {
+    startGetUserData();
+  }, [userData]);
+
   const startGetUserData = async () => {
-    // Check if userData exists and contains necessary information
     if (userData?.userId && userData?.email) {
       const user = await getUser(userData.userId);
       const userStories = await getUserStories(userData.email);
@@ -80,10 +84,6 @@ export default function ProfilePage() {
       setUserLikedStories(userLikedStories);
     }
   };
-
-  useEffect(() => {
-    startGetUserData();
-  }, [userData]);
 
   //
   const handleUpdate = async (data) => {

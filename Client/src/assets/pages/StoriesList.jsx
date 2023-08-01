@@ -8,6 +8,9 @@ import storyCover from "../images/book8.gif";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const StoriesList = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -102,11 +105,13 @@ const StoriesList = () => {
         setLikedStories(likedStories.filter((story) => story._id !== storyId));
 
         // Show success message for disliking
-        Swal.fire({
-          title: "Dislike Successful",
-          text: "You have disliked the story.",
-          icon: "success",
-        });
+        // Swal.fire({
+        //   title: "Dislike Successful",
+        //   text: "You have disliked the story.",
+        //   icon: "success",
+        // });
+
+        toast.error("Dislike Successful");
       } else {
         // If the story is not liked, make a post request to add the like
         await axios.post(`http://localhost:8000/newlike/${storyId}`, {
@@ -117,11 +122,12 @@ const StoriesList = () => {
         setLikedStories([...likedStories, { _id: storyId }]);
 
         // Show success message for liking
-        Swal.fire({
-          title: "Like Successful",
-          text: "You have liked the story.",
-          icon: "success",
-        });
+        // Swal.fire({
+        //   title: "Like Successful",
+        //   text: "You have liked the story.",
+        //   icon: "success",
+        // });
+        toast.success("Like Successful ");
       }
     } catch (error) {
       console.error("Error handling like action:", error);
@@ -189,6 +195,8 @@ const StoriesList = () => {
 
   return (
     <div>
+      <ToastContainer />
+
       <div className="container-fluid p-5">
         {/* Filter */}
         <section className="py-2">

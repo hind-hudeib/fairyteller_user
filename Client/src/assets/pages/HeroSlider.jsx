@@ -40,6 +40,7 @@ const HeroSlider = ({ isLog, updateIsLog }) => {
     }
     return false;
   }
+
   const handleStartWrite = async () => {
     const isLoggedIn = await verifyToken();
     if (isLoggedIn) {
@@ -93,18 +94,18 @@ const HeroSlider = ({ isLog, updateIsLog }) => {
           backgroundAttachment: "fixed",
         }}
       >
-        <div class="container-fluid pt-5 hero-container">
-          <div class="row pt-5 mt-5">
-            <div class="col-12 d-flex justify-content-center text-center">
-              <h1 class="anim-typewriter heroHeader mt-5">
+        <div className="container-fluid pt-5 hero-container">
+          <div className="row pt-5 mt-5">
+            <div className="col-12 d-flex justify-content-center text-center">
+              <h1 className="anim-typewriter heroHeader mt-5">
                 Hi, we're fairytellers.
               </h1>
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-12 d-flex justify-content-center text-center">
-              <p class="mt-2 subTittle">
+          <div className="row">
+            <div className="col-12 d-flex justify-content-center text-center">
+              <p className="mt-2 subTittle">
                 A platform that allows you to share your stories and ideas with
                 others
                 <br />
@@ -112,27 +113,27 @@ const HeroSlider = ({ isLog, updateIsLog }) => {
               </p>
             </div>
           </div>
-          <div class="row justify-items-start p-3">
-            <div class="col-12 text-center pt-3">
-              <div class="m-4">
-                <Link class="fancy m-3" to={"/StoriesList"}>
-                  <span class="top-key"></span>
-                  <span class="text">Start reading</span>
-                  <span class="bottom-key-1"></span>
-                  <span class="bottom-key-2"></span>
+          <div className="row justify-items-start p-3">
+            <div className="col-12 text-center pt-3">
+              <div className="m-4">
+                <Link className="fancy m-3" to={"/StoriesList"}>
+                  <span className="top-key"></span>
+                  <span className="text">Start reading</span>
+                  <span className="bottom-key-1"></span>
+                  <span className="bottom-key-2"></span>
                 </Link>
                 {/* Use a regular button for Start writing */}
-                <button class="fancy m-3" onClick={handleStartWrite}>
-                  <span class="top-key"></span>
-                  <span class="text">Start writing</span>
-                  <span class="bottom-key-1"></span>
-                  <span class="bottom-key-2"></span>
+                <button className="fancy m-3" onClick={handleStartWrite}>
+                  <span className="top-key"></span>
+                  <span className="text">Start writing</span>
+                  <span className="bottom-key-1"></span>
+                  <span className="bottom-key-2"></span>
                 </button>
               </div>
             </div>
           </div>
-          <div class="row justify-items-start p-3">
-            <div class="col-12 text-center pt-5">
+          <div className="row justify-items-start p-3">
+            <div className="col-12 text-center pt-5">
               <a href="#features" onClick={scrollToNextSection}>
                 <FontAwesomeIcon
                   icon={faChevronDown}

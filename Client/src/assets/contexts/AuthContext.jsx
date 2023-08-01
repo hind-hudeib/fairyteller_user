@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { createContext, useContext, useState } from "react";
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -10,6 +10,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [userData, setUserData] = useState(null);
+  const [user, setUser] = useState(localStorage.getItem("auth"));
 
   async function verifyToken() {
     const token = localStorage.getItem("token") || false;
@@ -30,9 +31,15 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     verifyToken();
-  }, []);
+  }, [user]);
+
+  console.log(userData);
 
   return (
+    // <UserContext.Provider value={{ userId, setUserId ,refreshUserData}}>
+    //   {children}
+    // </UserContext.Provider>
+
     <AuthContext.Provider value={{ userData }}>{children}</AuthContext.Provider>
   );
 }

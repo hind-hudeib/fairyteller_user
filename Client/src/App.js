@@ -24,6 +24,8 @@ import UserProfilePage from "./assets/pages/user/UserProfilePage";
 import PrivacyPolicy from "./assets/pages/PrivacyPolicy";
 import NotFound from "./assets/pages/NotFound";
 
+import { ToastContainer } from "react-toastify";
+
 function App() {
   const [isLog, setIsLog] = useState(
     localStorage.getItem("token") ? true : false
@@ -42,6 +44,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <ToastContainer />
         <Header isLog={isLog} updateIsLog={setIsLog} />{" "}
         {/* Pass isLog to Header component */}
         <Routes>
@@ -58,6 +61,8 @@ function App() {
               <Route path="/startwrite/:id" element={<StartWrite />} />
               <Route path="/subscription" element={<Subscription />} />
               <Route path="/payment" element={<PaymentForm />} />
+              <Route path="/privacyandpolicy" element={<PrivacyPolicy />} />
+
               <Route path="/userpage" element={<UserProfilePage />} />
               {/* Custom 404 route for logged-in users */}
               <Route path="*" element={<NotFound />} />
