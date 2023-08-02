@@ -8,6 +8,8 @@ const newLike = async (req, res) => {
     const { userId } = req.body;
     const story = await Story.findById(storyId);
 
+    console.log(storyId);
+    console.log(userId);
     if (!story) {
       return res.status(404).json({ error: "Story not found" });
     }

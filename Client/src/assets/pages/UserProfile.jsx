@@ -5,7 +5,8 @@ import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 import defaultImage from "../images/woman1.png";
 import { AuthContext } from "../contexts/AuthContext";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import "../css/userProfile.css";
 import {
   MDBCol,
@@ -16,14 +17,13 @@ import {
   MDBCardBody,
   MDBListGroup,
 } from "mdb-react-ui-kit";
-import book1 from "../images/book5.jpg";
 import EditModal from "./EditModal";
 import StoryViewModal from "./StoryViewModal";
 
 export default function ProfilePage() {
-  const { userData } = useContext(AuthContext);
-  console.log(userData);
-  const [user, setUser] = useState({});
+  const { userData, loading } = useContext(AuthContext);
+  const [user, setUser] = useState(null);
+
   const [massage, setMassage] = useState();
   const [userStories, setUserStories] = useState();
   const [userLikedStories, setUserLikedStories] = useState();
@@ -34,16 +34,28 @@ export default function ProfilePage() {
 
   const base64Data = profileImage.myFile;
 
-  async function getUser(id) {
+  useEffect(() => {
+    if (!loading && userData !== null) {
+      startGetUserData();
+    }
+  }, [loading, userData]);
+
+  async function startGetUserData() {
     try {
-      const res = await axios.get(`http://localhost:8000/user/${id}`);
-      setUser(res.data);
-      return res.data;
+      const user = await userData.userId;
+      const userStories = await getUserStories(userData.email);
+      const userLikedStories = await getUserLikedStories(
+        userData.userId,
+        userData.email
+      );
+
+      setUser(user);
+      setUserStories(userStories);
+      setUserLikedStories(userLikedStories);
     } catch (error) {
       console.log(error);
     }
   }
-
   async function getUserStories(email) {
     try {
       const res = await axios.get(
@@ -65,25 +77,6 @@ export default function ProfilePage() {
       console.log(error);
     }
   }
-
-  useEffect(() => {
-    startGetUserData();
-  }, [userData]);
-
-  const startGetUserData = async () => {
-    if (userData?.userId && userData?.email) {
-      const user = await getUser(userData.userId);
-      const userStories = await getUserStories(userData.email);
-      const userLikedStories = await getUserLikedStories(
-        userData.userId,
-        userData.email
-      );
-
-      setUser(user);
-      setUserStories(userStories);
-      setUserLikedStories(userLikedStories);
-    }
-  };
 
   //
   const handleUpdate = async (data) => {
@@ -166,6 +159,9 @@ export default function ProfilePage() {
   // Calculate total number of pages
   const totalPages = Math.ceil(userStories?.length / storiesPerPage);
 
+  if (loading) {
+    return <div>Loading...</div>; // Show a loading indicator
+  }
   return (
     <>
       <section className="pt-5">
@@ -231,7 +227,7 @@ export default function ProfilePage() {
                       <MDBCol sm="6">
                         <MDBCardText className="text-muted">
                           {" "}
-                          {user[0]?.username}
+                          {userData?.username}
                         </MDBCardText>
                       </MDBCol>
                       <MDBCol
@@ -250,7 +246,7 @@ export default function ProfilePage() {
                       <MDBCol sm="6">
                         <MDBCardText className="text-muted ">
                           {" "}
-                          {user[0]?.email}
+                          {userData?.email}
                         </MDBCardText>
                       </MDBCol>
                       <MDBCol
@@ -335,9 +331,9 @@ export default function ProfilePage() {
                     <>
                       <div
                         key={story.id}
-                        className="d-flex justify-content-between align-items-center mt-4 p-2"
+                        className="d-flex justify-content-start align-items-start mt-4 p-2"
                       >
-                        <div style={{ position: "relative" }}>
+                        <div style={{ position: "relative" }} className="mx-5">
                           <img
                             src={story.cover}
                             alt="Story Cover"
@@ -350,39 +346,42 @@ export default function ProfilePage() {
                         <div className="flout-left">
                           <h3>{story.title}</h3>
                           <p>by : {story.author}</p>
-                        </div>
-                        <div className="d-flex justify-content-between align-items-center">
-                          <button className="viewAll">
-                            <span className="hover-underline-animation">
-                              {" "}
-                              <Link
-                                to={`/story/${story._id}`}
-                                style={{
-                                  textDecoration: "none",
-                                  color: "black",
-                                  fontSize: "12px",
-                                  fontWeight: "bolder",
-                                }}
-                              >
-                                Read Now
-                              </Link>{" "}
-                            </span>
-                            <svg
-                              viewBox="0 0 46 16"
-                              height="10"
-                              width="30"
-                              xmlns="http://www.w3.org/2000/svg"
-                              id="arrow-horizontal"
-                            >
-                              <path
-                                transform="translate(30)"
-                                d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
-                                data-name="Path 10"
-                                id="Path_10"
-                              ></path>
-                            </svg>
+                          <button className="heart-icon btn active ">
+                            <FontAwesomeIcon icon={faHeart} />
                           </button>
                         </div>
+                      </div>
+                      <div className="d-flex justify-content-center align-items-center">
+                        <button className="viewAll">
+                          <span className="hover-underline-animation">
+                            {" "}
+                            <Link
+                              to={`/story/${story._id}`}
+                              style={{
+                                textDecoration: "none",
+                                color: "black",
+                                fontSize: "12px",
+                                fontWeight: "bolder",
+                              }}
+                            >
+                              Read Now
+                            </Link>{" "}
+                          </span>
+                          <svg
+                            viewBox="0 0 46 16"
+                            height="10"
+                            width="30"
+                            xmlns="http://www.w3.org/2000/svg"
+                            id="arrow-horizontal"
+                          >
+                            <path
+                              transform="translate(30)"
+                              d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+                              data-name="Path 10"
+                              id="Path_10"
+                            ></path>
+                          </svg>
+                        </button>
                       </div>
                       <hr />
                     </>

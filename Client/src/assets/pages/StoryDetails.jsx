@@ -314,12 +314,9 @@ const StoryDetails = () => {
                           />
                         </div>
                         <div className="d-flex flex-row align-items-center">
-                          <i
-                            className="far fa-thumbs-up mx-2 fa-xs text-black"
-                            style={{ marginTop: "-0.16rem" }}
-                          ></i>
                           <p className="small text-muted mb-0">
-                            {comment.userId === userId && ( // Check if the comment belongs to the user
+                            {comment.userId === userId && (
+                              // Check if the comment belongs to the user
                               <button
                                 onClick={() => handleDeleteComment(comment._id)}
                                 className="btn btn-unstyled text-danger"
@@ -327,13 +324,16 @@ const StoryDetails = () => {
                                 <FontAwesomeIcon icon={faTrashAlt} />
                               </button>
                             )}
+                            {comment.userId !== userId && (
+                              // Check if the comment does not belong to the user
+                              <button
+                                onClick={() => handleReportComment(comment._id)}
+                                className="btn btn-unstyled text-danger"
+                              >
+                                <FontAwesomeIcon icon={faFlag} />
+                              </button>
+                            )}
                           </p>
-                          <button
-                            onClick={() => handleReportComment(comment._id)}
-                            className="btn btn-unstyled text-danger"
-                          >
-                            <FontAwesomeIcon icon={faFlag} />
-                          </button>
                         </div>
                       </div>
                       <div className="comment-user ">

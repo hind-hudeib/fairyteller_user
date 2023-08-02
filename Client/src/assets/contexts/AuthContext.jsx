@@ -11,6 +11,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [userData, setUserData] = useState(null);
   const [user, setUser] = useState(localStorage.getItem("auth"));
+  const [loading, setLoading] = useState(true); // Add loading state
 
   async function verifyToken() {
     const token = localStorage.getItem("token") || false;
@@ -25,21 +26,23 @@ export function AuthProvider({ children }) {
         setUserData(res.data); // Assuming the response contains user data
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false); // Set loading to false when the request completes
       }
+    } else {
+      setLoading(false); // Set loading to false if there's no token
     }
   }
 
   useEffect(() => {
-    verifyToken();
+    if (localStorage.token != null) {
+      verifyToken();
+    }
   }, [user]);
 
-  console.log(userData);
-
   return (
-    // <UserContext.Provider value={{ userId, setUserId ,refreshUserData}}>
-    //   {children}
-    // </UserContext.Provider>
-
-    <AuthContext.Provider value={{ userData }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ userData, loading }}>
+      {children}
+    </AuthContext.Provider>
   );
 }

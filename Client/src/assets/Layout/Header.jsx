@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const Header = ({ isLog, updateIsLog }) => {
-  const [userRole, setUserRole] = useState();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   async function verifyToken() {
@@ -18,8 +17,6 @@ const Header = ({ isLog, updateIsLog }) => {
             authorization: `Bearer ${token}`,
           },
         });
-
-        setUserRole(res.data.role);
       } catch (error) {
         console.log(error);
       }
@@ -33,8 +30,8 @@ const Header = ({ isLog, updateIsLog }) => {
 
   function handleLogOut() {
     localStorage.removeItem("token");
+    localStorage.removeItem("auth"); // Clear "auth" item from local storage
     updateIsLog(false);
-    setUserRole("");
   }
 
   function handleMenuToggle() {

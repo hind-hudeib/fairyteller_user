@@ -10,6 +10,7 @@ const createToken = (req, res) => {
   const accessToken = jwt.sign(
     JSON.parse(
       JSON.stringify({
+        username: req.body.username,
         userId: req.body._id,
         role: req.body.role,
         email: req.body.email,
