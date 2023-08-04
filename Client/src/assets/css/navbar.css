@@ -1,54 +1,13 @@
-.navbar {
-  position: fixed;
-  width: 100%;
-  z-index: 4;
-}
-
-.navbar-brand {
-  font-family: "Noto Sans JP", sans-serif;
-  color: #240e28;
-  font-weight: 500;
-}
-
 .nav-link {
   display: inline-block;
   position: relative;
-  color: #ffffff;
+  color: #2e5496;
   font-family: "Noto Sans JP", sans-serif;
 }
-
-.nav-link::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  transform: scaleX(0);
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: #283244;
-  transform-origin: bottom right;
-  transition: transform 0.25s ease-out;
+.nav-link:hover,
+.nav-link:active {
+  color: #2e5496;
 }
-
-.nav-link:hover::after,
-.nav-link:focus::after,
-.nav-link:active::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
-  color: #1e3567;
-}
-
-.nav-link i {
-  font-size: 1rem;
-  color: #f2e3ff;
-}
-
-.nav-link:hover i,
-.nav-link:focus i,
-.nav-link:active i {
-  color: #d6d4d7;
-}
-
 .loginBtn {
   color: rgb(29, 29, 29);
   width: fit-content;
@@ -56,7 +15,7 @@
   height: 45px;
   padding: 8px;
   border-radius: 5px;
-  border: 2px solid #283244;
+  border: 2px solid #354259;
   box-shadow: 0px 0px 20px -20px;
   cursor: pointer;
   background-color: #ffffff;
@@ -67,7 +26,7 @@
 
 .loginBtn:hover {
   color: white;
-  background-color: #222b3b;
+  background-color: #202c42;
   box-shadow: 0px 0px 20px -18px;
   border: 2px solid #1d2533;
 }
@@ -84,9 +43,9 @@
 }
 
 .navbarBtn {
-  background-color: #283244;
+  background-color: #354259;
 }
 
 .navbarBtn:hover {
-  background-color: #18202e;
+  background-color: #0f203e;
 }
