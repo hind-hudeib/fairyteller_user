@@ -1,4 +1,5 @@
 const Story = require("../models/storyModel");
+const User = require("../models/userModel");
 const errorHandler = require("../middleware/500");
 
 const allStorys = (req, res) => {
@@ -156,6 +157,30 @@ const deleteStory = async (req, res) => {
   }
 };
 
+const voteStory = async (req, res) => {
+  try {
+    const { storyId } = req.params;
+    const story = await Story.findById(storyId);
+
+    if (!story) {
+      return res.status(404).json({ error: "Story not found" });
+    }
+
+    // Check if the user has already voted for this story (using user authentication if applicable)
+    // Example: Check if the user's ID exists in the story's 'likes' array.
+
+    // If the user hasn't voted, increment the vote count and update the story
+    await story.vote();
+
+    return res
+      .status(200)
+      .json({ message: "Vote successful", votes: story.votes });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   allStorys,
   allStorysNotActive,
@@ -168,4 +193,5 @@ module.exports = {
   likeStory,
   getTopPicks,
   deleteStory,
+  voteStory,
 };

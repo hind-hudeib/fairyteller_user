@@ -40,11 +40,11 @@ const Header = ({ isLog, updateIsLog }) => {
   return (
     <>
       <nav
-        class="navbar navbar-expand-lg navbar-light p-3"
+        className="navbar navbar-expand-lg navbar-light p-3"
         style={{ backgroundColor: "white" }}
       >
-        <div class="container-fluid">
-          <Link class="navbar-brand" to="/">
+        <div className="container-fluid">
+          <Link className="navbar-brand" to="/">
             Fairytellers
           </Link>
           <button
@@ -59,10 +59,10 @@ const Header = ({ isLog, updateIsLog }) => {
             className={`collapse navbar-collapse ${isMenuOpen ? "show" : ""}`}
             id="navbarNavDropdown"
           >
-            <ul class="navbar-nav ms-auto ">
-              <li class="nav-item">
+            <ul className="navbar-nav ms-auto ">
+              <li className="nav-item">
                 <Link
-                  class="nav-link mx-2 active"
+                  className="nav-link mx-2 active"
                   aria-current="page"
                   to="/"
                   style={{ color: "black" }}
@@ -82,9 +82,9 @@ const Header = ({ isLog, updateIsLog }) => {
                   </Link>
                 </li>
               )}
-              <li class="nav-item">
+              <li className="nav-item">
                 <Link
-                  class="nav-link mx-2 active"
+                  className="nav-link mx-2 active"
                   aria-current="page"
                   to="/StoriesList"
                   style={{ color: "black" }}
@@ -93,51 +93,51 @@ const Header = ({ isLog, updateIsLog }) => {
                 </Link>
               </li>
 
-              <li class="nav-item">
+              <li className="nav-item">
                 <Link
-                  class="nav-link mx-2"
+                  className="nav-link mx-2"
                   to="/About"
                   style={{ color: "black" }}
                 >
                   Our Story
                 </Link>
               </li>
-              <li class="nav-item">
+              <li className="nav-item">
                 <Link
-                  class="nav-link mx-2"
+                  className="nav-link mx-2"
                   to="/contactus"
                   style={{ color: "black" }}
                 >
                   Get in Touch
                 </Link>
               </li>
-              <li class="nav-item dropdown">
+              <li className="nav-item dropdown">
                 <ul
-                  class="dropdown-menu"
+                  className="dropdown-menu"
                   aria-labelledby="navbarDropdownMenuLink"
                 >
                   <li>
-                    <Link class="dropdown-item" to="#">
+                    <Link className="dropdown-item" to="#">
                       Blog
                     </Link>
                   </li>
                   <li>
-                    <Link class="dropdown-item" to="#">
+                    <Link className="dropdown-item" to="#">
                       About Us
                     </Link>
                   </li>
                   <li>
-                    <Link class="dropdown-item" to="#">
+                    <Link className="dropdown-item" to="#">
                       Contact us
                     </Link>
                   </li>
                 </ul>
               </li>
             </ul>
-            <ul class="navbar-nav ms-auto d-none d-lg-inline-flex">
-              <li class="nav-item mx-2"></li>
-              <li class="nav-item mx-2"></li>
-              <li class="nav-item"></li>
+            <ul className="navbar-nav ms-auto d-none d-lg-inline-flex">
+              <li className="nav-item mx-2"></li>
+              <li className="nav-item mx-2"></li>
+              <li className="nav-item"></li>
             </ul>
           </div>
           {isLog ? (
@@ -163,18 +163,18 @@ const Header = ({ isLog, updateIsLog }) => {
                     d="M369.5 135.9c0 67.1-50.8 161.3-113.5 161.3S142.5 203 142.5 135.9 193.3 14.3 256 14.3s113.5 54.4 113.5 121.6z"
                     fill="#fff"
                     stroke="#283244"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-miterlimit="10"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeMiterlimit="10"
                   ></path>
                   <path
                     d="M464.1 365.8c-19-18-131.7-51.2-131.7-51.2l-76.3 85.3h0l-76.3-85.3S67.1 347.8 48.1 365.8c-29.3 27.7-31.6 132-31.6 132h479.2c-.1-.1-2.3-104.3-31.6-132z"
                     fill="#283244"
                     stroke="#fff"
-                    stroke-width="20"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-miterlimit="10"
+                    strokeWidth="20"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeMiterlimit="10"
                   ></path>
                 </svg>
               </Link>
@@ -194,7 +194,7 @@ const Header = ({ isLog, updateIsLog }) => {
               >
                 <defs>
                   <style>
-                    {`.cls-1{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}`}
+                    {`.cls-1{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;strokeWidth:2px;}`}
                   </style>
                 </defs>
                 <title />

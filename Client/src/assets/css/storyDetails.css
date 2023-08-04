@@ -4,6 +4,12 @@
   opacity: 0.9;
 }
 
+.custom-hr {
+  height: 6px;
+  width: 20%;
+  background-color: #d5d5d5;
+}
+
 .storyDiv {
   background: rgb(255, 255, 255);
 }

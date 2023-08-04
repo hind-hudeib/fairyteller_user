@@ -3,12 +3,12 @@ import "../css/Loader.css";
 const Loader = () => {
   return (
     <div>
-      <div class="typewriter">
-        <div class="slide">
+      <div className="typewriter">
+        <div className="slide">
           <i></i>
         </div>
-        <div class="paper"></div>
-        <div class="keyboard"></div>
+        <div className="paper"></div>
+        <div className="keyboard"></div>
       </div>
     </div>
   );

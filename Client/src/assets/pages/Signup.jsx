@@ -258,8 +258,8 @@ const Signup = ({ updateIsLog }) => {
                 <div className="card-body px-4 py-5 px-md-5">
                   <form id="form" onSubmit={(e) => handleSubmit(e)}>
                     <div className="container">
-                      <div classNameName="row">
-                        <div classNameName="col-12 text-center mx-auto">
+                      <div className="row">
+                        <div className="col-12 text-center mx-auto">
                           <div id="signInDiv"></div>
                         </div>
                       </div>

@@ -33,21 +33,21 @@ const Subscription = () => {
         <div className="row">
           <div className="col-lg-6 col-md-6 col-sm-12">
             <div className="card-deck mb-3  d-flex justify-content-center mt-5">
-              <div class="plan">
-                <div class="inner p-5">
-                  <span class="pricing p-2">
+              <div className="plan">
+                <div className="inner p-5">
+                  <span className="pricing p-2">
                     <span className="">
                       $10 <small>/ month</small>
                     </span>
                   </span>
-                  <p class="title">Professional Writer</p>
-                  <p class="info">
+                  <p className="title">Professional Writer</p>
+                  <p className="info">
                     This plan is for writers who want to share their stories and
                     reach a wide audience.
                   </p>
-                  <ul class="features">
+                  <ul className="features">
                     <li>
-                      <span class="icon">
+                      <span className="icon">
                         <svg
                           height="24"
                           width="24"
@@ -66,7 +66,7 @@ const Subscription = () => {
                       </span>
                     </li>
                     <li>
-                      <span class="icon">
+                      <span className="icon">
                         <svg
                           height="24"
                           width="24"
@@ -85,7 +85,7 @@ const Subscription = () => {
                       </span>
                     </li>
                     <li>
-                      <span class="icon">
+                      <span className="icon">
                         <svg
                           height="24"
                           width="24"

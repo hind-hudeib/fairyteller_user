@@ -11,48 +11,39 @@ import {
 const Footer = () => {
   return (
     <>
-      <footer class="footer p-5">
-        <div class="new_footer_top">
-          <div class="container">
-            <div class="row text-center">
-              <div class="col-lg-3 col-md-6">
-                <div class="f_widget company_widget wow fadeInLeft">
-                  <Link to={"/contactus"}>
-                    <button class="btn btn_get btn_get_two" type="submit">
-                      Get in Touch
-                    </button>
-                  </Link>
-                </div>
-              </div>
-              <div class="col-lg-6 col-md-6">
-                <div class="d-flex justify-content-center">
-                  <div class="">
+      <footer className="footer p-5">
+        <div className="new_footer_top">
+          <div className="container">
+            <div className="row text-center">
+              <div className="col-12">
+                <div className="d-flex justify-content-center">
+                  <div className="">
                     <Link className="links" to={"/About"}>
                       {" "}
-                      <h6 class="footer-links p-2">Aboutus</h6>
+                      <h6 className="footer-links p-2">Aboutus</h6>
                     </Link>
                   </div>
                   <span> | </span>
-                  <div class="">
+                  <div className="">
                     <Link className="links" to={"/contactus"}>
                       {" "}
-                      <h6 class="footer-links p-2"> Contactus</h6>
+                      <h6 className="footer-links p-2"> Contactus</h6>
                     </Link>
                   </div>
                   <span>|</span>
 
-                  <div class="">
+                  <div className="">
                     <Link className="links" to={"/privacyandpolicy"}>
                       {" "}
-                      <h6 class="footer-links p-2"> Privacy Policy</h6>
+                      <h6 className="footer-links p-2"> Privacy Policy</h6>
                     </Link>
                   </div>
                 </div>
               </div>
 
-              <div class="col-lg-3 col-md-6">
-                <div class="f_widget social-widget pl_70 wow fadeInLeft">
-                  <div class="f_social_icon">
+              <div className="col-12 ">
+                <div className="f_widget social-widget fadeInLeft">
+                  <div className="f_social_icon">
                     <a href="#" className="p-2 footerLink">
                       <AiOutlineInstagram />
                     </a>
@@ -69,11 +60,13 @@ const Footer = () => {
           </div>
         </div>
         <hr />
-        <div class="footer_bottom">
-          <div class="container">
-            <div class="row align-items-center">
-              <div class="col-12">
-                <p class="mb-0 text-center copyright">© Fairytellers 2023.</p>
+        <div className="footer_bottom">
+          <div className="container">
+            <div className="row align-items-center">
+              <div className="col-12">
+                <p className="mb-0 text-center copyright">
+                  © Fairytellers 2023.
+                </p>
               </div>
             </div>
           </div>

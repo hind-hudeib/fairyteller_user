@@ -48,6 +48,16 @@ const storySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  votes: {
+    type: Number,
+    default: 0,
+  },
+  votedBy: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Users",
+    },
+  ],
   is_delete: {
     type: Boolean,
     default: false,
@@ -61,6 +71,11 @@ const storySchema = new mongoose.Schema({
     default: false,
   },
 });
+
+storySchema.methods.vote = async function () {
+  this.votes += 1;
+  await this.save();
+};
 
 const Story = mongoose.model("Stories", storySchema);
 

@@ -51,8 +51,8 @@ const Posts = ({ posts, loading, post, handleClick }) => {
                     <h6 className="card-title">{post.author}</h6>
                     <hr />
 
-                    <button class="viewAll">
-                      <span class="hover-underline-animation">
+                    <button className="viewAll">
+                      <span className="hover-underline-animation">
                         {" "}
                         <Link
                           to={`/story/${post.id}`}

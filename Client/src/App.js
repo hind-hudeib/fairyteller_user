@@ -20,7 +20,6 @@ import StartWrite from "./assets/pages/StartWrite";
 import Subscription from "./assets/pages/Subscription";
 import PaymentForm from "./assets/pages/PaymentForm";
 import ProfilePage from "./assets/pages/UserProfile";
-import UserProfilePage from "./assets/pages/user/UserProfilePage";
 import PrivacyPolicy from "./assets/pages/PrivacyPolicy";
 import NotFound from "./assets/pages/NotFound";
 
@@ -62,8 +61,6 @@ function App() {
               <Route path="/subscription" element={<Subscription />} />
               <Route path="/payment" element={<PaymentForm />} />
               <Route path="/privacyandpolicy" element={<PrivacyPolicy />} />
-
-              <Route path="/userpage" element={<UserProfilePage />} />
               {/* Custom 404 route for logged-in users */}
               <Route path="*" element={<NotFound />} />
             </>

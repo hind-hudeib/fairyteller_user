@@ -38,29 +38,25 @@ const StoriesList = () => {
         });
 
         setUserId(res.data.userId);
-        console.log(res.data);
-        console.log(userId);
       } catch (error) {
         console.log(error);
       }
     }
   }
 
-  useEffect(() => {
-    verifyToken();
-    window.scrollTo(0, 0);
-  }, []);
-
   // fetch all Stories and liked stories
   useEffect(() => {
     async function fetchLikedStories() {
+      await verifyToken(); // Wait for verifyToken to complete before proceeding
+      window.scrollTo(0, 0);
       try {
-        const response = await axios.get(
-          `http://localhost:8000/likeById/${userId}`
-        );
-        setLikedStories(response.data);
-        console.log(response.data);
-        console.log(userId);
+        if (userId) {
+          const response = await axios.get(
+            `http://localhost:8000/likeById/${userId}`
+          );
+          setLikedStories(response.data);
+          console.log(response.data);
+        }
       } catch (error) {
         console.error("Error fetching liked stories:", error);
       }
@@ -100,16 +96,7 @@ const StoriesList = () => {
         await axios.delete(`http://localhost:8000/removelike/${storyId}`, {
           data: { user: userId }, // Use the correct field name for user
         });
-
-        // Update the likedStories state to remove the unliked story
         setLikedStories(likedStories.filter((story) => story._id !== storyId));
-
-        // Show success message for disliking
-        // Swal.fire({
-        //   title: "Dislike Successful",
-        //   text: "You have disliked the story.",
-        //   icon: "success",
-        // });
 
         toast.error("Dislike Successful");
       } else {
@@ -118,15 +105,7 @@ const StoriesList = () => {
           userId,
         });
 
-        // Update the likedStories state to add the newly liked story
         setLikedStories([...likedStories, { _id: storyId }]);
-
-        // Show success message for liking
-        // Swal.fire({
-        //   title: "Like Successful",
-        //   text: "You have liked the story.",
-        //   icon: "success",
-        // });
         toast.success("Like Successful ");
       }
     } catch (error) {

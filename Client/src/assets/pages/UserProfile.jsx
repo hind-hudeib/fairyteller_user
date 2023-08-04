@@ -30,6 +30,8 @@ export default function ProfilePage() {
   const [profileImage, setProfileImage] = useState(defaultImage);
   const [isImageChanged, setIsImageChanged] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentLikedPage, setCurrentLikedPage] = useState(1);
+
   const storiesPerPage = 3;
 
   const base64Data = profileImage.myFile;
@@ -142,7 +144,7 @@ export default function ProfilePage() {
     }
   };
 
-  // Pagebation
+  // User Stories Pagination
 
   const indexOfLastStory = currentPage * storiesPerPage;
   const indexOfFirstStory = indexOfLastStory - storiesPerPage;
@@ -156,8 +158,21 @@ export default function ProfilePage() {
     setCurrentPage(pageNumber);
   };
 
-  // Calculate total number of pages
   const totalPages = Math.ceil(userStories?.length / storiesPerPage);
+
+  // Liked Stories Pagination
+
+  const indexOfLastLikedStories = currentLikedPage * storiesPerPage;
+  const indexOfFirstLikedStories = indexOfLastLikedStories - storiesPerPage;
+  const currentLikedStories = userLikedStories?.slice(
+    indexOfFirstLikedStories,
+    indexOfLastLikedStories
+  );
+  // Function to handle page change for liked stories
+  const handleLikedPageChange = (pageNumber) => {
+    setCurrentLikedPage(pageNumber);
+  };
+  const totalLikedPages = Math.ceil(userLikedStories?.length / storiesPerPage);
 
   if (loading) {
     return <div>Loading...</div>; // Show a loading indicator
@@ -270,10 +285,10 @@ export default function ProfilePage() {
                   <hr />
                   {
                     // Display stories created by the writer
-                    userStories?.map((story) => (
+                    currentStories?.map((story) => (
                       <>
                         <div
-                          key={story.id}
+                          key={story._id}
                           className="d-flex justify-content-between align-items-center mt-4 p-2"
                         >
                           <div style={{ position: "relative" }}>
@@ -327,10 +342,10 @@ export default function ProfilePage() {
                 <MDBCardBody>
                   <MDBCardText className="mb-4">Stories I Like</MDBCardText>
                   <hr />
-                  {userLikedStories?.map((story) => (
+                  {currentLikedStories?.map((story) => (
                     <>
                       <div
-                        key={story.id}
+                        key={story._id}
                         className="d-flex justify-content-start align-items-start mt-4 p-2"
                       >
                         <div style={{ position: "relative" }} className="mx-5">
@@ -388,16 +403,16 @@ export default function ProfilePage() {
                   ))}
                   {/* Pagination */}
                   <ul className="pagination justify-content-center">
-                    {Array.from({ length: totalPages }, (_, index) => (
+                    {Array.from({ length: totalLikedPages }, (_, index) => (
                       <li
                         key={index}
                         className={`page-item ${
-                          index + 1 === currentPage ? "active" : ""
+                          index + 1 === currentLikedPage ? "active" : ""
                         }`}
                       >
                         <button
                           className="page-link"
-                          onClick={() => handlePageChange(index + 1)}
+                          onClick={() => handleLikedPageChange(index + 1)}
                         >
                           {index + 1}
                         </button>

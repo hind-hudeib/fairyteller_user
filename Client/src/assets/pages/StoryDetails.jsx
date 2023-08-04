@@ -9,6 +9,7 @@ import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { faFlag } from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 
 import Swal from "sweetalert2";
 
@@ -21,7 +22,31 @@ const StoryDetails = () => {
   const [userName, setUserName] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Track user login status
   const [likes, setLikes] = useState(0);
+  const [votedStories, setVotedStories] = useState([]);
 
+  // Function to handle the vote action
+  const handleVote = async (storyId) => {
+    if (!votedStories.includes(storyId)) {
+      try {
+        // Make an API call to submit the vote for the story
+        const response = await fetch(`http://localhost:8000/vote/${storyId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          // You can include any necessary authentication tokens or headers here if applicable
+        });
+
+        const data = await response.json();
+        if (data && data.votes !== undefined) {
+          // Update the voting status in the local state to prevent multiple votes
+          setVotedStories((prevVoted) => [...prevVoted, storyId]);
+        }
+      } catch (error) {
+        console.error("Error voting:", error);
+      }
+    }
+  };
   useEffect(() => {
     async function fetchStory() {
       try {
@@ -242,6 +267,14 @@ const StoryDetails = () => {
                     style={{ color: "#A1AFFC" }}
                   />
                 </span>
+                {/* votes */}
+                <span style={{ display: "inline-block" }}>
+                  <span className="p-2 mx-2">{story.votes}</span>
+                  <FontAwesomeIcon
+                    icon={faThumbsUp}
+                    style={{ color: "#A1AFFC" }}
+                  />
+                </span>
               </div>
             </div>
           </div>
@@ -254,8 +287,8 @@ const StoryDetails = () => {
                 {story.Description}
               </blockquote>
             </div>
-            <div class="col-md-6 container description-container mb-5">
-              <hr className="mt-3" />
+            <div class="d-flex justify-content-center mt-3">
+              <hr class="custom-hr" />
             </div>
 
             <div className="container mx-auto storyContainer mb-5 mt-4">
@@ -268,6 +301,28 @@ const StoryDetails = () => {
           </section>
         </div>
       </section>
+
+      <div class="d-flex justify-content-center mt-3">
+        <hr class="custom-hr" />
+      </div>
+
+      {/* Voting Section */}
+      <div className="voting-section d-flex align-items-center justify-content-center">
+        <p>
+          Would you like to see this story as a movie in the future?{" "}
+          <button
+            style={{ backgroundColor: "#303761", color: "white" }}
+            onClick={() => handleVote(story._id)}
+            disabled={story.voted}
+            className={`btn btn-${story.voted ? "#303761" : "#303761"}`}
+          >
+            {story.voted ? "Voted" : "Vote"}
+          </button>
+        </p>
+      </div>
+      <div className="d-flex align-items-center justify-content-center my-5">
+        <p className="m-0 me-2">Votes: {story.votes}</p>
+      </div>
 
       {/* Comment section */}
       <section>
