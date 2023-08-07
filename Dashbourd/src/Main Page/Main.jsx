@@ -1,6 +1,5 @@
 import React from "react";
 import Stats from "./Stats";
-import TableOfReaders from "../Reader Page/TableOfReaders";
 import TableOfWriters from "../Writer page/TableOfWriters";
 import TableOfStories from "../Story Page/TableOfStories";
 import TableOfSubscription from "../Subscription Page/TableOfSubscription";

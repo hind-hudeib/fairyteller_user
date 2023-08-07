@@ -53,14 +53,12 @@ function Dashboard(props) {
 
   return (
     <>
-      <body id="page-top">
-        <div className=" d-flex justify-content-start">
-          <Main />
-        </div>
-        <a className="scroll-to-top rounded" href="#page-top">
-          <i className="fas fa-angle-up"></i>
-        </a>
-      </body>
+      <div className=" d-flex justify-content-center">
+        <Main />
+      </div>
+      <a className="scroll-to-top rounded" href="#page-top">
+        <i className="fas fa-angle-up"></i>
+      </a>
     </>
   );
 }

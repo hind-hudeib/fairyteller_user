@@ -20,7 +20,6 @@ const StoriesList = () => {
   const [stories, setStories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [displayedStories, setDisplayedStories] = useState([]);
-  const [favorites, setFavorites] = useState([]);
   const [likedStories, setLikedStories] = useState([]);
   const [userId, setUserId] = useState();
   const navigate = useNavigate();

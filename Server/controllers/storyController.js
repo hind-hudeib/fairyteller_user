@@ -112,7 +112,7 @@ const likeStory = async (req, res) => {
 
     updatedStoryData.is_delete = true;
 
-    const Story = await Story.findByIdAndUpdate(id, updatedStoryData, {
+    const story = await Story.findByIdAndUpdate(id, updatedStoryData, {
       new: true,
     });
 
@@ -145,7 +145,7 @@ const deleteStory = async (req, res) => {
 
     updatedStoryData.is_delete = true;
 
-    const Story = await Story.findByIdAndUpdate(id, updatedStoryData, {
+    const story = await Story.findByIdAndUpdate(id, updatedStoryData, {
       new: true,
     });
 

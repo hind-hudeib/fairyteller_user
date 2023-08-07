@@ -73,6 +73,27 @@ const updateUser = async (req, res) => {
   res.json(updatedUser);
 };
 
+// Controller function to handle the profile image upload
+const uploadProfileImage = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (req.file) {
+      user.profileImage = req.file.path; // Assuming req.file.path contains the file path of the uploaded image
+      await user.save();
+    }
+
+    res.json({ message: "Profile image uploaded successfully", user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 const subscriptionUser = async (req, res) => {
   try {
     const userId = req.params.id;
@@ -117,5 +138,6 @@ module.exports = {
   oneUser,
   updateUser,
   deleteUser,
+  uploadProfileImage,
   subscriptionUser,
 };

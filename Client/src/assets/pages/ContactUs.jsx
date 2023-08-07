@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../css/contactus.css";
 
 const ContactUs = () => {
@@ -39,15 +42,9 @@ const ContactUs = () => {
       });
       console.log(res.data);
       event.target.reset();
-      setMassage({
-        msg: "Your message has been sent successfully.",
-        theme: "green",
-      });
+      toast.success("Message sent Successfully ");
     } catch (error) {
-      setMassage({
-        msg: "Something went wrong. Please try again later.",
-        theme: "red",
-      });
+      toast.error("Failed to send the message");
       console.log(error);
     }
   }

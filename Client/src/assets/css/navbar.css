@@ -1,12 +1,18 @@
+.navbar {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
 .nav-link {
   display: inline-block;
   position: relative;
-  color: #2e5496;
+  color: #435169;
   font-family: "Noto Sans JP", sans-serif;
 }
 .nav-link:hover,
 .nav-link:active {
-  color: #2e5496;
+  color: #204d9a;
 }
 .loginBtn {
   color: rgb(29, 29, 29);
@@ -48,4 +54,8 @@
 
 .navbarBtn:hover {
   background-color: #0f203e;
+}
+
+.website_logo {
+  width: 6rem;
 }

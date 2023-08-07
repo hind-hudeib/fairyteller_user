@@ -1,40 +1,33 @@
 .a1 {
-  width: 50% " aria-valuenow=" 50 " aria-valuemin=" 0 " aria-valuemax=" 100
-    ";
+  width: 50%;
 }
-.a2
-{
-    width: 20%" aria-valuenow= "20" aria-valuemin= "0" aria-valuemax=
-    "100";
+.a2 {
+  width: 20%;
 }
 .a3 {
-  width: 40% " aria-valuenow=" 40 " aria-valuemin=" 0 " aria-valuemax=" 100
-    ";
+  width: 40%;
 }
-.a4
-{
-    width: 80%" aria-valuenow= "80" aria-valuemin= "0" aria-valuemax=
-    "100";
+.a4 {
+  width: 80%;
 }
 .a5 {
-  width: 100% " aria-valuenow=" 100 " aria-valuemin=" 0 " aria-valuemax=" 100
-    ";
+  width: 100%;
 }
-.a6
-{
-    width: 25rem;
+.a6 {
+  width: 25rem;
 }
-.a7
-{
-    width: 60%" aria-valuenow= "60"
-    aria-valuemin= "0" aria-valuemax= "100";
+.a7 {
+  width: 60%;
 }
 .toggled {
-  overflow: visible;
-  width: 6.5rem !important;
+  /* Remove fixed width */
+  /* width: 6.5rem !important; */
+  overflow: hidden;
 }
+
 .toggled1 {
-  width: 0 !important;
+  /* Remove width: 0 */
+  /* width: 0 !important; */
   overflow: hidden;
 }
 
@@ -45,24 +38,26 @@
 .pageContent {
   background-color: #e8e8e8;
 }
-
 .col-md-3 {
   position: fixed;
   height: 100%;
-  overflow-y: auto;
+  /* Remove overflow-y property */
+  /* overflow-y: auto; */
 }
-
 .col-md-9 {
   margin-left: 20%; /* Adjust the value based on the width of your aside bar */
 }
-footer.sticky-footer {
-  background-color: #283244;
 
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  padding: 2rem;
+/* Add transition property to the sidebar class */
+.sidebar {
+  transition: transform 0.3s ease-in-out;
 }
-footer {
-  background-color: #283244;
+
+/* Add a class to push the sidebar out of the screen when it's closed */
+.sidebar-hidden {
+  transform: translateX(-100%);
+}
+
+#navbar {
+  width: 100%;
 }

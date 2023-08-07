@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom"; // Import NavLink from react-router-dom
-
+import logo from "../images/fairytellers.png";
 const Header = ({ isLog, updateIsLog }) => {
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
 
@@ -41,7 +41,7 @@ const Header = ({ isLog, updateIsLog }) => {
 
   const navbarCollapseStyle = {
     display: isNavCollapsed ? "none" : "block",
-    maxHeight: isNavCollapsed ? "0px" : "500px", // Adjust the max height as needed
+    maxHeight: isNavCollapsed ? "0px" : "500px",
     opacity: isNavCollapsed ? "1" : "1",
     transition: "max-height 0.3s ease, opacity 0.3s ease",
   };
@@ -51,9 +51,9 @@ const Header = ({ isLog, updateIsLog }) => {
   };
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light p-2 fixed-top">
+      <nav className="navbar navbar-expand-lg navbar-light p-2 fixed-top">
         <a className="navbar-brand p-3" href="/">
-          Fairytellers
+          <img src={logo} alt="" className="website_logo" />
         </a>
         <button
           className="navbar-toggler"
