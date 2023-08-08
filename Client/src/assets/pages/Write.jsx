@@ -38,7 +38,7 @@ const Write = () => {
       email: localStorage.getItem("email"),
       Description: event.target.elements.description.value,
       Language: event.target.elements.language.value,
-      cover: selectedImage, // Use selectedImage instead of image.myFile
+      cover: base64Data,
       category: event.target.elements.category.value,
       acceptPolicy: event.target.elements.acceptPolicy.checked,
     };
@@ -93,13 +93,7 @@ const Write = () => {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
+    setSelectedImage(URL.createObjectURL(file)); // Corrected state update
   };
 
   function convertToBase64(file) {
@@ -122,10 +116,9 @@ const Write = () => {
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const base64 = await convertToBase64(file);
-      setSelectedImage(base64);
-    }
+    const base64 = await convertToBase64(file);
+    console.log(base64);
+    setImage({ myFile: base64 }); // Corrected state update
   };
 
   const containerStyle = {
@@ -234,7 +227,7 @@ const Write = () => {
                       >
                         {selectedImage ? (
                           <img
-                            src={selectedImage}
+                            src={image}
                             alt="Selected"
                             style={{
                               width: "25%",
@@ -248,7 +241,6 @@ const Write = () => {
                             Click or drag an image here to upload
                           </div>
                         )}
-
                         <button
                           className="upload-button m-5"
                           style={{

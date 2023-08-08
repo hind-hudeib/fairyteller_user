@@ -7,6 +7,9 @@ import Partners from "../pages/Partners";
 
 const About = () => {
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  useEffect(() => {
     AOS.init({
       offset: 200,
       duration: 600,

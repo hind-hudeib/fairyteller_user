@@ -21,20 +21,17 @@ import {
 } from "mdb-react-ui-kit";
 import EditModal from "./EditModal";
 import StoryViewModal from "./StoryViewModal";
-
 export default function UserProfile() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [massage, setMassage] = useState();
+  const [profileImage, setProfileImage] = useState(defaultImage);
+  const [newImageSelected, setNewImageSelected] = useState(false);
   const [userStories, setUserStories] = useState();
   const [userLikedStories, setUserLikedStories] = useState();
-  const [profileImage, setProfileImage] = useState(defaultImage);
-  const [isImageChanged, setIsImageChanged] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentLikedPage, setCurrentLikedPage] = useState(1);
 
   const storiesPerPage = 3;
-  // get user data
   const verifyToken = async () => {
     const token = localStorage.getItem("token") || false;
 
@@ -45,7 +42,7 @@ export default function UserProfile() {
             authorization: `Bearer ${token}`,
           },
         });
-        return res.data; // Assuming the response contains user information like { userId: "12345", name: "John", email: "john@example.com" }
+        return res.data;
       } catch (error) {
         console.log(error);
       }
@@ -53,9 +50,10 @@ export default function UserProfile() {
   };
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
+    const fetchUser = async () => {
       const userInfo = JSON.parse(localStorage.getItem("userInfo")) || null;
 
+      console.log(userInfo);
       if (!userInfo) {
         const fetchedUserInfo = await verifyToken();
         setUser(fetchedUserInfo);
@@ -77,7 +75,7 @@ export default function UserProfile() {
       }
     };
 
-    fetchUserInfo();
+    fetchUser();
   }, []);
 
   useEffect(() => {
@@ -132,7 +130,7 @@ export default function UserProfile() {
       setUser(response.data);
       console.log(response.data);
       setMassage("User data updated successfully");
-      fetchUserInfo();
+      fetchUser();
     } catch (error) {
       console.log(error);
       // Handle the error appropriately, e.g., show an error message to the user
@@ -140,31 +138,27 @@ export default function UserProfile() {
     }
   };
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    console.log(file); // Log the selected file
-    setProfileImage(URL.createObjectURL(file));
-    setIsImageChanged(true);
+  const handleImageChange = (e) => {
+    const imageFile = e.target.files[0];
+    const formData = new FormData();
+    formData.append("profileImage", imageFile);
+
+    // Make a request to the server to upload the image
+    axios
+      .post("/api/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        // Assuming the server returns the image URL after successful upload
+        setProfileImage(response.data.imageUrl);
+        setNewImageSelected(true); // Indicate that the user has selected a new image
+      })
+      .catch((error) => {
+        console.error("Error uploading image:", error);
+      });
   };
-
-  function convertToBase64(file) {
-    console.log(file);
-    return new Promise((resolve, reject) => {
-      if (file instanceof File || file instanceof Blob) {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(file);
-        fileReader.onload = () => {
-          resolve(fileReader.result);
-        };
-        fileReader.onerror = (error) => {
-          reject(error);
-        };
-      } else {
-        reject(new Error("Invalid file object"));
-      }
-    });
-  }
-
   const isStoryLiked = (storyId) => {
     return userLikedStories.some((story) => story._id === storyId);
   };
@@ -184,7 +178,7 @@ export default function UserProfile() {
       } else {
       }
     } catch (error) {
-      console.error("Error handling like action:", error);
+      console.error("Error handling dislike action:", error);
     }
   };
 
@@ -257,7 +251,9 @@ export default function UserProfile() {
                         <MDBCol xl="2" lg="3" md="4" sm="4" xs="4">
                           <div className="image-container">
                             <img
-                              src={profileImage}
+                              src={
+                                newImageSelected ? profileImage : defaultImage
+                              }
                               alt="Your Image"
                               className="img-fluid rounded-circle"
                             />
@@ -271,20 +267,11 @@ export default function UserProfile() {
                                   id="imageUpload"
                                   style={{ display: "none" }}
                                   accept="image/*"
-                                  onChange={handleImageUpload}
+                                  onChange={handleImageChange}
                                 />
                               </div>
                             </div>
                           </div>
-
-                          {isImageChanged && (
-                            <button
-                              className="save-button"
-                              onClick={updateUserProfile}
-                            >
-                              Save
-                            </button>
-                          )}
                         </MDBCol>
                         <MDBCol sm="12" className="text-center mt-3">
                           {" "}
