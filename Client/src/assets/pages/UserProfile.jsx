@@ -4,7 +4,6 @@ import { FiEdit, FiEye } from "react-icons/fi";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 import defaultImage from "../images/woman1.png";
-import { AuthContext } from "../contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import "../css/userProfile.css";
@@ -21,8 +20,9 @@ import {
 } from "mdb-react-ui-kit";
 import EditModal from "./EditModal";
 import StoryViewModal from "./StoryViewModal";
+
 export default function UserProfile() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
   const [massage, setMassage] = useState();
   const [profileImage, setProfileImage] = useState(defaultImage);
   const [newImageSelected, setNewImageSelected] = useState(false);
@@ -32,6 +32,7 @@ export default function UserProfile() {
   const [currentLikedPage, setCurrentLikedPage] = useState(1);
 
   const storiesPerPage = 3;
+  // get user data
   const verifyToken = async () => {
     const token = localStorage.getItem("token") || false;
 
@@ -49,69 +50,63 @@ export default function UserProfile() {
     }
   };
 
+  const fetchUserStories = async () => {
+    console.log(user);
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/all_story_by_email/${user.email}`
+      );
+      console.log(user.email);
+      setUserStories(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    const fetchUser = async () => {
-      const userInfo = JSON.parse(localStorage.getItem("userInfo")) || null;
-
-      console.log(userInfo);
-      if (!userInfo) {
-        const fetchedUserInfo = await verifyToken();
-        setUser(fetchedUserInfo);
-
-        if (fetchedUserInfo && fetchedUserInfo.userId) {
-          try {
-            const response = await axios.get(
-              `http://localhost:8000/user/${fetchedUserInfo.userId}`
-            );
-            const updatedUserInfo = response.data;
-            setUser(updatedUserInfo);
-            localStorage.setItem("userInfo", JSON.stringify(updatedUserInfo)); // Update localStorage with the fetched user data
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      } else {
-        setUser(userInfo);
-      }
-    };
+    fetchUserStories();
 
     fetchUser();
   }, []);
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      const userInfo = await verifyToken();
-      setUser(userInfo);
-
+    const fetchLikedStories = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/all_story_by_email/${userInfo.email}`
+          `http://localhost:8000/likeById/${user._id}`
         );
-        setUserStories(response.data);
+        setUserLikedStories(response.data);
+        console.log(response.data);
       } catch (error) {
         console.log(error);
       }
     };
 
-    fetchUserInfo();
-  }, []);
+    fetchLikedStories();
+  }, [user]);
 
-  useEffect(() => {
-    const fetchLikedStories = async () => {
-      if (user && user.userId) {
+  const fetchUser = () => {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo")) || null;
+    if (!userInfo) {
+      const fetchedUserInfo = verifyToken();
+
+      if (fetchedUserInfo && fetchedUserInfo.userId) {
         try {
-          const response = await axios.get(
-            `http://localhost:8000/likeById/${user.userId}`
+          const response = axios.get(
+            `http://localhost:8000/user/${fetchedUserInfo.userId}`
           );
-          setUserLikedStories(response.data);
+          const updatedUserInfo = response.data;
+          setUser(updatedUserInfo);
+          localStorage.setItem("userInfo", JSON.stringify(updatedUserInfo)); // Update localStorage with the fetched user data
         } catch (error) {
           console.log(error);
         }
       }
-    };
-
-    fetchLikedStories();
-  }, [user]);
+    } else {
+      setUser(userInfo);
+    }
+  };
 
   const handleUpdate = async (data) => {
     const { username, password } = data;
@@ -119,7 +114,7 @@ export default function UserProfile() {
     try {
       // Make the API request to update the user data
       const response = await axios.put(
-        `http://localhost:8000/user/${user.userId}`,
+        `http://localhost:8000/user/${user._id}`,
         {
           ...user,
           username: username,
@@ -129,8 +124,8 @@ export default function UserProfile() {
 
       setUser(response.data);
       console.log(response.data);
+      localStorage.setItem("userInfo", JSON.stringify(response.data)); // Update localStorage with the fetched user data
       setMassage("User data updated successfully");
-      fetchUser();
     } catch (error) {
       console.log(error);
       // Handle the error appropriately, e.g., show an error message to the user
