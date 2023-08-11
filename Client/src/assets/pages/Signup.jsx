@@ -211,25 +211,24 @@ const Signup = ({ updateIsLog }) => {
       console.error(err);
     }
   }
-
   // async function handleGoogleResponse(response) {
-  //   // Handle the Google response, get user information from `response.profileObj`
   //   try {
-  //     const res = await axios.post("http://localhost:8000/user", {
-  //       username: response.profileObj.name,
+  //     const res = await axios.post("http://localhost:8000/google-login", {
+  //       googleId: response.googleId,
   //       email: response.profileObj.email,
-  //       // Set a default password or generate a random one if required
-  //       password: "defaultPassword",
   //     });
-  //     localStorage.setItem("username", response.profileObj.name);
-  //     localStorage.setItem("email", response.profileObj.email);
-  //     localStorage.setItem("token", res.data.Token);
+
+  //     localStorage.setItem("username", res.data.username);
+  //     localStorage.setItem("email", res.data.email);
+  //     localStorage.setItem("token", res.data.token);
+
   //     updateIsLog(true);
   //     navigate(path);
   //   } catch (err) {
   //     console.error(err);
   //   }
   // }
+
   return (
     <div>
       {" "}
@@ -265,17 +264,25 @@ const Signup = ({ updateIsLog }) => {
                         </div>
                       </div>
 
-                      {/* <GoogleLogin
-                          className="col-6 "
+                      <div className="text-center">
+                        {/* <GoogleLogin
+                          className="col-12 w-50 "
                           clientId="198899238997-1pf661qghlgiuv2bs3nnl9lrkg47vlal.apps.googleusercontent.com"
                           buttonText="Sign Up with Google"
                           onSuccess={handleGoogleResponse}
+                          handleGoogleResponse={handleGoogleResponse}
                           onFailure={(err) =>
                             console.error("Google Sign-In failed:", err)
                           }
-                     /> */}
+                        /> */}
+                      </div>
+
+                      <div className="text-center mt-2">
+                        <p>or sign up with:</p>
+                      </div>
+
                       <div className="row">
-                        <div className="col-12 mt-5">
+                        <div className="col-12 mt-2">
                           <label className="form-label" for="username">
                             Name
                           </label>
@@ -299,7 +306,7 @@ const Signup = ({ updateIsLog }) => {
                       </div>
                     </div>
 
-                    <div className="container mt-3">
+                    <div className="container mt-2">
                       <div className="row mt-3">
                         <div className="col-12">
                           <div className="form-outline mb-4">
@@ -416,16 +423,6 @@ const Signup = ({ updateIsLog }) => {
                     </div>
 
                     <div className="text-center mt-3">
-                      <p>or sign up with:</p>
-                      <button
-                        type="button"
-                        className="btn btn-link btn-floating mx-1"
-                      >
-                        <i className="fab fa-google"></i>
-                      </button>
-                    </div>
-
-                    <div className="text-center">
                       <p>
                         If you already have an account,
                         <Link to={"/Login"}>Log in.</Link>

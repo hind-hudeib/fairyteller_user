@@ -8,17 +8,49 @@ const EditModal = ({ handleUpdate }) => {
   const [show, setShow] = useState(false);
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
+  const [incorrectPassword, setIncorrectPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // New state for error message
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setPasswordError(false);
+    setIncorrectPassword(false);
+    setErrorMessage(""); // Reset error message when modal is closed
+  };
   const handleShow = () => setShow(true);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    handleUpdate({
-      username: userName,
-      password: userPassword,
-    });
-    handleClose();
+
+    if (!userPassword) {
+      setPasswordError(true);
+      setErrorMessage("Please enter your password to save");
+      return;
+    }
+
+    try {
+      const response = await handleUpdate({
+        username: userName,
+        password: userPassword,
+      });
+
+      if (response && response.error === "Incorrect password") {
+        setIncorrectPassword(true);
+        setErrorMessage("Incorrect password. Please try again.");
+        return;
+      }
+
+      handleClose();
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        console.log("401 Unauthorized");
+        setIncorrectPassword(true);
+        setErrorMessage("Incorrect password. Please try again.");
+      } else {
+        // Handle other errors here if needed
+      }
+    }
   };
 
   return (
@@ -60,13 +92,20 @@ const EditModal = ({ handleUpdate }) => {
                 value={userPassword}
                 onChange={(event) => setUserPassword(event.target.value)}
               />
+              <p className="text-danger mt-4">{errorMessage}</p>
             </div>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               Cancel
             </Button>
-            <Button variant="primary" type="submit">
+            <Button
+              style={{
+                backgroundColor: "#1d2533",
+                border: "1px solid #1d2533",
+              }}
+              type="submit"
+            >
               Save
             </Button>
           </Modal.Footer>

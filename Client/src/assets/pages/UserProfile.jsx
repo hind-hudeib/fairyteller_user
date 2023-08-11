@@ -20,21 +20,29 @@ import {
 } from "mdb-react-ui-kit";
 import EditModal from "./EditModal";
 import StoryViewModal from "./StoryViewModal";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function UserProfile() {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState([]);
   const [massage, setMassage] = useState();
   const [profileImage, setProfileImage] = useState(defaultImage);
   const [newImageSelected, setNewImageSelected] = useState(false);
-  const [userStories, setUserStories] = useState();
-  const [userLikedStories, setUserLikedStories] = useState();
+  const [userStories, setUserStories] = useState([]);
+  const [userLikedStories, setUserLikedStories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentLikedPage, setCurrentLikedPage] = useState(1);
-
+  const [userData, setUserData] = useState({
+    username: "", // Initialize with current user's username
+    password: "",
+  });
   const storiesPerPage = 3;
-  // get user data
-  const verifyToken = async () => {
-    const token = localStorage.getItem("token") || false;
+
+  // get user data and user Stories
+
+  async function verifyToken() {
+    const token = localStorage.getItem("token");
 
     if (token) {
       try {
@@ -43,96 +51,69 @@ export default function UserProfile() {
             authorization: `Bearer ${token}`,
           },
         });
-        return res.data;
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
 
-  const fetchUserStories = async () => {
-    console.log(user);
-    try {
-      const response = await axios.get(
-        `http://localhost:8000/all_story_by_email/${user.email}`
-      );
-      console.log(user.email);
-      setUserStories(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+        const userId = res.data.userId;
+        console.log(userId);
 
-  useEffect(() => {
-    fetchUserStories();
-
-    fetchUser();
-  }, []);
-
-  useEffect(() => {
-    const fetchLikedStories = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8000/likeById/${user._id}`
+        // Fetch user info using the user ID
+        const userInfoResponse = await axios.get(
+          `http://localhost:8000/user/${userId}`
         );
-        setUserLikedStories(response.data);
-        console.log(response.data);
+        const userInfo = userInfoResponse.data;
+        console.log(userInfo);
+
+        // Fetch user stories written by their email
+        const userStoriesResponse = await axios.get(
+          `http://localhost:8000/all_story_by_email/${userInfo.email}`
+        );
+        const userStories = userStoriesResponse.data;
+        console.log(userStories);
+
+        // Fetch stories liked by the user's ID
+        const likedStoriesResponse = await axios.get(
+          `http://localhost:8000/likeById/${userId}`
+        );
+        const likedStories = likedStoriesResponse.data;
+        console.log(likedStories);
+
+        // Now you can set the user, userStories, and likedStories states accordingly
+        setUser(userInfo);
+        setUserStories(userStories);
+        setUserLikedStories(likedStories);
       } catch (error) {
         console.log(error);
       }
-    };
-
-    fetchLikedStories();
-  }, [user]);
-
-  const fetchUser = () => {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo")) || null;
-    if (!userInfo) {
-      const fetchedUserInfo = verifyToken();
-
-      if (fetchedUserInfo && fetchedUserInfo.userId) {
-        try {
-          const response = axios.get(
-            `http://localhost:8000/user/${fetchedUserInfo.userId}`
-          );
-          const updatedUserInfo = response.data;
-          setUser(updatedUserInfo);
-          localStorage.setItem("userInfo", JSON.stringify(updatedUserInfo)); // Update localStorage with the fetched user data
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    } else {
-      setUser(userInfo);
     }
-  };
+  }
 
-  const handleUpdate = async (data) => {
-    const { username, password } = data;
+  // handle update user infornation
 
+  const handleUpdate = async (updatedData) => {
     try {
-      // Make the API request to update the user data
+      const userId = user[0]._id;
       const response = await axios.put(
-        `http://localhost:8000/user/${user._id}`,
-        {
-          ...user,
-          username: username,
-          password: password,
-        }
+        `http://localhost:8000/user/${userId}`,
+        updatedData
       );
 
-      setUser(response.data);
-      console.log(response.data);
-      localStorage.setItem("userInfo", JSON.stringify(response.data)); // Update localStorage with the fetched user data
-      setMassage("User data updated successfully");
+      if (response.status === 200) {
+        setUser([{ ...user[0], username: updatedData.username }]);
+        setUserData({
+          ...userData,
+          username: updatedData.username,
+        });
+      } else {
+        console.error("Update failed");
+      }
+
+      return response.data;
     } catch (error) {
-      console.log(error);
-      // Handle the error appropriately, e.g., show an error message to the user
-      setMassage("Failed to update user data. Please try again.");
+      console.error("An error occurred:", error);
+      throw error; // Re-throw the error to be handled elsewhere if needed
     }
   };
 
+  // handle update user Image
   const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
     const formData = new FormData();
@@ -154,28 +135,44 @@ export default function UserProfile() {
         console.error("Error uploading image:", error);
       });
   };
+
+  //  handle remove story from liked stories
+
   const isStoryLiked = (storyId) => {
     return userLikedStories.some((story) => story._id === storyId);
   };
 
   const handleFavoriteClick = async (storyId) => {
+    console.log(user[0]._id);
     try {
+      const userId = user[0]._id;
+
       const isLiked = isStoryLiked(storyId);
 
       if (isLiked) {
         await axios.delete(`http://localhost:8000/removelike/${storyId}`, {
-          data: { user: user.userId },
+          data: { user: userId },
         });
+
         setUserLikedStories(
           userLikedStories.filter((story) => story._id !== storyId)
         );
+
         toast.error("Dislike Successful");
       } else {
+        // Handle the like action here
       }
     } catch (error) {
       console.error("Error handling dislike action:", error);
     }
   };
+
+  useEffect(() => {
+    verifyToken();
+  }, []);
+  useEffect(() => {
+    console.log("User state updated:", user);
+  }, [user]);
 
   // User Stories Pagination
 
@@ -268,24 +265,30 @@ export default function UserProfile() {
                             </div>
                           </div>
                         </MDBCol>
-                        <MDBCol sm="12" className="text-center mt-3">
-                          {" "}
-                          {/* Center name and email */}
-                          <MDBCardText className="text-muted">
-                            {user?.username}
-                          </MDBCardText>
-                          <MDBCardText className="text-muted">
-                            {user?.email}
-                          </MDBCardText>
+                        {user?.map((userData) => (
                           <MDBCol
                             sm="12"
-                            className="d-flex align-items-center justify-content-center mt-3"
+                            className="text-center mt-3"
+                            key={userData._id}
                           >
                             {" "}
-                            {/* Center edit icon */}
-                            <EditModal handleUpdate={handleUpdate} />
+                            {/* Center name and email */}
+                            <MDBCardText className="text-muted">
+                              {userData.username}
+                            </MDBCardText>
+                            <MDBCardText className="text-muted">
+                              {userData.email}
+                            </MDBCardText>
+                            <MDBCol
+                              sm="12"
+                              className="d-flex align-items-center justify-content-center mt-3"
+                            >
+                              {" "}
+                              {/* Center edit icon */}
+                              <EditModal handleUpdate={handleUpdate} />
+                            </MDBCol>
                           </MDBCol>
-                        </MDBCol>
+                        ))}
                       </MDBRow>
                     </MDBListGroup>
                   </MDBCardBody>
@@ -299,62 +302,89 @@ export default function UserProfile() {
             <MDBRow className="d-flex justify-content-center">
               <MDBCol md="8">
                 <h2 className="mb-4">My Work</h2>
-
-                <MDBCard className="mb-4 mb-md-0 storiesCard  shadow-lg">
-                  <MDBCardBody>
-                    {
-                      // Display stories created by the writer
-                      currentStories?.map((story) => (
-                        <>
-                          <div
-                            key={story._id}
-                            className="d-flex justify-content-between align-items-center mt-4 p-2"
-                          >
-                            <div style={{ position: "relative" }}>
-                              <img
-                                src={story.cover}
-                                alt="Story Cover"
-                                style={{
-                                  height: "12rem",
-                                  width: "9rem",
-                                }}
-                              />
-                              <span className="eye-icon">
-                                <StoryViewModal story={story} />
+                {currentStories.length === 0 ? ( // Check if there are no stories
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      height: "50vh",
+                    }}
+                  >
+                    <img
+                      src="https://assets.materialup.com/uploads/3bb5bf77-24cf-464b-bb0c-415cca344095/preview.jpg"
+                      alt="no stories yet"
+                      className="w-50"
+                    />
+                    <p className="text-center">
+                      You have not created any stories. Would you like to{" "}
+                      <Link
+                        to={"/write"}
+                        className="text-uppercase font-weight-bold text-primary text-decoration-none"
+                      >
+                        start{" "}
+                      </Link>{" "}
+                      ?
+                    </p>
+                  </div>
+                ) : (
+                  <MDBCard className="mb-4 mb-md-0 storiesCard  shadow-lg">
+                    <MDBCardBody>
+                      {
+                        // Display stories created by the writer
+                        currentStories?.map((story) => (
+                          <>
+                            <div
+                              key={story._id}
+                              className="d-flex justify-content-between align-items-center mt-4 p-2"
+                            >
+                              <div style={{ position: "relative" }}>
+                                <img
+                                  src={story.cover}
+                                  alt="Story Cover"
+                                  style={{
+                                    height: "12rem",
+                                    width: "9rem",
+                                  }}
+                                />
+                                <span className="eye-icon">
+                                  <StoryViewModal story={story} />
+                                </span>
+                              </div>
+                              <div className="flout-left">
+                                <h3>{story.title}</h3>
+                                <p>{story.createdAt}</p>
+                              </div>
+                              <span>
+                                <FiEdit />
                               </span>
                             </div>
-                            <div className="flout-left">
-                              <h3>{story.title}</h3>
-                              <p>{story.createdAt}</p>
-                            </div>
-                            <span>
-                              <FiEdit />
-                            </span>
-                          </div>
-                          <hr />
-                        </>
-                      ))
-                    }
-                    {/* Pagination */}
-                    <ul className="pagination justify-content-center">
-                      {Array.from({ length: totalPages }, (_, index) => (
-                        <li
-                          key={index}
-                          className={`page-item ${
-                            index + 1 === currentPage ? "active" : ""
-                          }`}
-                        >
-                          <button
-                            className="page-link"
-                            onClick={() => handlePageChange(index + 1)}
+                            <hr />
+                          </>
+                        ))
+                      }
+                      {/* Pagination */}
+                      <ul className="pagination justify-content-center">
+                        {Array.from({ length: totalPages }, (_, index) => (
+                          <li
+                            key={index}
+                            className={`page-item ${
+                              index + 1 === currentPage ? "active" : ""
+                            }`}
                           >
-                            {index + 1}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  </MDBCardBody>
-                </MDBCard>
+                            <button
+                              className="page-link"
+                              onClick={() => handlePageChange(index + 1)}
+                            >
+                              {index + 1}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </MDBCardBody>
+                  </MDBCard>
+                )}
               </MDBCol>
             </MDBRow>
           </MDBContainer>
@@ -459,137 +489,3 @@ export default function UserProfile() {
     </>
   );
 }
-
-// ////////////////////////////////////////////////////////////////////////////
-
-// useEffect(() => {
-//   async function verifyToken() {
-//     const token = localStorage.getItem("token") || false;
-
-//     if (token) {
-//       try {
-//         const res = await axios.get(`http://localhost:8000/Verify_token`, {
-//           headers: {
-//             authorization: `Bearer ${token}`,
-//           },
-//         });
-//         setUserData(res.data);
-//       } catch (error) {
-//         console.log(error);
-//       } finally {
-//         setLoading(false); // Set loading to false when the request completes
-//       }
-//     } else {
-//       setLoading(false); // Set loading to false if there's no token
-//     }
-//   }
-
-//   async function startGetUserData() {
-//     try {
-//       const user = await userData.userId;
-//       const userStories = await getUserStories(userData.email);
-//       const userLikedStories = await getUserLikedStories(
-//         userData.userId,
-//         userData.email
-//       );
-
-//       setUser(user);
-//       setUserStories(userStories);
-//       setUserLikedStories(userLikedStories);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
-
-//   if (!loading && userData !== null) {
-//     startGetUserData();
-//   }
-
-//   if (localStorage.token != null) {
-//     verifyToken();
-//   }
-// }, [loading, userData]);
-
-// async function getUserStories(email) {
-//   try {
-//     const res = await axios.get(
-//       `http://localhost:8000/all_story_by_email/${email}`
-//     );
-//     return res.data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
-// async function getUserLikedStories(id, email) {
-//   try {
-//     const res = await axios.get(`http://localhost:8000/likeById/${id}`);
-//     return res.data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
-// const handleUpdate = async (data) => {
-//   const { username, password } = data;
-
-//   console.log({
-//     ...user,
-//     username: username,
-//     password: password,
-//   });
-
-//   try {
-//     const res = await axios.put(`http://localhost:8000/user/${user._id}`, {
-//       ...user[0],
-//       username: username,
-//       password: password,
-//     });
-//     setUser(res.data);
-//     startGetUserData();
-//   } catch (error) {
-//     console.log(error);
-//     setMassage("Password is incorrect");
-//   }
-// };
-
-// const handleImageUpload = (event) => {
-//   const file = event.target.files[0];
-//   console.log(file); // Log the selected file
-//   setProfileImage(URL.createObjectURL(file));
-//   setIsImageChanged(true);
-// };
-
-// function convertToBase64(file) {
-//   console.log(file);
-//   return new Promise((resolve, reject) => {
-//     if (file instanceof File || file instanceof Blob) {
-//       const fileReader = new FileReader();
-//       fileReader.readAsDataURL(file);
-//       fileReader.onload = () => {
-//         resolve(fileReader.result);
-//       };
-//       fileReader.onerror = (error) => {
-//         reject(error);
-//       };
-//     } else {
-//       reject(new Error("Invalid file object"));
-//     }
-//   });
-// }
-// const updateUserProfile = async (uploadedFile) => {
-//   const base64 = await convertToBase64(uploadedFile);
-//   console.log(base64);
-//   setProfileImage({ myFile: base64 });
-//   try {
-//     const res = await axios.put(`http://localhost:8000/user/${user[0]._id}`, {
-//       ...user[0],
-//       profileImage: { myFile: base64 },
-//     });
-
-//     setUser(res.data);
-//     setIsImageChanged(false);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };

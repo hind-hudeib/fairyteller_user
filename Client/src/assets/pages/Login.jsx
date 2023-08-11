@@ -48,6 +48,7 @@ const Login = ({ updateIsLog }) => {
     const patternEmail = /^[A-z0-9\.]+@[A-z0-9]+\.[A-z]{3,5}$/;
     const email = event.target.value;
     setCheckInput({ ...checkInput, email: false });
+
     if (email === "") {
       setInputTheme({ ...inputTheme, email: themeValue.normal });
       setMassageWarning({ ...massageWarning, email: "Please enter a value" });
@@ -55,7 +56,7 @@ const Login = ({ updateIsLog }) => {
       setInputTheme({ ...inputTheme, email: themeValue.error });
       setMassageWarning({
         ...massageWarning,
-        email: "You must select a user type.",
+        email: "Please enter a valid email address.",
       });
     } else {
       setMassageWarning({ ...massageWarning, email: "" });
@@ -64,6 +65,11 @@ const Login = ({ updateIsLog }) => {
       setCheckInput({ ...checkInput, email: true });
     }
   }
+
+  {
+    /* Somewhere in your JSX */
+  }
+  <span className="text-danger">{massageWarning.email}</span>;
 
   function handlePassword(event) {
     const patternPassword =
@@ -89,17 +95,16 @@ const Login = ({ updateIsLog }) => {
       setCheckInput({ ...checkInput, password: true });
     }
   }
-
-  async function handleSubmit(event) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const email = event.target.email.value;
     const password = event.target.password.value;
 
-    if (!checkInput.email && !checkInput.password) {
+    if (!email || !password) {
       setMassageWarning({
         ...massageWarning,
-        submit: "Please enter a value",
+        submit: "Please enter both email and password",
       });
       return;
     }
@@ -110,26 +115,43 @@ const Login = ({ updateIsLog }) => {
         password: password,
       });
 
-      localStorage.setItem("email", user.email);
+      localStorage.setItem("email", email);
       localStorage.setItem("token", res.data.Token);
       updateIsLog(true);
       navigate(path);
+
+      // Clear the warning messages
+      setMassageWarning({
+        email: "",
+        password: "",
+        submit: "",
+      });
     } catch (err) {
-      if (err.response && err.response.data === "Don't have access") {
+      console.error(err);
+
+      if (err.response) {
+        console.log("Response status:", err.response.status);
+        console.log("Response data:", err.response.data);
+      }
+
+      if (err.response && err.response.status === 401) {
         setMassageWarning({
           ...massageWarning,
-          submit:
-            "Your account has not been approved by the admin yet. You will receive an email when your account is approved or rejected.",
+          submit: "Incorrect email or password.",
+        });
+      } else if (err.response && err.response.data === "Don't have access") {
+        setMassageWarning({
+          ...massageWarning,
+          submit: "Your account has not been approved by the admin yet...",
         });
       } else {
         setMassageWarning({
           ...massageWarning,
-          submit: "The email or password is invalid.",
+          submit: "An error occurred. Please try again later.",
         });
       }
-      console.error(err);
     }
-  }
+  };
 
   return (
     <div>
@@ -204,8 +226,11 @@ const Login = ({ updateIsLog }) => {
                           id="hideEye"
                         />
                       </span>
-                      <span className="text-danger">
+                      <span className="text-danger d-block mt-3">
                         {massageWarning.password}
+                      </span>
+                      <span className="text-danger">
+                        {massageWarning.submit}
                       </span>
                     </div>
 
