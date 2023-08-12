@@ -36,6 +36,7 @@ app.use(writerRouter);
 app.use(subscriptionRouter);
 app.use(messageRouter);
 app.use(likesRouter);
+app.use("/uploads", express.static("uploads"));
 
 module.exports = {
   server: app,

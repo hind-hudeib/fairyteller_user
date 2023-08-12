@@ -4,6 +4,7 @@ import autosize from "autosize";
 import "../css/write.css";
 import axios from "axios";
 import bg from "../images/writebg.jpg";
+
 const Write = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const formRef = useRef(null);

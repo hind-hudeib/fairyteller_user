@@ -27,8 +27,9 @@ import "react-toastify/dist/ReactToastify.css";
 export default function UserProfile() {
   const [user, setUser] = useState([]);
   const [massage, setMassage] = useState();
-  const [profileImage, setProfileImage] = useState(defaultImage);
+  const [profileImage, setProfileImage] = useState(null); // Store the selected image file
   const [newImageSelected, setNewImageSelected] = useState(false);
+  const [imageUploaded, setImageUploaded] = useState(false);
   const [userStories, setUserStories] = useState([]);
   const [userLikedStories, setUserLikedStories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -53,8 +54,6 @@ export default function UserProfile() {
         });
 
         const userId = res.data.userId;
-        console.log(userId);
-
         // Fetch user info using the user ID
         const userInfoResponse = await axios.get(
           `http://localhost:8000/user/${userId}`
@@ -67,7 +66,6 @@ export default function UserProfile() {
           `http://localhost:8000/all_story_by_email/${userInfo.email}`
         );
         const userStories = userStoriesResponse.data;
-        console.log(userStories);
 
         // Fetch stories liked by the user's ID
         const likedStoriesResponse = await axios.get(
@@ -114,26 +112,43 @@ export default function UserProfile() {
   };
 
   // handle update user Image
-  const handleImageChange = (e) => {
-    const imageFile = e.target.files[0];
-    const formData = new FormData();
-    formData.append("profileImage", imageFile);
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    console.log("Selected file:", file);
+    setProfileImage(file);
+    setNewImageSelected(URL.createObjectURL(file));
+  };
+  const handleSaveImage = async () => {
+    try {
+      if (!profileImage) {
+        console.error("No image selected.");
+        return;
+      }
 
-    // Make a request to the server to upload the image
-    axios
-      .post("/api/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        // Assuming the server returns the image URL after successful upload
-        setProfileImage(response.data.imageUrl);
-        setNewImageSelected(true); // Indicate that the user has selected a new image
-      })
-      .catch((error) => {
-        console.error("Error uploading image:", error);
-      });
+      const formData = new FormData();
+      formData.append("profileImage", profileImage);
+
+      const userId = user[0]._id;
+
+      const response = await axios.put(
+        `http://localhost:8000/updateProfile/${userId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setNewImageSelected(false);
+        console.log("Profile image updated");
+      } else {
+        console.error("Profile image update failed");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
   };
 
   //  handle remove story from liked stories
@@ -238,56 +253,67 @@ export default function UserProfile() {
                   <MDBCardBody className="p-0">
                     <MDBListGroup flush className="rounded-3 userCardBody">
                       <MDBRow className="justify-content-center align-items-center">
-                        {" "}
-                        {/* Center both image and name/email/edit */}
-                        <MDBCol xl="2" lg="3" md="4" sm="4" xs="4">
-                          <div className="image-container">
-                            <img
-                              src={
-                                newImageSelected ? profileImage : defaultImage
-                              }
-                              alt="Your Image"
-                              className="img-fluid rounded-circle"
-                            />
-                            <div className="overlay">
-                              <div className="overlay-content">
-                                <label htmlFor="imageUpload">
-                                  <FiEdit className="book-title w-6 h-6 text-[#0d9488] cursor-pointer" />
-                                </label>
-                                <input
-                                  type="file"
-                                  id="imageUpload"
-                                  style={{ display: "none" }}
-                                  accept="image/*"
-                                  onChange={handleImageChange}
+                        {user?.map((userData) => (
+                          <div key={userData._id} className="mb-4">
+                            <div className="d-flex justify-content-center align-items-center">
+                              <div className="image-container">
+                                <img
+                                  src={
+                                    newImageSelected || // Display the selected image if available
+                                    `http://localhost:8000/uploads/${userData.profileImage}` || // Display the user's profile image if available
+                                    defaultImage // Path to your default image
+                                  }
+                                  alt="Your Image"
+                                  className="img-fluid rounded-circle"
                                 />
+
+                                <div className="overlay">
+                                  <div className="overlay-content">
+                                    <label htmlFor="imageUpload">
+                                      <FiEdit className="book-title w-6 h-6 text-[#0d9488] cursor-pointer" />
+                                    </label>
+                                    <input
+                                      type="file"
+                                      id="imageUpload"
+                                      name="profileImage"
+                                      style={{ display: "none" }}
+                                      accept="image/*"
+                                      onChange={handleImageChange}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            {newImageSelected && (
+                              <div className="d-flex justify-content-center align-items-center mt-2">
+                                <button
+                                  style={{
+                                    backgroundColor: "#1d2533",
+                                    border: "1px solid #1d2533",
+                                  }}
+                                  onClick={handleSaveImage}
+                                  className="save-button rounded text-light px-3 py-1"
+                                >
+                                  Save
+                                </button>
+                              </div>
+                            )}
+                            <div className="text-center mt-3">
+                              {/* Center name and email */}
+
+                              {console.log(userData.profileImage)}
+                              <MDBCardText className="text-muted">
+                                {userData.username}
+                              </MDBCardText>
+                              <MDBCardText className="text-muted">
+                                {userData.email}
+                              </MDBCardText>
+                              <div className="d-flex align-items-center justify-content-center mt-3">
+                                {/* Center edit icon */}
+                                <EditModal handleUpdate={handleUpdate} />
                               </div>
                             </div>
                           </div>
-                        </MDBCol>
-                        {user?.map((userData) => (
-                          <MDBCol
-                            sm="12"
-                            className="text-center mt-3"
-                            key={userData._id}
-                          >
-                            {" "}
-                            {/* Center name and email */}
-                            <MDBCardText className="text-muted">
-                              {userData.username}
-                            </MDBCardText>
-                            <MDBCardText className="text-muted">
-                              {userData.email}
-                            </MDBCardText>
-                            <MDBCol
-                              sm="12"
-                              className="d-flex align-items-center justify-content-center mt-3"
-                            >
-                              {" "}
-                              {/* Center edit icon */}
-                              <EditModal handleUpdate={handleUpdate} />
-                            </MDBCol>
-                          </MDBCol>
                         ))}
                       </MDBRow>
                     </MDBListGroup>

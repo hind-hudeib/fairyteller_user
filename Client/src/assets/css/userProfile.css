@@ -2,13 +2,13 @@
   background-color: #eeededb7;
 }
 
-/* /****************************** */
-
 .image-container {
   position: relative;
   display: inline-block;
   overflow: hidden;
   border-radius: 50%;
+  width: 12rem; /* Adjust the width as needed */
+  height: 12rem; /* Adjust the height as needed */
 }
 
 .overlay {

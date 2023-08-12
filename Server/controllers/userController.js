@@ -2,6 +2,8 @@ const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const errorHandler = require("../middleware/500");
 
+const multer = require("multer");
+
 const allUsers = (req, res) => {
   User.find({ is_delete: false })
     .then((data) => {
@@ -74,26 +76,62 @@ const updateUser = async (req, res) => {
 };
 
 // Controller function to handle the profile image upload
+// const uploadProfileImage = async (req, res) => {
+//   try {
+//     const userId = req.params.id;
+//     const user = await User.findById(userId);
+
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     if (!req.body.base64Image) {
+//       return res.status(400).json({ message: "No image data provided" });
+//     }
+
+//     const base64Data = req.body.base64Image;
+
+//     // Save base64 image data to the user's profileImage field
+//     user.profileImage = base64Data;
+//     await user.save();
+
+//     res.json({ message: "Profile image uploaded successfully", user });
+//   } catch (error) {
+//     console.error("An error occurred:", error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+const upload = multer({ storage });
+
 const uploadProfileImage = async (req, res) => {
   try {
-    const userId = req.params.id;
-    const user = await User.findById(userId);
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    if (!req.file) {
+      return res.status(400).json({ message: "No image file provided" });
     }
 
-    if (req.file) {
-      user.profileImage = req.file.path; // Assuming req.file.path contains the file path of the uploaded image
-      await user.save();
-    }
+    // Update the user's profileImage field
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.userId,
+      { profileImage: req.file.filename },
+      { new: true }
+    );
 
-    res.json({ message: "Profile image uploaded successfully", user });
+    res.status(200).json(updatedUser);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Error uploading profile image" });
   }
 };
+
 const subscriptionUser = async (req, res) => {
   try {
     const userId = req.params.id;
