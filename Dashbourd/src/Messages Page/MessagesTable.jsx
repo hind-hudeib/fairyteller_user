@@ -34,8 +34,6 @@ const MessagesTable = () => {
     axios.put(`http://localhost:8000/dashboard/messagesReplay/${message._id}`, {
       reply,
     });
-    console.log(reply);
-    console.log(message._id);
     Swal.fire({
       position: "center",
       icon: "success",
@@ -52,21 +50,27 @@ const MessagesTable = () => {
         console.error("Error sending reply:", error);
       });
   };
-  const handleSelectType = async (message) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:8000/dashboard/messagesReplay/",
-        {
-          messageId: message._id,
-          type: selectedOption,
-        }
-      );
-      console.log("Message type updated:", response.data);
-      // You may want to update the UI or display a confirmation message here
-    } catch (error) {
-      console.error("Error updating message type:", error);
-    }
+  const handleSelectType = (message) => {
+    axios
+      .put(`http://localhost:8000/dashboard/selectMessageType/${message._id}`, {
+        type: selectedOption,
+      })
+      .then((response) => {
+        console.log("Message type updated:", response.data);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Message type selected Successfully",
+          showConfirmButton: false,
+          timer: 1800,
+        });
+        setShowAddToSection(-1);
+      })
+      .catch((error) => {
+        console.error("Error updating message type:", error);
+      });
   };
+
   useEffect(() => {
     axios
       .get("http://localhost:8000/dashboard/messages")
@@ -147,7 +151,7 @@ const MessagesTable = () => {
                               type="radio"
                               name="option"
                               value="faq"
-                              checked={selectedOption === "option1"}
+                              checked={selectedOption === "faq"}
                               onChange={handleOptionChange}
                             />
                             <label className="form-check-label">
@@ -164,7 +168,7 @@ const MessagesTable = () => {
                               type="radio"
                               name="option"
                               value="opinion"
-                              checked={selectedOption === "option2"}
+                              checked={selectedOption === "opinion"}
                               onChange={handleOptionChange}
                             />
                             <label className="form-check-label">

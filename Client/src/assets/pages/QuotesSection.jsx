@@ -13,7 +13,7 @@ const QuotesSection = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/dashboard/messages")
+      .get("http://localhost:8000/opinion_messages")
       .then((response) => {
         setQuotes(response.data);
       })

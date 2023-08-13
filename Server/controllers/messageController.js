@@ -26,7 +26,36 @@ const newMessage = async (req, res) => {
   console.log(formData);
 };
 
+const getFaqMessages = (req, res) => {
+  const messageType = "faq";
+
+  Message.find({ type: messageType })
+    .then((data) => {
+      console.log(data);
+      res.json(data);
+    })
+    .catch((error) => {
+      errorHandler(error, req, res);
+    });
+};
+
+const getOpinionMessages = (req, res) => {
+  const messageType = "opinion";
+
+  Message.find({ type: messageType })
+    .then((data) => {
+      console.log(data);
+      res.json(data);
+    })
+    .catch((error) => {
+      errorHandler(error, req, res);
+    });
+};
+
 module.exports = {
   allMessages,
   newMessage,
+  getFaqMessages,
+  getOpinionMessages
+
 };

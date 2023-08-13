@@ -335,6 +335,21 @@ async function deleteComment(req, res) {
     res.status(500).json({ message: "Server error" });
   }
 }
+const selectMessageType = async (req, res) => {
+  const { id } = req.params;
+  const { type } = req.body;
+
+  try {
+    const message = await Message.findByIdAndUpdate(id, {
+      type: type,
+    });
+
+    console.log(message);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to select message type." });
+  }
+};
 module.exports = {
   allUsers,
   subUsers,
@@ -360,4 +375,5 @@ module.exports = {
   getReportedComments,
   acceptComment,
   deleteComment,
+  selectMessageType,
 };

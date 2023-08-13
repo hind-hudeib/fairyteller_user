@@ -63,10 +63,10 @@ export default function UserProfile() {
 
         // Fetch user stories written by their email
         const userStoriesResponse = await axios.get(
-          `http://localhost:8000/all_story_by_email/${userInfo.email}`
+          `http://localhost:8000/all_story_by_email/${userInfo[0].email}`
         );
         const userStories = userStoriesResponse.data;
-
+        console.log(userStories);
         // Fetch stories liked by the user's ID
         const likedStoriesResponse = await axios.get(
           `http://localhost:8000/likeById/${userId}`

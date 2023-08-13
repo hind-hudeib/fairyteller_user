@@ -38,6 +38,14 @@ const Footer = () => {
                       <h6 className="footer-links p-2"> Privacy Policy</h6>
                     </Link>
                   </div>
+                  <span>|</span>
+
+                  <div className="">
+                    <Link className="links" to={"/faq"}>
+                      {" "}
+                      <h6 className="footer-links p-2"> FAQ</h6>
+                    </Link>
+                  </div>
                 </div>
               </div>
 

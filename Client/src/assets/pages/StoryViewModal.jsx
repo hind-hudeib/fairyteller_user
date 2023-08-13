@@ -20,6 +20,8 @@ const StoryViewModal = ({ story }) => {
     );
   };
 
+  const createdAtDate = new Date(story.createdAt).toLocaleDateString();
+
   return (
     <>
       <Button variant="" onClick={handleShow}>
@@ -37,17 +39,20 @@ const StoryViewModal = ({ story }) => {
         </Modal.Header>
         <Modal.Body>
           <div className="image-data-component">
-            <div className="imageContainer">
+            <div className="imageContainer text-center">
               <img
                 src={story.cover}
                 alt="Image"
-                className="viewStoryImage h-25 w-25"
+                className="viewStoryImage rounded w-25 mb-3"
               />
             </div>
             <div className="data-container">
-              <h3 className="title">{story.title}</h3>
-              <p className="createdAt">created at : {story.createdAt}</p>
-              <p className="category"> {story.category}</p>
+              <div className="text-center">
+                <h3 className="title">{story.title}</h3>
+                <p className="createdAt">created at: {createdAtDate}</p>
+                <p className="category">{story.category}</p>
+              </div>
+              <hr />
               <p className="Description">" {story.Description} "</p>
             </div>
           </div>

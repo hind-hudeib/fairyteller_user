@@ -24,6 +24,7 @@ import PrivacyPolicy from "./assets/pages/PrivacyPolicy";
 import NotFound from "./assets/pages/NotFound";
 
 import { ToastContainer } from "react-toastify";
+import Faq from "./assets/pages/Faq";
 
 function App() {
   const [isLog, setIsLog] = useState(
@@ -61,6 +62,7 @@ function App() {
               <Route path="/subscription" element={<Subscription />} />
               <Route path="/payment" element={<PaymentForm />} />
               <Route path="/privacyandpolicy" element={<PrivacyPolicy />} />
+              <Route path="/faq" element={<Faq />} />
               {/* Custom 404 route for logged-in users */}
               <Route path="*" element={<NotFound />} />
             </>
@@ -77,6 +79,7 @@ function App() {
               <Route path="/StoriesList" element={<StoriesList />} />
               <Route path="/story/:id" element={<StoryDetails />} />
               <Route path="/privacyandpolicy" element={<PrivacyPolicy />} />
+              <Route path="/faq" element={<Faq />} />
               {/* Custom 404 route for non-logged-in users */}
               <Route path="*" element={<NotFound />} />
             </>

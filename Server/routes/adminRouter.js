@@ -72,5 +72,9 @@ router.delete(
   "/dashboard/deleteComment/:commentId",
   adminController.deleteComment
 );
+router.put(
+  "/dashboard/selectMessageType/:id",
+  adminController.selectMessageType
+);
 
 module.exports = router;
