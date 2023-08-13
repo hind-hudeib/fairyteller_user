@@ -118,8 +118,8 @@ const Write = () => {
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     const base64 = await convertToBase64(file);
-    console.log(base64);
     setImage({ myFile: base64 }); // Corrected state update
+    setSelectedImage(base64);
   };
 
   const containerStyle = {
@@ -228,7 +228,7 @@ const Write = () => {
                       >
                         {selectedImage ? (
                           <img
-                            src={image}
+                            src={selectedImage}
                             alt="Selected"
                             style={{
                               width: "25%",

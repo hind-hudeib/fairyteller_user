@@ -8,6 +8,9 @@ const StoryModal = ({ story }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // Extract the date portion from the full createdAt timestamp
+  const createdAtDate = new Date(story.createdAt).toLocaleDateString();
+
   return (
     <>
       <span className="fas fa-eye" onClick={handleShow}></span>
@@ -25,18 +28,24 @@ const StoryModal = ({ story }) => {
         </Modal.Header>
         <Modal.Body>
           <div className="image-data-component">
-            <div className="imageContainer">
+            <div className="imageContainer text-center">
               <img
                 src={story.cover}
                 alt="Image"
-                className="viewStoryImage h-25 w-25"
+                className="viewStoryImage rounded w-25 mb-3"
               />
             </div>
             <div className="data-container">
-              <h3 className="title">{story.title}</h3>
-              <p className="createdAt">created at: {story.createdAt}</p>
-              <p className="category">{story.category}</p>
-              <p className="Description">"{story.Description}"</p>
+              <div className="text-center">
+                <h3 className="title">{story.title}</h3>
+                <p className="createdAt">created at: {createdAtDate}</p>
+                <p className="category">{story.category}</p>
+              </div>
+
+              <hr />
+              <p className="Description">
+                Description : <br /> "{story.Description}"
+              </p>
               <hr />
               <div className="content-container">
                 <p className="content">{story.content}</p>
@@ -45,7 +54,7 @@ const StoryModal = ({ story }) => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <button className="modal-cancel" onClick={handleClose}>
+          <button className="modal-cancel replayBtn" onClick={handleClose}>
             Close
           </button>
         </Modal.Footer>

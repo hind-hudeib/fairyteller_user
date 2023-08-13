@@ -6,10 +6,20 @@ import "../css/messages.css";
 const MessagesTable = () => {
   const [messages, setMessages] = useState([]);
   const [showReplyIndex, setShowReplyIndex] = useState(-1);
+  const [showAddToSection, setShowAddToSection] = useState(-1);
+  const [selectedOption, setSelectedOption] = useState("");
+
   const [reply, setReplyContent] = useState("");
+
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
 
   const handleReplyClick = (index) => {
     setShowReplyIndex(index);
+  };
+  const handleAddClick = (index) => {
+    setShowAddToSection(index);
   };
 
   const handleReplyChange = (event) => {
@@ -41,6 +51,21 @@ const MessagesTable = () => {
       .catch((error) => {
         console.error("Error sending reply:", error);
       });
+  };
+  const handleSelectType = async (message) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/dashboard/messagesReplay/",
+        {
+          messageId: message._id,
+          type: selectedOption,
+        }
+      );
+      console.log("Message type updated:", response.data);
+      // You may want to update the UI or display a confirmation message here
+    } catch (error) {
+      console.error("Error updating message type:", error);
+    }
   };
   useEffect(() => {
     axios
@@ -88,6 +113,12 @@ const MessagesTable = () => {
                     >
                       Reply
                     </button>{" "}
+                    <button
+                      className="replayBtn"
+                      onClick={() => handleAddClick(index)}
+                    >
+                      Add to section
+                    </button>{" "}
                   </blockquote>
                   {showReplyIndex === index && (
                     <div className="text-center">
@@ -104,6 +135,50 @@ const MessagesTable = () => {
                       >
                         Send Reply
                       </button>
+                    </div>
+                  )}
+                  {showAddToSection === index && (
+                    <div className="container border p-5">
+                      <div className="row">
+                        <div className="col">
+                          <div className="form-check">
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="option"
+                              value="faq"
+                              checked={selectedOption === "option1"}
+                              onChange={handleOptionChange}
+                            />
+                            <label className="form-check-label">
+                              Add to FAQ
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col">
+                          <div className="form-check">
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="option"
+                              value="opinion"
+                              checked={selectedOption === "option2"}
+                              onChange={handleOptionChange}
+                            />
+                            <label className="form-check-label">
+                              Add to opinions section
+                            </label>
+                          </div>
+                          <button
+                            className="replayBtn mt-2"
+                            onClick={() => handleSelectType(message)}
+                          >
+                            Save
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>

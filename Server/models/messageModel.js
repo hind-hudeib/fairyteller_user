@@ -17,6 +17,9 @@ const messageData = new Schema({
   reply: {
     type: String,
   },
+  type: {
+    type: String,
+  },
 });
 
 const Message = mongoose.model("messageData", messageData);
