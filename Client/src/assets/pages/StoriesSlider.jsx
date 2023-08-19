@@ -4,7 +4,6 @@ import axios from "axios";
 import AOS from "aos";
 import "aos/dist/aos.css";
 const StoriesSlider = () => {
-  const navigate = useNavigate();
   const [fantasyStories, setFantasyStories] = useState([]);
   const [dramaStories, setDramaStories] = useState([]);
 

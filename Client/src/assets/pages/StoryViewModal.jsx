@@ -7,8 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 const StoryViewModal = ({ story }) => {
   const [show, setShow] = useState(false);
-  const [userName, setUserName] = useState("");
-  const [userPassword, setUserPassword] = useState("");
   const navigate = useNavigate();
 
   const handleClose = () => setShow(false);

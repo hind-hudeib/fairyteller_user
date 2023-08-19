@@ -107,8 +107,6 @@ const Aside = (props) => {
             </Link>
           </li>
 
-          <hr className="sidebar-divider d-none d-md-block" />
-
           <li className="nav-item">
             <Link className="nav-link" to="/storiesrequests">
               <i class="fas fa-paper-plane"></i>
@@ -117,13 +115,6 @@ const Aside = (props) => {
           </li>
 
           <hr className="sidebar-divider d-none d-md-block" />
-
-          <li className="nav-item">
-            <a className="nav-link" href="tables.html" onClick={handleLogOut}>
-              <i className="fas fa-fw fa-sign-out-alt"></i>
-              <span>Logout</span>
-            </a>
-          </li>
         </ul>
       </div>
     </>

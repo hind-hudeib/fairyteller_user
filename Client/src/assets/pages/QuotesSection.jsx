@@ -1,11 +1,7 @@
 import React from "react";
 import { useEffect, useState, useReducer } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { Carousel, Container, Row, Col, Button } from "react-bootstrap";
 import "../css/quotes.css";
-import writer1 from "../images/writer1.jpeg";
-import writer2 from "../images/writer2.jpeg";
-import writer3 from "../images/writer3.webp";
 import axios from "axios";
 
 const QuotesSection = () => {

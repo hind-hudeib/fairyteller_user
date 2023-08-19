@@ -15,14 +15,7 @@ const StartWrite = () => {
   const contentParam = queryParams.get("content");
   const [content, setStoryContent] = useState(contentParam || "");
   const [showModal, setShowModal] = useState(false);
-  const [chapterTitle, setChapterTitle] = useState("");
-  const [storyData, setStoryData] = useState(null);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [writer, setWriter] = useState([]);
-  const [userId, setUserId] = useState("");
-
   const navigate = useNavigate();
-  const [show, setShow] = useState(false);
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);

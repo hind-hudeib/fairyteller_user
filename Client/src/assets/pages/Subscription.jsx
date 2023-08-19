@@ -1,6 +1,5 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import "../css/subscription.css";
 import subImage from "../images/subscription1.jpg";
 const Subscription = () => {

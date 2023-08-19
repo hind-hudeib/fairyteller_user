@@ -12,9 +12,7 @@ const PaymentForm = () => {
   const [pcardnumber, setCardNum] = useState("pvalidate");
   const [pcvc, setCardCVC] = useState("pvalidate");
   const [pholder, setHolder] = useState("pvalidate");
-  const [userId, setUserId] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [isFormSubmitted] = useState(false);
 
   const handleNameChange = (e) => {
     setCardName(e.target.value);

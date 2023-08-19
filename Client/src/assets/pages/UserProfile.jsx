@@ -1,8 +1,8 @@
 import React from "react";
-import { useState, useEffect, useContext } from "react";
-import { FiEdit, FiEye } from "react-icons/fi";
+import { useState, useEffect } from "react";
+import { FiEdit } from "react-icons/fi";
 import axios from "axios";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import defaultImage from "../images/woman1.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
@@ -21,15 +21,12 @@ import {
 import EditModal from "./EditModal";
 import StoryViewModal from "./StoryViewModal";
 import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function UserProfile() {
   const [user, setUser] = useState([]);
-  const [massage, setMassage] = useState();
   const [profileImage, setProfileImage] = useState(null); // Store the selected image file
   const [newImageSelected, setNewImageSelected] = useState(false);
-  const [imageUploaded, setImageUploaded] = useState(false);
   const [userStories, setUserStories] = useState([]);
   const [userLikedStories, setUserLikedStories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);

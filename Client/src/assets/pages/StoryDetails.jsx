@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../css/storyDetails.css";
 import { useParams } from "react-router-dom";
-import storyCover from "../images/book8.gif";
-import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
@@ -19,7 +17,6 @@ const StoryDetails = () => {
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("");
   const [userId, setUserId] = useState("");
-  const [userName, setUserName] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Track user login status
   const [likes, setLikes] = useState(0);
   const [votedStories, setVotedStories] = useState([]);

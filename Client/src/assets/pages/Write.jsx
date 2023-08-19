@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import autosize from "autosize";
+import { Link, useNavigate } from "react-router-dom";
 import "../css/write.css";
 import axios from "axios";
 import bg from "../images/writebg.jpg";

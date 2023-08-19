@@ -6,16 +6,7 @@ import axios from "axios";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-import {
-  faFilm,
-  faTv,
-  faBook,
-  faPen,
-  faBookOpenReader,
-  faTrophy,
-  faChevronDown,
-} from "@fortawesome/free-solid-svg-icons";
-import { MDBCardLink } from "mdb-react-ui-kit";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 const HeroSlider = ({ isLog, updateIsLog }) => {
   const navigate = useNavigate();

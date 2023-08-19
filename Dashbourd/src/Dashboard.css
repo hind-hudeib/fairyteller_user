@@ -38,16 +38,20 @@
 .pageContent {
   background-color: #e8e8e8;
 }
-.col-md-3 {
+.Aside_col {
   position: fixed;
   height: 100%;
   /* Remove overflow-y property */
   /* overflow-y: auto; */
 }
-.col-md-9 {
-  margin-left: 20%; /* Adjust the value based on the width of your aside bar */
+.Tables_col {
+  margin-left: 15%;
 }
-
+@media (max-width: 1200px) {
+  .Tables_col {
+    margin-left: 20%; /* Center content horizontally */
+  }
+}
 /* Add transition property to the sidebar class */
 .sidebar {
   transition: transform 0.3s ease-in-out;

@@ -12,9 +12,7 @@ const Login = ({ updateIsLog }) => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState({});
-  const [path, setPath] = useState("/");
-
-  const [selectedUserType, setSelectedUserType] = useState("");
+  const [path] = useState("/");
   const [passwordMode, setPasswordMode] = useState(true);
 
   function handlePasswordMode() {

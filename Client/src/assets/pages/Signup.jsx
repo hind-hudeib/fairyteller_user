@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { GoogleLogin } from "react-google-login";
+import { Link, useNavigate } from "react-router-dom";
 import "../css/login.css";
 
 const Signup = ({ updateIsLog }) => {
