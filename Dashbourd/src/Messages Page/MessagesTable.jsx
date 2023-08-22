@@ -1,78 +1,13 @@
 import React from "react";
-import Swal from "sweetalert2";
-import { useEffect, useState, useReducer } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import "../css/messages.css";
 import MessagesModal from "./MessagesModal";
 const MessagesTable = () => {
   const [messages, setMessages] = useState([]);
-  const [showReplyIndex, setShowReplyIndex] = useState(-1);
-  const [showAddToSection, setShowAddToSection] = useState(-1);
-  const [selectedOption, setSelectedOption] = useState("");
-  const [reply, setReplyContent] = useState("");
   const [expandedMessages, setExpandedMessages] = useState([]);
   const [activeCurrentPage, setActiveCurrentPage] = useState(1);
   const rowsPerPage = 5;
-
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
-
-  const handleReplyClick = (index) => {
-    setShowReplyIndex(index);
-  };
-  const handleAddClick = (index) => {
-    setShowAddToSection(index);
-  };
-
-  const handleReplyChange = (event) => {
-    setReplyContent(event.target.value);
-  };
-  const handleSendReply = (message) => {
-    const updatedMessage = {
-      ...message,
-      reply: reply,
-    };
-
-    axios.put(`http://localhost:8000/dashboard/messagesReplay/${message._id}`, {
-      reply,
-    });
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "Replay sent Successfully",
-      showConfirmButton: false,
-      timer: 1800,
-    })
-      .then((response) => {
-        console.log("Reply sent successfully");
-        setShowReplyIndex(-1);
-        setReplyContent("");
-      })
-      .catch((error) => {
-        console.error("Error sending reply:", error);
-      });
-  };
-  const handleSelectType = (message) => {
-    axios
-      .put(`http://localhost:8000/dashboard/selectMessageType/${message._id}`, {
-        type: selectedOption,
-      })
-      .then((response) => {
-        console.log("Message type updated:", response.data);
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Message type selected Successfully",
-          showConfirmButton: false,
-          timer: 1800,
-        });
-        setShowAddToSection(-1);
-      })
-      .catch((error) => {
-        console.error("Error updating message type:", error);
-      });
-  };
 
   useEffect(() => {
     axios
@@ -111,13 +46,13 @@ const MessagesTable = () => {
     <div>
       <section className="py-5">
         <div className="container-fluid">
-          {/* <div className="row">
+          <div className="row">
             <div className="col-lg-3 mx-auto">
-              <header className="text-center pb-5">
+              <header className="text-center">
                 <h1 className="h2">Messages</h1>
               </header>
             </div>
-          </div> */}
+          </div>
 
           {/*  */}
           <div className="container-fluid border p-3 mt-5 shadow-lg rounded">

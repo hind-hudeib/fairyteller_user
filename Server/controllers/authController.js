@@ -8,7 +8,6 @@ const errorHandler = require("../middleware/500");
 
 const createToken = (req, res) => {
   const user = req.loggedInUser; // Get the user object from the request
-
   const accessToken = jwt.sign(
     {
       username: user.username, // Use the username from the user object
@@ -76,8 +75,6 @@ const loginAdmin = async (req, res, next) => {
     const user = await Admin.findOne({ email: email });
 
     if (!user) {
-      console.log(user.email);
-      console.log(user.password);
       return res.status(401).send("incorrect email or password");
     } else if (!(await bcrypt.compare(password, user.password))) {
       console.log("pass not match");

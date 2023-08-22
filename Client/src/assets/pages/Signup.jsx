@@ -185,7 +185,12 @@ const Signup = ({ updateIsLog }) => {
       checkInput.password &&
       checkInput.confirmPassword
     ) {
-      sendDataToServer(user);
+      const user = {
+        username: checkInput.username,
+        email: checkInput.email,
+        password: checkInput.password,
+      };
+      sendDataToServer();
     } else {
       setMassageWarning({
         ...massageWarning,
@@ -193,8 +198,8 @@ const Signup = ({ updateIsLog }) => {
       });
     }
   }
-
-  async function sendDataToServer(user) {
+  async function sendDataToServer() {
+    console.log(user);
     try {
       const res = await axios.post("http://localhost:8000/user", user);
       localStorage.setItem("username", user.username);

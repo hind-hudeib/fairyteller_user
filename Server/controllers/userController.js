@@ -7,7 +7,6 @@ const multer = require("multer");
 const allUsers = (req, res) => {
   User.find({ is_delete: false })
     .then((data) => {
-      console.log(data);
       res.json(data);
     })
     .catch((error) => {
@@ -23,30 +22,28 @@ const oneUser = async (req, res) => {
 
 const newUser = async (req, res, next) => {
   const { username, email, password } = req.body;
-
   try {
-    const user = await User.findOne({ email: email });
-    if (user) {
-      return res.status(401).send("Email already taken");
+    const existingUser = await User.findOne({ email: email });
+    if (existingUser) {
+      return res.status(409).send("Email already taken");
     }
+    const hashedPwd = await bcrypt.hash(password, 10);
+    const newUser = new User({
+      role: "User",
+      username: username,
+      email: email,
+      password: hashedPwd,
+    });
+    const savedUser = await newUser.save();
+    req.loggedInUser = savedUser;
+    next();
+
+    res.json(savedUser);
   } catch (error) {
     errorHandler(error, req, res);
   }
-
-  const hashedPwd = await bcrypt.hash(password, 10);
-
-  const newUser = new User({
-    role: "User",
-    username: username,
-    email: email,
-    password: hashedPwd,
-  });
-
-  const user = await newUser.save();
-
-  req.body = user;
-  next();
 };
+
 const updateUser = async (req, res) => {
   const UserId = req.params.id;
   const updatedUserData = req.body;
@@ -74,33 +71,6 @@ const updateUser = async (req, res) => {
 
   res.json(updatedUser);
 };
-
-// Controller function to handle the profile image upload
-// const uploadProfileImage = async (req, res) => {
-//   try {
-//     const userId = req.params.id;
-//     const user = await User.findById(userId);
-
-//     if (!user) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-
-//     if (!req.body.base64Image) {
-//       return res.status(400).json({ message: "No image data provided" });
-//     }
-
-//     const base64Data = req.body.base64Image;
-
-//     // Save base64 image data to the user's profileImage field
-//     user.profileImage = base64Data;
-//     await user.save();
-
-//     res.json({ message: "Profile image uploaded successfully", user });
-//   } catch (error) {
-//     console.error("An error occurred:", error);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// };
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -136,9 +106,7 @@ const subscriptionUser = async (req, res) => {
   try {
     const userId = req.params.id;
 
-    console.log(userId);
     const user = await User.findById(userId);
-    console.log(user);
     user.subscriber = true;
 
     const updatedUser = await user.save();

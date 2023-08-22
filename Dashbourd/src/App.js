@@ -17,7 +17,7 @@ function App() {
     <>
       <BrowserRouter>
         <div className="container-fluid p-0">
-          <div className="row">
+          <div className="row w-100">
             <div className="Aside_col col-2 col-sm-2 col-md-3 col-lg-2 ">
               <Aside />
             </div>
