@@ -74,6 +74,7 @@ const loginAdmin = async (req, res, next) => {
   try {
     const user = await Admin.findOne({ email: email });
 
+    console.log(user);
     if (!user) {
       return res.status(401).send("incorrect email or password");
     } else if (!(await bcrypt.compare(password, user.password))) {
@@ -81,7 +82,8 @@ const loginAdmin = async (req, res, next) => {
     } else if (user.is_delete) {
       console.log("deleted");
     }
-    req.body = user;
+    req.loggedInUser = user;
+
     next();
   } catch (error) {
     errorHandler(error, req, res);
@@ -101,7 +103,7 @@ const loginReader = async (req, res, next) => {
     ) {
       return res.status(401).send("incorrect email or password");
     }
-    req.body = user;
+    req.loggedInUser = user;
     next();
   } catch (error) {
     errorHandler(error, req, res);

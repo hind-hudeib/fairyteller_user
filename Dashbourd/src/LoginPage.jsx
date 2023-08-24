@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import "../css/login.css";
+import "./css/login.css";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash, faGoogle } from "@fortawesome/free-solid-svg-icons";
 
-const Login = ({ updateIsLog }) => {
+const LoginPage = ({ updateIsLog }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -14,7 +11,7 @@ const Login = ({ updateIsLog }) => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState({});
-  const [path] = useState("/");
+  const [path] = useState("/dashboard");
   const [passwordMode, setPasswordMode] = useState(true);
 
   function handlePasswordMode() {
@@ -110,7 +107,7 @@ const Login = ({ updateIsLog }) => {
     }
 
     try {
-      const res = await axios.post("http://localhost:8000/Login_user", {
+      const res = await axios.post("http://localhost:8000/Login_admin", {
         email: email,
         password: password,
       });
@@ -118,7 +115,7 @@ const Login = ({ updateIsLog }) => {
       localStorage.setItem("email", email);
       localStorage.setItem("token", res.data.Token);
       updateIsLog(true);
-      navigate(path);
+      navigate("/dashboard");
 
       // Clear the warning messages
       setMassageWarning({
@@ -156,21 +153,12 @@ const Login = ({ updateIsLog }) => {
   return (
     <div>
       <section className="background-radial-gradient overflow-hidden pt-5">
-        <div className="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
-          <div className="row gx-lg-5 align-items-center mb-5">
-            <div className="col-lg-6 mb-5 mb-lg-0 welcomText">
-              <h1 className="my-5 loginHeader ">
-                welcome back <br />
-              </h1>
-              <p className="mb-4 opacity-70">
-                Log in to complete your awesome work !
-              </p>
-            </div>
-
-            <div className="col-lg-6 mb-5 mb-lg-0 position-relative">
+        <div className="container px-4 py-5 px-md-5 text-center text-md-start my-5">
+          <div className="row gx-md-5 ml-md-5 d-flex justify-content-center justify-content-md-start align-items-center mb-5">
+            <div className="col-md-9 mb-5 mb-md-0 position-relative">
               <div
                 id="radius-shape-1"
-                className="position-absolute rounded-circle shadow-5-strong"
+                className="position-absolute rounded-circle shadow-5-strong z-3"
               ></div>
               <div
                 id="radius-shape-2"
@@ -216,19 +204,18 @@ const Login = ({ updateIsLog }) => {
                           onClick={handlePasswordMode}
                         >
                           {passwordMode ? (
-                            <FontAwesomeIcon
-                              icon={faEyeSlash}
-                              style={{ color: "#1c273a" }}
+                            <i
+                              style={{ color: inputTheme.password }}
+                              className="fas fa-eye-slash"
                             />
                           ) : (
-                            <FontAwesomeIcon
-                              icon={faEye}
-                              style={{ color: "#1c273a" }}
+                            <i
+                              style={{ color: inputTheme.password }}
+                              className="fas fa-eye"
                             />
                           )}
                         </span>
                       </div>
-
                       <span className="text-danger d-block mt-1">
                         {massageWarning.password}
                       </span>
@@ -270,4 +257,4 @@ const Login = ({ updateIsLog }) => {
   );
 };
 
-export default Login;
+export default LoginPage;

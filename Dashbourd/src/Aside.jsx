@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import logo from "../src/images/fairytellers-w.png";
 import { FiMenu, FiX } from "react-icons/fi"; // Import icons from react-icons
 
-const Aside = (props) => {
+const Aside = ({ isLog, updateIsLog }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -29,8 +29,8 @@ const Aside = (props) => {
   }, []);
 
   function handleLogOut() {
-    localStorage.removeItem("token");
-    props.forceUpdate();
+    localStorage.clear();
+    updateIsLog(false);
   }
 
   return (
@@ -63,7 +63,7 @@ const Aside = (props) => {
           <hr className="sidebar-divider my-0" />
 
           <li className="nav-item active">
-            <Link className="nav-link" to="/">
+            <Link className="nav-link" to="/dashboard">
               <span>Dashboard</span>
             </Link>
           </li>
@@ -115,6 +115,12 @@ const Aside = (props) => {
           </li>
 
           <hr className="sidebar-divider d-none d-md-block" />
+          <li className="nav-item">
+            <Link to="/" className="nav-link" onClick={handleLogOut}>
+              <i className="fas fa-sign-out-alt"></i>
+              <span>Logout</span>
+            </Link>
+          </li>
         </ul>
       </div>
     </>
