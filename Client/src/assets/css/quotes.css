@@ -3,8 +3,8 @@
 }
 
 .slideContainer {
-  background-color: #e8e8e8;
-  border: 10px solid #dfdcdc;
+  background-color: #ffffff;
+  border: 10px solid #303357be;
 }
 
 .carousel-control-prev,
@@ -17,7 +17,7 @@
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-  color: #fff;
+  color: #31365685;
   border-radius: 100%;
 }
 

@@ -87,34 +87,23 @@ const HeroSlider = ({ isLog, updateIsLog }) => {
       >
         <div className="container-fluid pt-5 hero-container">
           <div className="row pt-5 mt-5">
-            <div className="col-12 d-flex justify-content-center text-center">
+            <div className="col-12 d-flex justify-content-center text-center mt-5">
               <h1 className="anim-typewriter heroHeader mt-5">
                 Hi, we're fairytellers.
               </h1>
             </div>
           </div>
-
-          <div className="row">
-            <div className="col-12 d-flex justify-content-center text-center">
-              <p className="mt-2 subTittle">
-                A platform that allows you to share your stories and ideas with
-                others
-                <br />
-                and read their stories!
-              </p>
-            </div>
-          </div>
           <div className="row justify-items-start p-3">
             <div className="col-12 text-center pt-3">
               <div className="m-4">
-                <Link className="fancy m-3" to={"/StoriesList"}>
+                <Link className="herobtn m-3" to={"/StoriesList"}>
                   <span className="top-key"></span>
                   <span className="text">Start reading</span>
                   <span className="bottom-key-1"></span>
                   <span className="bottom-key-2"></span>
                 </Link>
                 {/* Use a regular button for Start writing */}
-                <button className="fancy m-3" onClick={handleStartWrite}>
+                <button className="herobtn m-3" onClick={handleStartWrite}>
                   <span className="top-key"></span>
                   <span className="text">Start writing</span>
                   <span className="bottom-key-1"></span>

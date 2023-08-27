@@ -5,7 +5,7 @@
 .faq_area {
   position: relative;
   z-index: 1;
-  background-color: #f5f5ff;
+  background-color: #6a8ab47a;
 }
 
 .faq-accordian {
@@ -28,7 +28,7 @@
 .faq-accordian .card .card-header h6 {
   cursor: pointer;
   padding: 1.75rem 2rem;
-  color: #3f43fd;
+  color: #223653;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -64,7 +64,7 @@
 }
 
 .support-button i {
-  color: #3f43fd;
+  color: #2a3b63;
   font-size: 1.25rem;
 }
 @media only screen and (max-width: 575px) {

@@ -4,7 +4,6 @@ import Pagination from "../component/Pagination";
 import StoryDetails from "./StoryDetails";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import storyCover from "../images/book8.gif";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";

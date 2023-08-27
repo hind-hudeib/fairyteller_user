@@ -21,16 +21,16 @@ const QuotesSection = () => {
     <>
       <section className="mt-5">
         {" "}
-        <Carousel interval={1000} className="m-5 my-carousel">
+        <Carousel interval={1000} className="m-5 my-carousel ">
           {quotes.map((quote) => {
             return (
               <Carousel.Item className="CarouselItem " key={quote._id}>
-                <Container className="p-5 slideContainer">
+                <Container className="p-5 slideContainer rounded">
                   <Row className="m-5">
                     <Col md={4} className="">
                       <img
                         className="d-block w-50 img-fluid rounded-circle"
-                        src="https://www.bsn.eu/wp-content/uploads/2016/12/user-icon-image-placeholder-300x300.jpg"
+                        src="https://cdn-icons-png.flaticon.com/512/3607/3607444.png"
                         alt="Slider Image 1"
                       />
                     </Col>

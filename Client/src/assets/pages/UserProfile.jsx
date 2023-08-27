@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { FiEdit } from "react-icons/fi";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import defaultImage from "../images/woman1.png";
+import defaultImage from "../images/user.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import "../css/userProfile.css";
@@ -138,7 +138,7 @@ export default function UserProfile() {
       );
 
       if (response.status === 200) {
-        setNewImageSelected(false);
+        // setNewImageSelected(false);
         console.log("Profile image updated");
       } else {
         console.error("Profile image update failed");
@@ -256,9 +256,10 @@ export default function UserProfile() {
                               <div className="image-container">
                                 <img
                                   src={
-                                    newImageSelected || // Display the selected image if available
-                                    `http://localhost:8000/uploads/${userData.profileImage}` || // Display the user's profile image if available
-                                    defaultImage // Path to your default image
+                                    newImageSelected ||
+                                    (userData.profileImage
+                                      ? `http://localhost:8000/uploads/${userData.profileImage}`
+                                      : defaultImage)
                                   }
                                   alt="Your Image"
                                   className="img-fluid rounded-circle"
@@ -299,9 +300,9 @@ export default function UserProfile() {
                               {/* Center name and email */}
 
                               {console.log(userData.profileImage)}
-                              <MDBCardText className="text-muted">
+                              <h4 className="text-muted">
                                 {userData.username}
-                              </MDBCardText>
+                              </h4>
                               <MDBCardText className="text-muted">
                                 {userData.email}
                               </MDBCardText>

@@ -53,7 +53,6 @@ const Write = () => {
           "http://localhost:8000/new_story",
           formData
         );
-        console.log(response.data);
         navigate(`/startwrite/${response.data._id}`);
       } catch (error) {
         console.error(error);
@@ -155,9 +154,9 @@ const Write = () => {
         />
         <div className="row pt-5 addStoryHeader">
           <div className="col-12 col-md-6 d-flex justify-content-center align-items-center text-md-left p-md-0 p-sm-0 p-lg-5">
-            <h1 className="mt-5 mx-5 mx-md-0 white-text">
+            <h2 className="mt-5 mx-5 mx-md-0 white-text">
               Share Your Tale's Spellbinding Details!
-            </h1>
+            </h2>
           </div>
           <div className="col-12 col-md-6 d-flex justify-content-start justify-content-md-start py-3 mx-3 px-5">
             <button className="viewAll" onClick={handleStartButtonClick}>

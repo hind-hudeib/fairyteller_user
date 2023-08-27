@@ -74,17 +74,22 @@ const Recommended = () => {
               </div>
             ))}
           </div>
-          <div className="row bookSectionHeader">
-            {" "}
-            <div className="col-2"></div>
-            <div className="col-8 mt-5 p-5 text-center">
-              <h4 className="darkBgTitel">
-                "Our collection of stories offers a wide range of varieties,
+          <div
+            className="row bookSectionHeader recStoriesTitle"
+            style={{
+              backgroundPosition: "50%",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              backgroundAttachment: "fixed",
+            }}
+          >
+            <div className="col-12 p-5 text-center">
+              <h4 className="darkBgTitel w-75 mx-auto">
+                Our collection of stories offers a wide range of varieties,
                 carefully curated to cater to the unique preferences of every
-                reader."
+                reader.
               </h4>
             </div>
-            <div className="col-2"></div>
           </div>
         </div>
       </section>

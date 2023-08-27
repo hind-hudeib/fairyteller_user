@@ -63,7 +63,7 @@ const ContactUs = () => {
         <div className="container-fluid contact-header pt-5 ">
           <div className="row pt-5">
             <div className="col-12 text-center pt-5 pb-3">
-              <h1 className="contactTitle display-4">Contact Us</h1>
+              <h2 className="contactTitle ">Contact Us</h2>
             </div>
           </div>
         </div>

@@ -44,15 +44,10 @@ const StartWrite = () => {
         });
 
         const userId = res.data.userId;
-        console.log(userId);
-
         const userResponse = await axios.get(
           `http://localhost:8000/user/${userId}`
         );
         const userData = userResponse.data;
-
-        console.log(userResponse.data);
-        console.log(userData);
         return { userId, userData };
       } catch (error) {
         console.log(error);
