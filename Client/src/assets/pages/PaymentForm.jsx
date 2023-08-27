@@ -5,57 +5,64 @@ import "../css/payment.css";
 import Swal from "sweetalert2";
 
 const PaymentForm = () => {
-  const [card_name, setCardName] = useState("");
-  const [card_number, setCardNumber] = useState("");
-  const [expiration_date, setExpirationDate] = useState("");
-  const [security_code, setSecurityCode] = useState("");
-  const [pcardnumber, setCardNum] = useState("pvalidate");
-  const [pcvc, setCardCVC] = useState("pvalidate");
-  const [pholder, setHolder] = useState("pvalidate");
-  const [isFormSubmitted] = useState(false);
+  const [cardName, setCardName] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [expirationDate, setExpirationDate] = useState("");
+  const [securityCode, setSecurityCode] = useState("");
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleNameChange = (e) => {
     setCardName(e.target.value);
   };
 
   const handleCardNumberChange = (e) => {
-    setCardNumber(e.target.value);
+    const inputCardNumber = e.target.value.replace(/\s/g, "");
+    const formattedCardNumber = inputCardNumber
+      .replace(/\D/g, "")
+      .slice(0, 16)
+      .replace(/(\d{4})/g, "$1 ");
+
+    setCardNumber(formattedCardNumber);
   };
 
   const handleExpirationDateChange = (e) => {
-    setExpirationDate(e.target.value);
+    let inputExpirationDate = e.target.value.replace(/\s/g, "");
+
+    if (inputExpirationDate.length === 2 && expirationDate.length < 3) {
+      inputExpirationDate += "/";
+    }
+
+    if (inputExpirationDate.length > 5) {
+      inputExpirationDate = inputExpirationDate.substring(0, 5);
+    }
+
+    setExpirationDate(inputExpirationDate);
   };
 
   const handleSecurityCodeChange = (e) => {
-    setSecurityCode(e.target.value);
+    const inputSecurityCode = e.target.value.replace(/\D/g, "");
+    const limitedSecurityCode = inputSecurityCode.substring(0, 3);
+
+    setSecurityCode(limitedSecurityCode);
   };
 
-  function cardNumber(string) {
-    let pattern = /^[0-9]{14}$/;
-    return pattern.test(string);
-  }
+  const validateCardNumber = (string) => /^[0-9]{16}$/.test(string);
+  const validateCardCVC = (string) => /^[0-9]{3}$/.test(string);
+  const validateNameHolder = (string) => /^[a-zA-Z\s]+$/.test(string);
 
-  function cardCVC(string) {
-    let pattern = /^[0-9]{3}$/;
-    return pattern.test(string);
-  }
-
-  function nameHolder(string) {
-    let pattern = /^[a-zA-Z\s]*$/;
-    return pattern.test(string);
-  }
-  const navigate = useNavigate();
-
-  async function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsFormSubmitted(true);
 
     try {
-      const token = localStorage.getItem("token") || false;
+      const token = localStorage.getItem("token");
 
       if (token) {
-        const res = await axios.get(`http://localhost:8000/Verify_token`, {
+        const res = await axios.get("http://localhost:8000/Verify_token", {
           headers: {
-            authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -64,26 +71,23 @@ const PaymentForm = () => {
 
         const formData = {
           userId: userId,
-          name: card_name,
+          name: cardName,
           email: userEmail,
-          cardNumber: card_number,
-          expirationDate: expiration_date,
-          securityCode: security_code,
+          cardNumber: cardNumber.replace(/\s/g, ""),
+          expirationDate: expirationDate,
+          securityCode: securityCode,
           paymentDetails: 10,
         };
 
-        // Assuming these are validation functions
-        const isCardNumberValid = cardNumber(formData.cardNumber);
-        const isCardCVCValid = cardCVC(formData.securityCode);
-        const isNameValid = nameHolder(formData.name);
+        const isCardNumberValid = validateCardNumber(formData.cardNumber);
+        const isCardCVCValid = validateCardCVC(formData.securityCode);
+        const isNameValid = validateNameHolder(formData.name);
 
         if (isCardNumberValid && isCardCVCValid && isNameValid) {
           await axios.post("http://localhost:8000/new_subscription", formData);
           console.log("New subscription created!");
 
-          await axios.put(
-            `http://localhost:8000/userSubscription/${formData.userId}`
-          );
+          await axios.put(`http://localhost:8000/userSubscription/${userId}`);
           console.log("Subscription updated!");
 
           Swal.fire({
@@ -93,26 +97,14 @@ const PaymentForm = () => {
             showConfirmButton: false,
             timer: 1800,
           }).then(() => {
-            const savedText = sessionStorage.getItem("content");
             navigate(`/startwrite/${userId}`);
           });
-        } else {
-          if (!isCardNumberValid) {
-            setCardNum("pWrong");
-          }
-          if (!isCardCVCValid) {
-            setCardCVC("pWrong");
-          }
-          if (!isNameValid) {
-            setHolder("pWrong");
-          }
         }
       }
     } catch (error) {
       console.log(error);
     }
-  }
-
+  };
   return (
     <div className="container-fluid paymentContainer pt-5">
       <div className="container p-5">
@@ -136,7 +128,7 @@ const PaymentForm = () => {
                   required
                   onChange={handleNameChange}
                 />
-                {isFormSubmitted && !nameHolder(card_name) && (
+                {isFormSubmitted && !validateNameHolder(cardName) && (
                   <p className="text-danger">
                     enter your fullname should contain no number
                   </p>
@@ -152,12 +144,14 @@ const PaymentForm = () => {
                       type="text"
                       required
                       onChange={handleCardNumberChange}
-                      name="card_number"
+                      name="cardNumber"
                       className="form-control"
+                      value={cardNumber}
                     />
-                    {isFormSubmitted && !cardNumber(card_number) && (
+
+                    {isFormSubmitted && cardNumber.length < 19 && (
                       <p className="text-danger">
-                        your card number must have 14 valid digits
+                        Your card number must have 14 valid digits
                       </p>
                     )}
                   </div>
@@ -165,14 +159,23 @@ const PaymentForm = () => {
 
                 <div className="col-md-6">
                   <div className="d-flex flex-row">
-                    <div className="inputbox inputPayment mt-3 mr-2">
+                    <div className="inputbox inputPayment mt-3 mx-2">
                       <input
                         type="text"
-                        name="expiration_date"
-                        className="form-control"
+                        name="expirationDate"
+                        className={`form-control ${
+                          isFormSubmitted && !expirationDate ? "pWrong" : ""
+                        }`}
                         required
                         onChange={handleExpirationDateChange}
+                        value={expirationDate} // Update the value attribute
                       />
+
+                      {isFormSubmitted && !expirationDate && (
+                        <p className="text-danger">
+                          Please enter a valid expiration date.
+                        </p>
+                      )}
                       <span>Expiry</span>
                     </div>
 
@@ -182,10 +185,12 @@ const PaymentForm = () => {
                         type="text"
                         required
                         onChange={handleSecurityCodeChange}
-                        name="security_code"
+                        name="securityCode"
                         className="form-control"
+                        value={securityCode} // Update the value attribute
                       />
-                      {isFormSubmitted && !cardCVC(security_code) && (
+
+                      {isFormSubmitted && !validateCardCVC(securityCode) && (
                         <p className="text-danger">
                           your card number must have 3 digits only
                         </p>
