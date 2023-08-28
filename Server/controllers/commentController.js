@@ -48,6 +48,10 @@ const deleteComment = async (req, res) => {
       });
     }
 
+    await Story.updateOne(
+      { comments: commentId }, // Find stories containing the comment ID in comments array
+      { $pull: { comments: commentId } } // Remove the comment ID from comments array
+    );
     res.json({ message: "Comment deleted successfully." });
   } catch (error) {
     console.error("Error deleting comment:", error);

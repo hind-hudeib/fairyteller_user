@@ -229,7 +229,7 @@ const StoriesList = () => {
           </div>
         </section>
 
-        <div className="row p-5">
+        <div className="row p-0 p-sm-0 p-md-3 p-lg-5">
           {currentStories.map((story) => (
             <div
               className="col-xl-3 col-lg-6 col-md-6 col-sm-12  d-flex justify-content-center align-items-center"

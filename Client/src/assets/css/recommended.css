@@ -92,17 +92,15 @@
   text-decoration: none;
 }
 
-.bookSectionHeader {
+.recStoriesTitle {
+  background-image: url("../images//custle.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
   background-color: #e8e8e8;
   margin-top: 10rem;
 }
-.recStoriesTitle {
-  background-image: url("https://i.pinimg.com/564x/82/a9/e3/82a9e305d22697144fc55839f7f0a0d0.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  width: 100%; /* Ensure full width */
-}
 
 .recStoriesTitle div {
-  background-color: #e1d2d2b3;
+  background-color: #d7d7d781;
 }

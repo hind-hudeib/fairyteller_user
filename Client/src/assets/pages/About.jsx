@@ -35,8 +35,8 @@ const About = () => {
         <div className="container-fluid pt-5">
           <div className="row p-5">
             <div className="col-2"></div>
-            <div className="col-8 text-center p-5 ">
-              <h2 className="mb-5" style={{ fontSize: "4rem" }}>
+            <div className="col-8  d-flex justify-content-center align-items-center p-5 ">
+              <h2 className="mb-5" style={{ fontSize: "3rem" }}>
                 About Fairytellers
               </h2>
             </div>

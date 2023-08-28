@@ -56,20 +56,17 @@ export default function UserProfile() {
           `http://localhost:8000/user/${userId}`
         );
         const userInfo = userInfoResponse.data;
-        console.log(userInfo);
 
         // Fetch user stories written by their email
         const userStoriesResponse = await axios.get(
           `http://localhost:8000/all_story_by_email/${userInfo[0].email}`
         );
         const userStories = userStoriesResponse.data;
-        console.log(userStories);
         // Fetch stories liked by the user's ID
         const likedStoriesResponse = await axios.get(
           `http://localhost:8000/likeById/${userId}`
         );
         const likedStories = likedStoriesResponse.data;
-        console.log(likedStories);
 
         // Now you can set the user, userStories, and likedStories states accordingly
         setUser(userInfo);
@@ -155,7 +152,6 @@ export default function UserProfile() {
   };
 
   const handleFavoriteClick = async (storyId) => {
-    console.log(user[0]._id);
     try {
       const userId = user[0]._id;
 
@@ -182,9 +178,6 @@ export default function UserProfile() {
   useEffect(() => {
     verifyToken();
   }, []);
-  useEffect(() => {
-    console.log("User state updated:", user);
-  }, [user]);
 
   // User Stories Pagination
 
@@ -298,8 +291,6 @@ export default function UserProfile() {
                             )}
                             <div className="text-center mt-3">
                               {/* Center name and email */}
-
-                              {console.log(userData.profileImage)}
                               <h4 className="text-muted">
                                 {userData.username}
                               </h4>

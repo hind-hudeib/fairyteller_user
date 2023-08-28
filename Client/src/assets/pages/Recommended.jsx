@@ -42,10 +42,10 @@ const Recommended = () => {
               <h3>Top Picks For You ..</h3>
             </div>
           </div>
-          <div className="row">
+          <div className="row d-flex justify-content-center align-items-center">
             {topPicks.map((story) => (
               <div
-                className="card col-lg-3 col-md-6 col-sm-12 p-3 imageCard d-flex justify-content-center align-items-center"
+                className="card col-10 col-sm-10 col-md-6  col-lg-3 p-3 imageCard d-flex justify-content-center align-items-center"
                 data-aos="zoom-out-up"
                 key={story._id}
               >
@@ -75,7 +75,7 @@ const Recommended = () => {
             ))}
           </div>
           <div
-            className="row bookSectionHeader recStoriesTitle"
+            className="row bookSectionHeader recStoriesTitle mx-auto"
             style={{
               backgroundPosition: "50%",
               backgroundRepeat: "no-repeat",

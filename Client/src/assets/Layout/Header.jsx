@@ -30,8 +30,7 @@ const Header = ({ isLog, updateIsLog }) => {
   }, [isLog]);
 
   function handleLogOut() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("auth"); // Clear "auth" item from local storage
+    localStorage.clear();
     updateIsLog(false);
   }
 
@@ -46,8 +45,8 @@ const Header = ({ isLog, updateIsLog }) => {
     transition: "max-height 0.3s ease, opacity 0.3s ease",
   };
   const navbarTogglerIconStyle = {
-    transition: "transform 0.3s ease", // Add smooth transition to the navbar-toggler-icon
-    transform: isNavCollapsed ? "rotate(0deg)" : "rotate(90deg)", // Rotate the icon when the navbar is expanded
+    transition: "transform 0.3s ease",
+    transform: isNavCollapsed ? "rotate(0deg)" : "rotate(90deg)",
   };
   return (
     <>

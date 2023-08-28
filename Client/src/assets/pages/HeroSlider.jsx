@@ -88,11 +88,14 @@ const HeroSlider = ({ isLog, updateIsLog }) => {
         <div className="container-fluid pt-5 hero-container">
           <div className="row pt-5 mt-5">
             <div className="col-12 d-flex justify-content-center text-center mt-5">
-              <h1 className="anim-typewriter heroHeader mt-5">
-                Hi, we're fairytellers.
-              </h1>
+              <div class="heroHeaderContainer">
+                <h1 className="anim-typewriter heroHeader mt-5">
+                  Hi, we're fairytellers.
+                </h1>
+              </div>
             </div>
           </div>
+
           <div className="row justify-items-start p-3">
             <div className="col-12 text-center pt-3">
               <div className="m-4">

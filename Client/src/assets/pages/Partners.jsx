@@ -17,7 +17,7 @@ const Partners = () => {
               </h3>
             </div>
           </div>
-          <div class="row text-center">
+          <div class="row  d-flex justify-content-center align-items-center">
             <div class="col-3">
               <img
                 src={partner1}

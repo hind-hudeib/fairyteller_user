@@ -71,9 +71,8 @@ const ContactUs = () => {
 
       <section className="contact-section">
         <div className="container p-5">
-          <div className="row justify-content-center">
-            <div className="col-2"></div>
-            <div className="col-8">
+          <div className="row justify-content-center mx-auto">
+            <div className="col-12 col-sm-12 col-md-10 col-lg-8">
               <div className="card contactUsForm shadow w-100 ">
                 <div className="card-body px-4 py-5 px-md-5" id="positionError">
                   <form id="form" onSubmit={(e) => handleSendEmail(e)}>
@@ -137,7 +136,6 @@ const ContactUs = () => {
                 </div>{" "}
               </div>
             </div>
-            <div className="col-2"></div>
           </div>
         </div>
       </section>

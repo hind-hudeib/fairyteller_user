@@ -25,19 +25,19 @@ const QuotesSection = () => {
           {quotes.map((quote) => {
             return (
               <Carousel.Item className="CarouselItem " key={quote._id}>
-                <Container className="p-5 slideContainer rounded">
+                <Container className="p-0 p-sm-0 p-md-4 p-lg-5 slideContainer rounded">
                   <Row className="m-5">
-                    <Col md={4} className="">
+                    <Col sm={12} md={4} className="text-center mb-4">
                       <img
-                        className="d-block w-50 img-fluid rounded-circle"
+                        className="d-block w-50 img-fluid rounded-circle mx-auto"
                         src="https://cdn-icons-png.flaticon.com/512/3607/3607444.png"
                         alt="Slider Image 1"
                       />
                     </Col>
-                    <Col md={8}>
+                    <Col sm={12} md={8}>
                       <div>
                         <h2>- {quote.name}</h2>
-                        <p>{quote.messageContent}</p>
+                        <p className="text-md-left">{quote.messageContent}</p>
                       </div>
                     </Col>
                   </Row>

@@ -24,4 +24,4 @@ The Fairytellers website is built using the following technologies:
 
 ### mockup and wireframe
 
-Here is a mockup and wireframe of the Fairytellers website: [Fairytellers Mockup](https://www.figma.com/file/xItfmeAqYJBRuMRfq2hvl2/Untitled?type=design&node-id=1%3A2&mode=design&t=jjMfLC265fion3gr-1)
+Here is a mockup and wireframe of the Fairytellers website: [Fairytellers Mockup](<https://www.figma.com/file/El0lDD6KuG6tWlFjBwl8ki/html.to.design-for-teams-(Community)?type=design&node-id=0%3A1&mode=design&t=MoMAb42TDmoE9CfI-1>)

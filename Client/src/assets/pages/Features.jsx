@@ -7,7 +7,7 @@ import { faFilm, faTv, faBook } from "@fortawesome/free-solid-svg-icons";
 const Features = () => {
   return (
     <section id="features">
-      <div class="container">
+      <div class="container-fluid ">
         <div class="row text-center pt-5">
           <div class="col-12 p-5">
             <h3>See Your Story...</h3>

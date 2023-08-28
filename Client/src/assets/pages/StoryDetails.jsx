@@ -234,12 +234,13 @@ const StoryDetails = () => {
 
                 {/* Comments */}
                 <span style={{ display: "inline-block" }}>
-                  <span className="p-2">{story.comments?.length}</span>
+                  <span className="p-2">{comments.length}</span>
                   <FontAwesomeIcon
                     icon={faComment}
                     style={{ color: "#A1AFFC" }}
                   />
                 </span>
+                {/* Comments */}
               </div>
             </div>
           </div>
@@ -282,7 +283,7 @@ const StoryDetails = () => {
               style={{ backgroundColor: "#f0f2f5" }}
             >
               <div className="card-body p-4">
-                {isLoggedIn ? ( // Render the comment form only if the user is logged in
+                {isLoggedIn ? (
                   <form onSubmit={handleAddComment}>
                     <div className="form-outline mb-4">
                       <input
@@ -311,11 +312,14 @@ const StoryDetails = () => {
                       <div className="d-flex justify-content-between">
                         <div className="d-flex flex-row align-items-center">
                           <img
-                            src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(4).webp"
+                            src="https://static.vecteezy.com/system/resources/previews/021/548/095/original/default-profile-picture-avatar-user-avatar-icon-person-icon-head-icon-profile-picture-icons-default-anonymous-user-male-and-female-businessman-photo-placeholder-social-network-avatar-portrait-free-vector.jpg"
                             alt="avatar"
                             width="25"
                             height="25"
                           />
+                          <p className="small text-muted mb-0 mx-2">
+                            {comment.user && comment.user.username}
+                          </p>
                         </div>
                         <div className="d-flex flex-row align-items-center">
                           <p className="small text-muted mb-0">
@@ -340,10 +344,7 @@ const StoryDetails = () => {
                           </p>
                         </div>
                       </div>
-                      <div className="comment-user ">
-                        {comment.user && <h6>{comment.user.username}</h6>}
-                      </div>
-                      <p>{comment.text}</p>
+                      <p className="mx-4 p-1">{comment.text}</p>
                     </div>
                   </div>
                 ))}

@@ -58,10 +58,10 @@ const StoriesSlider = () => {
               <h3>Tales from a Realm of Fantasy ...</h3>
             </div>
           </div>
-          <div className="row">
+          <div className="row d-flex justify-content-center align-items-center">
             {fantasyStories.map((story) => (
               <div
-                className="card col-lg-3 col-md-6 col-sm-12 p-3 imageCard d-flex justify-content-center align-items-center"
+                className="card col-10 col-sm-10  col-md-6  col-lg-3  p-3 imageCard d-flex justify-content-center align-items-center"
                 data-aos="zoom-out-up"
                 key={story._id}
               >
@@ -105,10 +105,10 @@ const StoriesSlider = () => {
               <h3>Our Captivating Drama Stories...</h3>
             </div>
           </div>
-          <div className="row">
+          <div className="row d-flex justify-content-center align-items-center">
             {dramaStories.map((story) => (
               <div
-                className="card col-lg-3 col-md-6 col-sm-12 p-3 imageCard d-flex justify-content-center align-items-center"
+                className="card col-10 col-sm-10  col-md-6  col-lg-3 p-3 imageCard d-flex justify-content-center align-items-center"
                 data-aos="zoom-out-up"
                 key={story._id}
               >
