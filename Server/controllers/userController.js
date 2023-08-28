@@ -36,9 +36,9 @@ const newUser = async (req, res, next) => {
     });
     const savedUser = await newUser.save();
     req.loggedInUser = savedUser;
-    next();
 
-    res.json(savedUser);
+    // Call next() to proceed to the next middleware or route handler
+    next();
   } catch (error) {
     errorHandler(error, req, res);
   }
